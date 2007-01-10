@@ -1,0 +1,40 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    padding: 1em 3em 1em 3em;
+    color: #888;
+    line-height: 1.45em;
+}
+
+h1 {
+    color: #ec0;
+    font-size: 16pt;
+}
+
+h2.subtitle {
+    color: #ccc;
+    font-size: 10pt;
+    margin-top: 0.1em;
+    margin-bottom: 1em;
+}
+
+h2 {
+    color: #900;
+    font-size: 12pt;
+    margin-top: 1em;
+    margin-bottom: 0.1em;
+}
+
+li {
+    padding-bottom: 0.75em;
+}
+
+.meta {
+    margin-top: 2em;
+    border-top: 2px solid #ccc;
+    padding-top: 0.5em;
+}
+
+
+
+=
