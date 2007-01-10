@@ -51,4 +51,7 @@ sub build {
     croak "Unable to create fetcher [$type]: $@" if $@;
 
     $fetch->fetch();
+
+    chdir $self->{data}->{build} || '.';
+    system("dpkg-buildpackage -rfakeroot -b");
 }
