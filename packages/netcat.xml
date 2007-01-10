@@ -1,0 +1,6 @@
+<package>
+    <fetch type="debian">
+        <name>netcat</name>
+	<!-- <deb-src>http://ftp.debian.org/ etch main</deb-src> -->
+    </fetch>
+</package>

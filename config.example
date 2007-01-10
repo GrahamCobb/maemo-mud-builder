@@ -1,0 +1,14 @@
+#
+# Configuration file for mud-builder
+# (c) Andrew Flegg 2007, released under the Artistic Licence
+# http://mud-builder.garage.maemo.org/
+
+# Which directory to use for temporary build files, will be created if
+# necessary. Note it *must* have enough space.
+BUILD_DIR = /tmp/mud-builder
+
+# Directory to place resulting debs ready for upload.
+UPLOAD_DIR = upload
+
+# Package descriptions
+PACKAGES_DIR = packages
