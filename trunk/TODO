@@ -1,4 +1,9 @@
-apt-get -o Dir::Etc::SourceList=/tmp/mud-sources.list
 
-Tarball fetchers
+ MUD-Builder TODO                         (c) Andrew Flegg 2007.
+ ~~~~~~~~~~~~~~~~                         Released under the Artistic Licence.
 
+  * Tarball fetcher
+  * automake-based auto-generation of Debian control files
+  * manual generation of Debian control file in XML
+  * auto-application of patches
+  * Tighter management of created directories/finding drivable components

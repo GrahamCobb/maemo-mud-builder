@@ -31,13 +31,14 @@ sub _init {
     $self->{config} ||= new MUD::Config();
     my $name = $self->{package} or croak("Package not specified.");
     if (ref($name)) {
-        $self->{data}    = $name;
-        $self->{package} = $name->{package};
+        $self->{data} = $name;
+        $name = $self->{package} = $name->{package};
     } else {
         $self->{data} = new MUD::Package(config => $self->{config});
  	$self->{data}->load($name);
     }
-    print Dumper($self);
+    $self->{workdir} = $self->{config}->directory('BUILD_DIR')."/$name";
+
 }
 
 sub build {
@@ -47,11 +48,50 @@ sub build {
     print "$type\n";
     my $fetch = eval("use $type;
                       return new $type( package => \$self->{data},
+                                        workdir => \$self->{workdir},
                                         config => \$self->{config} )");
     croak "Unable to create fetcher [$type]: $@" if $@;
 
     $fetch->fetch();
 
     chdir $self->{data}->{build} || '.';
+    unless (-f 'debian/control') {
+        $self->genDebControl();
+    }
+
     system("dpkg-buildpackage -rfakeroot -b");
+}
+
+sub clean {
+    my $self = shift;
+
+    system('echo', 'rm', '-rf', $self->{workdir});
+}
+
+sub copy {
+    my $self = shift;
+
+    my $output = $self->{config}->directory('UPLOAD_DIR', 1);
+    system("cp ".$self->{workdir}."/*.deb $output/");
+}
+
+sub genDebControl {
+    my $self = shift;
+
+    croak "TODO: Unable to generate debian control files for ".$self->{package}." yet.\n";
+
+    my $maintainer = '';
+    if (!$maintainer and -f 'AUTHORS') {
+        open(IN, "<AUTHORS");
+        while(<IN>) {
+            s/\t/        /;
+	    next unless /(?:\s{2}|:\s)\s*(.*?\@\S+)/;
+	    $maintainer = $1;
+	    last;
+         }
+         close(IN);
+     }
+
+
+
 }

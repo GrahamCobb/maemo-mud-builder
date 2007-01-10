@@ -37,5 +37,6 @@ sub load {
     croak("Unknown package '$name': can't find [$file]") unless -f $file;
 
     $self->{data} = XMLin($file) or croak("Unable to parse configuration for '$name': error in [$file]?");
+    $self->{name} = $name;
 }
 
