@@ -8,6 +8,8 @@ package MUD::Fetch::Debian;
 use strict;
 use vars qw(@ISA $VERSION);
 use MUD::Fetch::Base;
+use Carp;
+use Data::Dumper;
 
 @ISA     = qw(MUD::Fetch::Base);
 $VERSION = '0.10';
@@ -19,13 +21,42 @@ sub fetch {
 
     print "Debian fetch!\n";
     $self->addSource();
+
+    my $name     = $self->{package}->{package};
+    my $upstream = $self->{package}->{data}->{fetch}->{name} || $name;
+    my $buildDir = $self->{config}->directory('BUILD_DIR')."/$name";
+    mkdir $buildDir unless -d $buildDir;
+    chdir $buildDir;
+
+    my $out = $self->apt('source', $upstream);
+    my ($d) = $out =~ /extracting $upstream in ([\w\-\.]+)$/im;
+    croak "Couldn't find extract directory!\n" unless $d;
+
+    chdir $d;
+    my $deps = `dpkg-checkbuilddeps 2>&1`;
+    if ($?) {
+        $deps =~ s/.*Unmet build dependencies: //is;
+        my @list = split /[\s\r\n]+/, $deps;
+	print "Need extra deps: @list\n";
+        foreach (@list) {
+            my $newPkg = new MUD::Package( (%{ $self->{package} }));
+	    $newPkg->{package} = $_;
+	    $newPkg->{data}->{fetch}->{name} = $_;
+	    print Dumper($newPkg);
+            my $build  = new MUD::Build( package => $newPkg,
+                                         config => $self->{config} );
+            $build->build();
+        }
+    } else {
+	print "Got them all!\n";
+    }
 }
 
 
 sub addSource {
     my $self = shift;
     
-    my $store = $self->{package}->{'deb-src'} || $repo;
+    my $store = $self->{package}->{data}->{fetch}->{'deb-src'} || $repo;
     print "Looking for [$store]\n";
 
     my $file = $self->{config}->directory('BUILD_DIR', 1).'/sources.list';
@@ -57,13 +88,23 @@ sub addSource {
 sub apt {
     my $self = shift;
 
-    system('echo', 'fakeroot', 
-            'apt-get', '-o',
-                       'Dir::Etc::SourceList='.$self->{sources},
-                       @_
-    );
+    my @args = ('apt-get', '-y',
+                           '-o', 'Dir::Etc::SourceList='.$self->{sources}, 
+                           @_);
+    my $data = '';
+    unshift @args, 'fakeroot' if -f '/scratchbox/tools/bin/fakeroot';
+
+    print join(" ", @args)."\n";
+    croak("Cannot fork: $!") unless defined(my $pid = open(EXC, "-|"));
+    exec(@args) unless $pid;
+    while(my $line = <EXC>) {
+	$data .= $line;
+	print $line;
+    }
+    close(EXC);
 
     croak("Error running apt-get @_: $@") if $@;
+    return $data;
 }
 
 
