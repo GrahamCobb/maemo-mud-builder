@@ -31,6 +31,7 @@ sub fetch {
     my $out = $self->apt('source', $upstream);
     my ($d) = $out =~ /extracting $upstream in ([\w\-\.]+)$/im;
     croak "Couldn't find extract directory!\n" unless $d;
+    $self->{package}->{build} = $buildDir."/$d";
 
     chdir $d;
     my $deps = `dpkg-checkbuilddeps 2>&1`;
@@ -38,17 +39,21 @@ sub fetch {
         $deps =~ s/.*Unmet build dependencies: //is;
         my @list = split /[\s\r\n]+/, $deps;
 	print "Need extra deps: @list\n";
-        foreach (@list) {
-            my $newPkg = new MUD::Package( (%{ $self->{package} }));
-	    $newPkg->{package} = $_;
-	    $newPkg->{data}->{fetch}->{name} = $_;
-	    print Dumper($newPkg);
-            my $build  = new MUD::Build( package => $newPkg,
-                                         config => $self->{config} );
-            $build->build();
+        foreach my $dep (@list) {
+	    next unless $dep =~ /^\w/;
+            system('fakeroot', 'apt-get', '-y', 'install', $dep);
+	    my $dpkg = `dpkg -s $dep 2>/dev/null`;
+            if ($dpkg !~ /Status: install ok installed/) {
+                my $newPkg = new MUD::Package( (%{ $self->{package} }));
+                $newPkg->{package} = $dep;
+	        $newPkg->{data}->{fetch}->{name} = $dep;
+	        print Dumper($newPkg);
+                my $build  = new MUD::Build( package => $newPkg,
+                                             config => $self->{config} );
+                $build->build();
+		system("fakeroot dpkg -i $dep *.deb");
+            }
         }
-    } else {
-	print "Got them all!\n";
     }
 }
 
