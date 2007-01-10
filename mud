@@ -68,6 +68,8 @@ sub build {
     print "+++ Trying to build package [$pkg]\n";
     my $builder = new MUD::Build( package => $pkg, config => $config);
     $builder->build();
+    $builder->copy();
+    $builder->clean();
 }
 
 sub show {
