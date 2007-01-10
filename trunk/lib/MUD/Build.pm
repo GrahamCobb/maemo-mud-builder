@@ -30,19 +30,25 @@ sub _init {
 
     $self->{config} ||= new MUD::Config();
     my $name = $self->{package} or croak("Package not specified.");
-    $self->{data} = new MUD::Package(config => $self->{config})->load($name) if ref($name);
+    if (ref($name)) {
+        $self->{data}    = $name;
+        $self->{package} = $name->{package};
+    } else {
+        $self->{data} = new MUD::Package(config => $self->{config});
+ 	$self->{data}->load($name);
+    }
+    print Dumper($self);
 }
 
 sub build {
     my $self = shift;
 
-    my $type = 'MUD::Fetch::'.ucfirst($self->{data}->{fetch}->{type});
+    my $type = 'MUD::Fetch::'.ucfirst($self->{data}->{data}->{fetch}->{type});
     print "$type\n";
     my $fetch = eval("use $type;
                       return new $type( package => \$self->{data},
                                         config => \$self->{config} )");
     croak "Unable to create fetcher [$type]: $@" if $@;
-    print Dumper($fetch);
 
-    print Dumper($self);
+    $fetch->fetch();
 }
