@@ -8,6 +8,7 @@ package MUD::Build;
 use strict;
 use vars qw(@ISA $VERSION);
 use Carp;
+use File::Path;
 use MUD::Config;
 use MUD::Package;
 
@@ -57,6 +58,9 @@ sub build {
 
     # -- Download and unpack it...
     #
+    print "Workdir [".$self->{workdir}."]\n";
+    mkpath($self->{workdir}, 1) unless -d $self->{workdir};
+    chdir $self->{workdir};
     $fetch->fetch();
     chdir $self->{data}->{build} || '.';
 
