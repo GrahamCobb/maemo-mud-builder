@@ -44,6 +44,8 @@ sub _init {
 sub build {
     my $self = shift;
 
+    # -- Instantiate the right fetcher...
+    #
     my $type = 'MUD::Fetch::'.ucfirst($self->{data}->{data}->{fetch}->{type});
     print "$type\n";
     my $fetch = eval("use $type;
@@ -51,10 +53,23 @@ sub build {
                                         workdir => \$self->{workdir},
                                         config => \$self->{config} )");
     croak "Unable to create fetcher [$type]: $@" if $@;
+    $self->{fetch} = $fetch;
 
+    # -- Download and unpack it...
+    #
     $fetch->fetch();
-
     chdir $self->{data}->{build} || '.';
+
+    # -- Apply any patches...
+    # 
+    my $patch = $self->{config}->directory('PACKAGES_DIR').'/patch/'.$self->{package}.'.patch';
+    print "+++ Checking patch file [$patch]\n";
+    if (-f $patch) {
+        system("patch -p0 <$patch");
+    }
+    
+    # -- Generate the Debian control scripts...
+    #
     unless (-f 'debian/control') {
         $self->genDebControl();
     }
@@ -65,7 +80,8 @@ sub build {
 sub clean {
     my $self = shift;
 
-    system('echo', 'rm', '-rf', $self->{workdir});
+    $self->{fetch}->clean();
+    system('rm', '-rf', $self->{workdir});
 }
 
 sub copy {

@@ -29,15 +29,20 @@ sub fetch {
     chdir $buildDir;
 
     my $out = $self->apt('source', $upstream);
-    my ($d) = $out =~ /extracting .*? in ([\w\-\.]+)$/im;
-    croak "Couldn't find extract directory!\n" unless $d;
-    $self->{package}->{build} = $buildDir."/$d";
+    opendir(SRCDIR, '.');
+    my @d = grep { -d $_ and /^\w+/ } readdir(SRCDIR);
+    closedir(SRCDIR);
+    
+    croak "Couldn't find extract directory!\n" unless @d;
+    $self->{package}->{build} = $buildDir.'/'.$d[0];
 
-    chdir $d;
+    chdir $self->{package}->{build};
     my $deps = `dpkg-checkbuilddeps 2>&1`;
     if ($?) {
         $deps =~ s/.*Unmet build dependencies: //is;
-        my %list = map { $_ => 0 } grep { /^\w/ } split /[\s\r\n]+/, $deps;
+        my %list = map { $_ => 0 }
+                   grep { /^[\w\._\-]+$/ }
+                   split /[\s\r\n]+/, $deps;
 	warn "Need extra deps: ".join(", ", keys(%list))."\n";
         foreach my $dep (keys %list) {
             system('fakeroot', 'apt-get', '-y', 'install', $dep);
@@ -53,6 +58,17 @@ sub fetch {
 		$list{$dep} = $build;
             }
         }
+	$self->{deps} = \%list;
+    }
+}
+
+
+sub clean {
+    my $self = shift;
+
+    return unless $self->{deps};
+    foreach my $dep (values %{ $self->{deps} }) {
+        $dep->clean();
     }
 }
 
@@ -75,8 +91,8 @@ sub addSource {
     }
     close(IN);
 
-    $data .= "\ndeb     $store\n" unless $foundBin;
     $data .= "\ndeb-src $store\n" unless $foundSrc;
+    $data .= "\ndeb     $store\n" unless $foundBin;
 
     open(OUT, ">$file") or croak("Unable to write sources list [$file]: $!\n");
     print OUT $data;

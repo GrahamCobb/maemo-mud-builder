@@ -6,4 +6,10 @@
   * automake-based auto-generation of Debian control files
   * manual generation of Debian control file in XML
   * auto-application of patches
-  * Tighter management of created directories/finding drivable components
+  * Work out why tcl8.4's install-doc target produces Scratchbox errors:
+       libfakeroot: connect: Cannot assign requested address
+  * Auto-modify debian/control to be Maemo AM-compatible (e.g. 'user/'
+    sections)
+  * Auto-Hildonise GUI applications
+  * Auto-generate .desktop and .service files for GUI apps
+

@@ -33,3 +33,9 @@ sub fetch {
 
     warn "Unimplemented fetch.\n";
 }
+
+sub clean {
+    my $self = shift;
+
+    warn "Unimplemented clean.\n";
+}
