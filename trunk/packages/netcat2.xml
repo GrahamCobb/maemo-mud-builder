@@ -1,0 +1,5 @@
+<package>
+    <fetch type="tarball">
+    	<url>http://mesh.dl.sourceforge.net/sourceforge/netcat/netcat-0.7.1.tar.bz2</url>
+    </fetch>
+</package>
