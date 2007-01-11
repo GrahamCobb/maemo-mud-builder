@@ -1,0 +1,6 @@
+<package>
+	<fetch type="debian">
+		<name>libhttpfetcher1</name>
+		<deb-src>http://ftp.debian.org/ stable main</deb-src>
+	</fetch>
+</package>
