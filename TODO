@@ -3,13 +3,24 @@
  ~~~~~~~~~~~~~~~~                         Released under the Artistic Licence.
 
   * Tarball fetcher
-  * automake-based auto-generation of Debian control files
+  * automake-based auto-generation of Debian control files [DONE]
   * manual generation of Debian control file in XML
   * auto-application of patches
   * Work out why tcl8.4's install-doc target produces Scratchbox errors:
        libfakeroot: connect: Cannot assign requested address
   * Auto-modify debian/control to be Maemo AM-compatible (e.g. 'user/'
-    sections)
+    sections) [DONE]
   * Auto-Hildonise GUI applications
   * Auto-generate .desktop and .service files for GUI apps
+
+----- Notes -----
+dh_make, rm README.Debian dir docs 
+Licence determination:
+   ARTISTIC                                             => artistic
+   COPYING/README/LICEN[SC]E (first 10 lines) =~
+             /same terms as Perl/                       => perl
+             /BSD/                                      => bsd
+             /Artistic/                                 => artistic
+             /GNU (LIBRARY|LESSER) GENERAL PUBLIC LICEN => lgpl
+             /GNU GENERAL PUBLIC LICEN                  => gpl
 
