@@ -27,8 +27,20 @@ sub fetch {
 
     croak "Unable to download [$url] to [$basename]\n" unless -f $basename;
     $self->{file} = $basename;
+
+    my @start = <*>;
     $self->unpack($basename);
+    my @end = <*>;
+
+    if ($#end > $#start + 1) {
+        $self->{package}->{build} = '.';
+    } else {
+        my %s = grep { $_ => 1 } @start;
+        my %e = grep { !$s{$_} } @end;
+        $self->{package}->{build} = (keys(%e))[0];
+    }
 }
+
 
 
 sub clean {
@@ -45,18 +57,19 @@ sub unpack {
     my @args  = ($file);
     $_ = $file;
 
-    if (/\.tar\.gz$/ or /\.tgz$/) {
+    if (s/\.tar\.gz$// or s/\.tgz$//) {
 	unshift @args, 'tar', 'xzf';
 
-    } elsif (/\.tar\.bz2$/) {
+    } elsif (s/\.tar\.bz2$//) {
         unshift @args, 'tar', 'xjf';
 
-    } elsif (/\.zip$/) {
+    } elsif (s/\.zip$//) {
         unshift @args, 'unzip';
 
     } else {
         croak "Unknown file extension on [$file]\n";
     }
+    $_[0] = $_;
 
     print "+++ @args\n";
     system @args;
