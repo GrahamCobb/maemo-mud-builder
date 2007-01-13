@@ -30,10 +30,11 @@ li {
 }
 
 li span.note {
-    display:   block;
-    padding-left: 4em;
-    margin:       0.5em;
-    border:       1px solid #888;
+    display:      block;
+    margin:       0.5em 0px 1em 4em;
+    border-top:   1px solid #888;
+    border-bottom: 2px solid #888;
+    color:        #888;
 }
 
 pre {
