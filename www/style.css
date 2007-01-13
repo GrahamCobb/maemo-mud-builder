@@ -31,7 +31,7 @@ li {
 
 li span.note {
     display:      block;
-    background:   #fff url(alert.png) top left no-repeat;
+    background:   #fff url(alert.png) 0.5em 2px no-repeat;
     padding:      0.5em 4em 0.5em 24px;
     margin:       0.5em 0px 1em 50%;
     border:       1px solid #888;
