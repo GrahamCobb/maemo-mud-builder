@@ -9,6 +9,7 @@ use strict;
 use vars qw(@ISA $VERSION);
 use Carp;
 use File::Path;
+use File::Spec;
 use MUD::Config;
 use MUD::Package;
 
@@ -40,9 +41,19 @@ sub _init {
     }
     $self->{workdir} = $self->{config}->directory('BUILD_DIR')."/$name";
 
+    my $buildDir = $self->{workdir}.'/.build';
+    $self->{data}->{build} = $buildDir if -d $buildDir;
 }
 
 sub build {
+    my $self = shift;
+
+    $self->fetch();
+    $self->patch();
+    $self->compile();
+}
+
+sub fetch {
     my $self = shift;
 
     # -- Instantiate the right fetcher...
@@ -62,8 +73,16 @@ sub build {
     mkpath($self->{workdir}, 1) unless -d $self->{workdir};
     chdir $self->{workdir};
     $fetch->fetch();
-    chdir $self->{data}->{build} || '.';
-    print 'Build dir ['.$self->{data}->{build}."]\n";
+
+    $self->{builddir} = File::Spec->rel2abs($self->{data}->{build} || '.',
+                                            $self->{workdir});
+    system('ln', '-s', $self->{builddir}, $self->{workdir}.'/.build');
+}
+
+sub patch {
+    my $self = shift;
+
+    chdir $self->{data}->{build} || croak "Build dir not set.\n";
 
     # -- Apply any patches...
     # 
@@ -71,7 +90,14 @@ sub build {
     print "+++ Checking patch file [$patch]\n";
     if (-f $patch) {
         system("patch -p0 <$patch");
+        croak "Failed to apply patch [$?]\n" if $?;
     }
+}
+
+sub compile {
+    my $self = shift;
+
+    chdir $self->{data}->{build} || croak "Build dir not set.\n";
     
     # -- Generate the Debian control scripts...
     #
@@ -89,7 +115,7 @@ sub build {
 sub clean {
     my $self = shift;
 
-    $self->{fetch}->clean();
+    $self->{fetch}->clean() if $self->{fetch};
     system('rm', '-rf', $self->{workdir});
 }
 
@@ -158,7 +184,7 @@ sub patchDebControl {
 	system('wget', '-O', $iconFile, $self->{data}->{data}->{deb}->{icon});
     }
 
-    if (-f $iconFile) {
+    if (-f $iconFile and $control !~ /^XB-Maemo-Icon-26:/im) {
         system('convert', $iconFile, '-resize', '26x26', $iconFile);
         my $iconData = `uuencode -m icon <$iconFile`;
         $iconData =~ s/^begin-base64 \d{3,4} icon[\s\r\n]+//m;
@@ -172,4 +198,8 @@ sub patchDebControl {
         print OUT $control;
         close(OUT) or croak "Unable to close control: $!\n";
     }
+
+    # -- Patch other miscellaneous problems...
+    #
+    system('echo 4 >debian/compat');
 }

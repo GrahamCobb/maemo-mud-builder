@@ -27,7 +27,7 @@ sub _init {
     my $file = $self->{file} || 'config';
 
     $self->{config} = {};
-    open(IN, "<$file") or carp("Unable to open [$file]: $!");
+    open(IN, "<$file") or carp("WARNING: Unable to open [$file]: $!");
     while(<IN>) {
 	chomp;
 	next unless my ($k, $v) = /^\s*([\w_]+)\s*=\s*(.*)$/;
