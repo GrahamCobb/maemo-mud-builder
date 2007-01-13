@@ -46,6 +46,7 @@ sub _init {
 sub build {
     my $self = shift;
 
+    $self->clean();
     $self->fetch();
     $self->patch();
     $self->compile();
@@ -72,9 +73,10 @@ sub fetch {
     chdir $self->{workdir};
     $fetch->fetch();
 
-    $self->{builddir} = File::Spec->rel2abs($self->{data}->{build} || '.',
+    $self->{data}->{build} = File::Spec->rel2abs($self->{data}->{build} || '.',
                                             $self->{workdir});
-    system('ln', '-s', $self->{builddir}, $self->{workdir}.'/.build');
+    print "Set build dir to [".$self->{data}->{build}."]\n";
+    system('ln', '-snf', $self->{data}->{build}, $self->{workdir}.'/.build');
 }
 
 sub patch {
