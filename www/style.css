@@ -31,7 +31,7 @@ li {
 
 li span.note {
     display:      block;
-    padding:      0.5em 4em 0.5em 0.5em;
+    padding:      0.5em 4em 0.5em 16px;
     margin:       0.5em 0px 1em 50%;
     border:       1px solid #888;
     border-bottom: 2px solid #888;
