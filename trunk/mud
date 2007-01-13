@@ -92,7 +92,7 @@ sub get {
 
     $builder->patch();
     my @toAdd = map { /^\s*\?\s*(.*?)[\s\r\n]*$/ } `svn status`;
-    system('svn', 'add', '-q', @toAdd);
+    system('svn', 'add', '-q', @toAdd) if @toAdd;
 }
 
 sub compile {

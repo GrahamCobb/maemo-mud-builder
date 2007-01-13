@@ -8,7 +8,6 @@ package MUD::Fetch::Tarball;
 use strict;
 use vars qw(@ISA $VERSION);
 use MUD::Fetch::Base;
-use LWP::Simple;
 use Carp;
 
 @ISA     = qw(MUD::Fetch::Base);
@@ -22,7 +21,6 @@ sub fetch {
     my $basename  = $self->{package}->{data}->{fetch}->{file}; 
     $basename   ||= $1 if $url =~ m!^.*?/([^/]+)(\?.*)?$!;
     #mirror($url, $basename);
-    print "Downloading URL [$url] to [$basename]\n";
     system('wget', '-O', $basename, $url);
 
     croak "Unable to download [$url] to [$basename]\n" unless -f $basename;
@@ -35,9 +33,9 @@ sub fetch {
     if ($#end > $#start + 1) {
         $self->{package}->{build} = '.';
     } else {
-        my %s = grep { $_ => 1 } @start;
-        my %e = grep { !$s{$_} } @end;
-        $self->{package}->{build} = (keys(%e))[0];
+        my %s = map { $_ => 1 } @start;
+        @end = grep { !$s{$_} } @end;
+        $self->{package}->{build} = $end[0];
     }
 }
 
