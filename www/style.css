@@ -31,8 +31,9 @@ li {
 
 li span.note {
     display:      block;
-    margin:       0.5em 0px 1em 4em;
-    border-top:   1px solid #888;
+    padding:      0.5em 4em 0.5em 0.5em;
+    margin:       0.5em 0px 1em 50%;
+    border:       1px solid #888;
     border-bottom: 2px solid #888;
     color:        #888;
 }
@@ -42,6 +43,7 @@ pre {
     line-height:  1.2em;
     background:   #ddd;
     color:        #222;
+    padding:      0.2em;
 }
 
 .meta {
