@@ -2,12 +2,16 @@
  MUD-Builder TODO                         (c) Andrew Flegg 2007.
  ~~~~~~~~~~~~~~~~                         Released under the Artistic Licence.
 
-  * Tarball fetcher
+  * Tarball fetcher [DONE]
   * automake-based auto-generation of Debian control files [DONE]
+  * Auto-built built dependencies may result in run-time dependencies which
+    need to move to UPLOAD_DIR
   * manual generation of Debian control file in XML
-  * auto-application of patches
+  * auto-application of patches [DONE]
   * Work out why tcl8.4's install-doc target produces Scratchbox errors:
        libfakeroot: connect: Cannot assign requested address
+       Increase ip_local_port_range:
+       http://www.faqs.org/docs/securing/chap6sec70.html
   * Auto-modify debian/control to be Maemo AM-compatible (e.g. 'user/'
     sections) [DONE]
   * Auto-Hildonise GUI applications

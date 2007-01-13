@@ -13,8 +13,6 @@ use File::Spec;
 use MUD::Config;
 use MUD::Package;
 
-use Data::Dumper;
-
 @ISA     = qw();
 $VERSION = '0.10';
 
@@ -169,12 +167,15 @@ sub patchDebControl {
 
     # -- Fix section...
     #
-    print Dumper($self);
     my $userSection = $self->{data}->{data}->{deb}->{'prefix-section'};
     $userSection = 1 unless defined($userSection);
     if ($userSection) {
        $control =~ s/^(Section:)\s*(?!user\/)/$1 user\//mg;
     }
+
+    # -- Fix dependencies...
+    #
+    $control =~ s/\${perl:Depends}//g;
 
     # -- Icon...
     #

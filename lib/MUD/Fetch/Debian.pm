@@ -51,10 +51,13 @@ sub fetch {
                 my $newPkg = new MUD::Package( (%{ $self->{package} }));
                 $newPkg->{package} = $dep;
 	        $newPkg->{data}->{fetch}->{name} = $dep;
+		$newPkg->{data}->{deb}->{prefixSection} = 0;
                 my $build  = new MUD::Build( package => $newPkg,
                                              config => $self->{config} );
                 $build->build();
-		system("fakeroot dpkg -i $dep *.deb");
+                chdir $build->{workdir};
+		system("fakeroot dpkg -i $dep*.deb");
+		croak "Unable to install $dep [$?]\n" if $?;
 		$list{$dep} = $build;
             }
         }
@@ -68,7 +71,7 @@ sub clean {
 
     return unless $self->{deps};
     foreach my $dep (values %{ $self->{deps} }) {
-        $dep->clean();
+        #$dep->clean();
     }
 }
 
