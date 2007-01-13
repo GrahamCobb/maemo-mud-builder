@@ -52,4 +52,11 @@ pre {
     padding-top: 0.5em;
 }
 
+#valid {
+    display: block;
+    float:   right;
+}
 
+#valid img {
+    border:  none;
+}

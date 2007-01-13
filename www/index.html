@@ -4,6 +4,7 @@ html1/DTD/xhtml1-strict.dtd">
 <head>
   <title>mud-builder</title>
   <link rel="stylesheet" href="style.css" type="text/css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
 <h1>mud-builder</h1>
@@ -71,7 +72,7 @@ necessary.</span></li>
 
 <li>In Scratchbox, change to the mud-builder directory and type:
 
-<pre><code>alias mud=./mud</code></pre>
+<pre><code>alias mud=$(pwd)/mud</code></pre>
 
 <span class="note">This allows you to type <code>mud</code> to invoke the system, without having to add it to your path.</span></li>
 
@@ -85,7 +86,7 @@ necessary.</span></li>
 
 <pre><code>mud build netcat</code></pre></li>
 
-<li>Copy the resulting <code>upload/netcat-&8230;.deb</code> to your Maemo
+<li>Copy the resulting <code>upload/netcat-&#8230;.deb</code> to your Maemo
 device and install with the Application Manager.</li>
 </ol>
 
@@ -109,6 +110,8 @@ build dependencies. For the sake of this example we'll duplicate the existing
 
 
 <p class="meta">
+<a id="valid" href="http://validator.w3.org/check?uri=http%3A%2F%2Fmud-builder.garage.maemo.org%2F"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="[XHTML 1.0 Valid]" /></a>
+
 <a href="https://garage.maemo.org/projects/mud-builder/">Garage project page</a>
  | &copy; Andrew Flegg 2007. Released under the Artistic Licence.
 </p>
