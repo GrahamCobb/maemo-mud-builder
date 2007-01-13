@@ -2,7 +2,7 @@ body {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 10pt;
     padding: 1em 3em 1em 3em;
-    color: #666;
+    color: #555;
     line-height: 1.45em;
 }
 
@@ -29,6 +29,20 @@ li {
     padding-bottom: 0.75em;
 }
 
+li span.note {
+    display:   block;
+    padding-left: 4em;
+    margin:       0.5em;
+    border:       1px solid #888;
+}
+
+pre {
+    border:       1px solid #88f;
+    line-height:  1.2em;
+    background:   #ddd;
+    color:        #222;
+}
+
 .meta {
     margin-top: 2em;
     border-top: 2px solid #ccc;
@@ -36,5 +50,3 @@ li {
 }
 
 
-
-=

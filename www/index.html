@@ -1,3 +1,5 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/x
+html1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
   <title>mud-builder</title>
@@ -56,6 +58,55 @@ resulting debs will be under the licence of the original project.</p>
 <li>As the upstream nmap is updated, so too is the mud package
    available through the contrib repo.</li>
 </ol>
+
+<h2 name="gettingstarted">Getting started</h2>
+<p>In lieu of proper documentation (which is forthcoming), here's a quick start guide:</p>
+
+<ol>
+<li>Check out <a
+href="https://garage.maemo.org/scm/?group_id=63">mud-builder/trunk</a> from
+Subversion into a directory under your Scratchbox home. <span class="note">This
+can be done from within Scratchbox, which might be easiest, or externally if
+necessary.</span></li>
+
+<li>In Scratchbox, change to the mud-builder directory and type:
+
+<pre><code>alias mud=./mud</code></pre>
+
+<span class="note">This allows you to type <code>mud</code> to invoke the system, without having to add it to your path.</span></li>
+
+<li>Switch to your SDK_ARMEL target:
+
+<pre><code>sbox-config -st SDK_ARMEL</code></pre>
+
+<span class="note">Your device architecture target may be named differently. Substitute the correct name for <code>SDK_ARMEL</code> in this case.</span></li>
+
+<li>Build the existing <code>netcat</code> package:
+
+<pre><code>mud build netcat</code></pre></li>
+
+<li>Copy the resulting <code>upload/netcat-&ldots;.deb</code> to your Maemo
+device and install with the Application Manager.</li>
+</ol>
+
+<h2 name="creating">Creating a new package</h2>
+<p>Currently best supported are simple command line utilities without many
+build dependencies. For the sake of this example we'll duplicate the existing
+<code>cmatrix</code> package. It is assumed that the previous tutorial has been folowed and that mud is installed and the alias set.</p>
+
+<ol>
+<li>Create a file, <code>packages/mycmatrix.xml</code>:
+
+<pre><code>&lt;package&gt;
+    &lt;fetch type=&quot;debian&quot;&gt;
+        &lt;name&gt;cmatrix&lt;/name&gt;
+    &lt;/fetch&gt;
+&lt;/package&gt;</code></pre>
+</li>
+
+<li>...TBC...</li>
+</ol>
+
 
 <p class="meta">
 <a href="https://garage.maemo.org/projects/mud-builder/">Garage project page</a>
