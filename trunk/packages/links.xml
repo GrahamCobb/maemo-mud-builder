@@ -1,0 +1,16 @@
+<package>
+    <fetch type="tarball">
+	    <url>http://artax.karlin.mff.cuni.cz/~mikulas/links/download/links-1.00pre19.tar.gz</url>
+    </fetch>
+    <deb>
+	    <icon>http://tango.freedesktop.org/static/cvs/tango-icon-theme/22x22/categories/applications-internet.png</icon>
+    </deb>
+</package>
+<package>
+    <fetch type="tarball">
+	    <url>http://artax.karlin.mff.cuni.cz/~mikulas/links/download/links-1.00pre19.tar.gz</url>
+    </fetch>
+    <deb>
+	    <icon>http://tango.freedesktop.org/static/cvs/tango-icon-theme/22x22/categories/applications-internet.png</icon>
+    </deb>
+</package>
