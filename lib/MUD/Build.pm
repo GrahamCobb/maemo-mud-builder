@@ -13,6 +13,8 @@ use File::Spec;
 use MUD::Config;
 use MUD::Package;
 
+use Data::Dumper;
+
 @ISA     = qw();
 $VERSION = '0.10';
 
@@ -121,9 +123,32 @@ sub clean {
 
 sub copy {
     my $self = shift;
+    my %debs = ();
 
     my $output = $self->{config}->directory('UPLOAD_DIR', 1);
-    system("cp ".$self->{workdir}."/*.deb $output/");
+    print "+++ Calculating dependencies to copy to [$output]\n";
+    $self->addDebs(\%debs, $self->{workdir}, '*.deb');
+    foreach my $deb (keys(%debs)) {
+        system('cp', '-v', $deb, "$output/");
+    }
+}
+
+sub addDebs {
+    my $self = shift;
+    my ($ref, $dir, $pattern) = @_;
+
+    my @results = `find '$dir' -type f -name '$pattern'`;
+    my @add     = ();
+    foreach my $d (@results) {
+        chomp($d);
+        next if $ref->{$d}++;
+        my @deps = MUD::Package->parseField('Depends',
+					    scalar(`dpkg --info '$d'`));
+        foreach my $p (@deps) {
+            $self->addDebs($ref, $self->{config}->directory('BUILD_DIR'),
+                                 "${p}_*.deb") unless $ref->{$p};
+        }
+    }
 }
 
 sub genDebControl {
