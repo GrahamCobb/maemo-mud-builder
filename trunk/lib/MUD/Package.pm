@@ -40,3 +40,15 @@ sub load {
     $self->{name} = $name;
 }
 
+sub parseField {
+    my $self = shift;
+    my ($field, $data) = @_;
+
+    my @lines = $data =~ /[\r\n]+\s?$field:(\s+.*)*[\r\n]+/sig;
+
+    if ($field =~ /^(Build-)?Depends$/i) {
+        @lines = map { s/\s*[\(\[].*?[\)\]]//; $_ } split /\s*[,|]\s+/, join(", ", @lines);
+    }
+
+    return @lines;
+}

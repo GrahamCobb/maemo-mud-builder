@@ -24,7 +24,6 @@ sub fetch {
     my $name     = $self->{package}->{name};
     my $upstream = $self->{package}->{data}->{fetch}->{name} || $name;
     my $buildDir = $self->{workdir};
-    print "Changing to dir $buildDir...\n";
     mkdir $buildDir unless -d $buildDir;
     chdir $buildDir;
 
@@ -45,18 +44,34 @@ sub fetch {
                    split /[\s\r\n]+/, $deps;
 	warn "Need extra deps: ".join(", ", keys(%list))."\n";
         foreach my $dep (keys %list) {
-            system('fakeroot', 'apt-get', '-y', 'install', $dep);
-	    my $dpkg = `dpkg -s $dep 2>/dev/null`;
-            if ($dpkg !~ /Status: install ok installed/) {
-                my $newPkg = new MUD::Package( (%{ $self->{package} }));
-                $newPkg->{package} = $dep;
-	        $newPkg->{data}->{fetch}->{name} = $dep;
-		$newPkg->{data}->{deb}->{prefixSection} = 0;
-                my $build  = new MUD::Build( package => $newPkg,
+            my $build;
+            
+	    # -- Build from one of MUD, existing binaries or upstream source...
+	    #
+	    if (-f $self->{config}->directory('PACKAGES_DIR') . "/$dep.xml") {
+                $build = new MUD::Build( package => $dep );
+
+            } else {
+                system('fakeroot', 'apt-get', '-y', 'install', $dep);
+    	        my $dpkg = `dpkg -s $dep 2>/dev/null`;
+                print $dpkg;
+                if ($dpkg !~ /Status: install ok installed/) {
+		    print "+++ Status not installed.\n";
+                    my $newPkg = new MUD::Package( (%{ $self->{package} }));
+                    $newPkg->{package} = $dep;
+	            $newPkg->{data}->{fetch}->{name} = $dep;
+	    	    $newPkg->{data}->{deb}->{prefixSection} = 0;
+                    $build = new MUD::Build( package => $newPkg,
                                              config => $self->{config} );
+               }
+            }
+
+	    # -- If we built, install...
+	    #
+	    if ($build) {
                 $build->build();
                 chdir $build->{workdir};
-		system("fakeroot dpkg -i $dep*.deb");
+                system("fakeroot dpkg -i --force-depends *.deb");
 		croak "Unable to install $dep [$?]\n" if $?;
 		$list{$dep} = $build;
             }
@@ -71,7 +86,7 @@ sub clean {
 
     return unless $self->{deps};
     foreach my $dep (values %{ $self->{deps} }) {
-        #$dep->clean();
+        $dep->clean();
     }
 }
 
