@@ -4,8 +4,6 @@
 
 Outstanding tasks:
 
-  * Auto-built build dependencies may result in run-time dependencies which
-    need to move to UPLOAD_DIR
   * Remove documentation from deb unless specified.
   * Allow specification of configure switches for automake-based stuff
   * Add Subversion fetcher
@@ -15,6 +13,8 @@ Outstanding tasks:
 
 Completed tasks:
 
+  * Auto-built build dependencies may result in run-time dependencies which
+    need to move to UPLOAD_DIR
   * Tarball fetcher [DONE]
   * Auto-modify debian/control to be Maemo AM-compatible (e.g. 'user/'
     sections) [DONE]
@@ -27,7 +27,7 @@ Completed tasks:
  
 Notes:
 
-  * dh_make, rm README.Debian dir docs 
+  * rm README.Debian dir docs 
   * Licence determination:
        ARTISTIC                                             => artistic
        COPYING/README/LICEN[SC]E (first 10 lines) =~
