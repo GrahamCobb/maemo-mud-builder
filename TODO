@@ -5,6 +5,7 @@
 Outstanding tasks:
 
   * Remove documentation from deb unless specified.
+  * Dependencies for tarball fetches.
   * Allow specification of configure switches for automake-based stuff
   * Add Subversion fetcher
   * manual generation of Debian control file in XML
