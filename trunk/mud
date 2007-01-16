@@ -19,13 +19,7 @@ use File::Basename;
 
 use vars qw(%ACTIONS %OPTS $config);
 
-%ACTIONS = ( build => \&build,
-	     get   => \&get,
-             compile => \&compile,
-             clean => \&clean,
-             diff  => \&diff,
-             show  => \&show, );
-
+%ACTIONS = map { $_ => 1 } qw( build get compile clean diff show );
 %OPTS = ();
 GetOptions(\%OPTS, 'help',
 		   'config=s',
@@ -66,7 +60,8 @@ my $action = shift;
 if ($OPTS{all}) {
     die "TODO: Not implemented";
 } else {
-    &{ $ACTIONS{$action}}( $_ ) foreach @ARGV;
+    eval("print \&$action(\$_)") foreach @ARGV;
+    croak "Failed to run $action: $@\n" if $@;
 }
 
     
@@ -84,15 +79,24 @@ sub get {
     chdir $builder->{workdir};
     my $repo = $builder->{workdir}.'/.orig';
     my $base = basename($builder->{data}->{build});
+    print "Creating Subversion repository... ";
     system('svnadmin', 'create', $repo);
+    print "done.\nImporting upstream source... ";
     system('svn', 'import', '-q', '-m', 'Import', $base, "file://$repo");
+    print "done.\nRemoving temporary directory... ";
     system('rm', '-rf', $base);
+    print "done.\nChecking out working copy... ";
     system('svn', 'co', '-q', "file://$repo", $base);
+    print "done.\nRemoving repository... ";
     system('rm', '-rf', $repo);
+    print "done.\n";
 
     $builder->patch();
+    chdir $builder->{data}->{build} || croak "Build dir not set.\n";
     my @toAdd = map { /^\s*\?\s*(.*?)[\s\r\n]*$/ } `svn status`;
     system('svn', 'add', '-q', @toAdd) if @toAdd;
+
+    print "\n\n--- $pkg can now be compiled and tested in:\n       $builder->{data}->{build}\n";
 }
 
 sub compile {

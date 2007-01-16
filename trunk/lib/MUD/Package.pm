@@ -8,6 +8,7 @@ package MUD::Package;
 use strict;
 use vars qw(@ISA $VERSION);
 use XML::Simple;
+use Text::Wrap;
 use Carp;
 
 @ISA     = qw();
@@ -44,11 +45,30 @@ sub parseField {
     my $self = shift;
     my ($field, $data) = @_;
 
-    my @lines = $data =~ /[\r\n]+\s?$field:(\s+.*)*[\r\n]+/sig;
+    my @lines = $data =~ /[\r\n]+\s?$field:(\s+.*?[\r\n])(\s\s\S.*[\r\n])*/ig;
 
     if ($field =~ /^(Build-)?Depends$/i) {
-        @lines = map { s/\s*[\(\[].*?[\)\]]//; $_ } split /\s*[,|]\s+/, join(", ", @lines);
+        @lines = map { s/\s*[\(\[].*?[\)\]]//; chomp; $_ }
+                      split /\s*[,|]\s+/, join(", ", @lines);
     }
 
     return @lines;
 }
+
+sub setField {
+    my $self = shift;
+    my ($data, $field, $value) = @_;
+
+    $value =~ s/^[\s\r\n]+//;
+    $value =~ s/[\s\r\n]+$//;
+    $value =~ s/\\n/\n/g;
+    my $wrapped = wrap("", "  ", "$field: $value");
+    if ($data =~ /[\r\n]+\s?$field:/i) {
+        $data =~ s/([\r\n]+\s?)$field:(\s+[^\r\n]*[\r\n])*/$1$wrapped\n/sig;
+    } else {
+        $data .= "$wrapped\n";
+    }
+
+    return $data;
+}
+ 
