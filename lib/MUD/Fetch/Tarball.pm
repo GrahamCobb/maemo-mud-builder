@@ -20,8 +20,8 @@ sub fetch {
    
     my $basename  = $self->{package}->{data}->{fetch}->{file}; 
     $basename   ||= $1 if $url =~ m!^.*?/([^/]+)(\?.*)?$!;
-    #mirror($url, $basename);
-    system('wget', '-O', $basename, $url);
+    my $isOld     = -f $basename;
+    system('wget', '-O', $basename, $url) unless $isOld;
 
     croak "Unable to download [$url] to [$basename]\n" unless -f $basename;
     $self->{file} = $basename;
@@ -29,6 +29,7 @@ sub fetch {
     my @start = <*>;
     $self->unpack($basename);
     my @end = <*>;
+    return if $isOld;
 
     if ($#end > $#start + 1) {
         $self->{package}->{build} = '.';
@@ -36,6 +37,15 @@ sub fetch {
         my %s = map { $_ => 1 } @start;
         @end = grep { !$s{$_} } @end;
         $self->{package}->{build} = $end[0];
+    }
+
+    my @deps = split /\s*,\s*/, ($self->{package}->{data}->{fetch}->{depends} || '');
+    foreach my $d (@deps) {
+	my $builder = new MUD::Build(package => $d, config => $self->{config});
+	$builder->build();
+        chdir $builder->{workdir};
+	system("fakeroot dpkg -i --force-depends *.deb");
+        croak "Unable to install $d [$?]\n" if $?;
     }
 }
 

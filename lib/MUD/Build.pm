@@ -42,6 +42,8 @@ sub _init {
     $self->{workdir} = $self->{config}->directory('BUILD_DIR')."/$name";
 
     my $buildDir = $self->{workdir}.'/.build';
+    $buildDir = readlink($buildDir) if -l $buildDir;
+    print "Build dir = [$buildDir]\n";
     $self->{data}->{build} = $buildDir if -d $buildDir;
 }
 
@@ -79,7 +81,16 @@ sub fetch {
                                             $self->{workdir});
     print "Set build dir to [".$self->{data}->{build}."]\n";
     system('ln', '-snf', $self->{data}->{build}, $self->{workdir}.'/.build');
+
+    chdir $self->{data}->{build} || croak "Build dir not set.\n";
+
+    # -- Generate the Debian control scripts...
+    #
+    unless (-f 'debian/control') {
+        $self->genDebControl();
+    }
 }
+ 
 
 sub patch {
     my $self = shift;
@@ -101,17 +112,12 @@ sub compile {
 
     chdir $self->{data}->{build} || croak "Build dir not set.\n";
     
-    # -- Generate the Debian control scripts...
-    #
-    unless (-f 'debian/control') {
-        $self->genDebControl();
-    }
-
     # -- Tweak for Maemo compatibility...
     #
     $self->patchDebControl();
 
-    system("dpkg-buildpackage -rfakeroot -b");
+    
+    system("dpkg-buildpackage -rfakeroot -b | tee ../log"); 
 }
 
 sub clean {
@@ -137,6 +143,7 @@ sub addDebs {
     my $self = shift;
     my ($ref, $dir, $pattern) = @_;
 
+    print "Finding debs for [$pattern] in [$dir]\n";
     my @results = `find '$dir' -type f -name '$pattern'`;
     my @add     = ();
     foreach my $d (@results) {
@@ -197,7 +204,7 @@ sub patchDebControl {
     my $userSection = $self->{data}->{data}->{deb}->{'prefix-section'};
     $userSection = 1 unless defined($userSection);
     if ($userSection) {
-       $control =~ s/^(Section:)\s*(?!user\/)/$1 user\//mg;
+       $control =~ s/^(Section:)\s*(user\/)*(.*)$/$1 user\/$3/mig;
     }
 
     # -- Fix dependencies...
@@ -218,6 +225,11 @@ sub patchDebControl {
         $iconData =~ s/^begin-base64 \d{3,4} icon[\s\r\n]+//m;
 	$iconData =~ s/^/  /mg;
         $control .= "XB-Maemo-Icon-26:$iconData";
+    }
+
+    while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
+	next if $k eq 'icon';
+	$control = MUD::Package->setField($control, ucfirst($k), $v);
     }
 
     if ($control ne $origControl) {

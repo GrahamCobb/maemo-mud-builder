@@ -5,17 +5,17 @@
 Outstanding tasks:
 
   * Remove documentation from deb unless specified.
-  * Dependencies for tarball fetches.
-  * Allow specification of configure switches for automake-based stuff
   * Add Subversion fetcher
-  * manual generation of Debian control file in XML
   * Auto-Hildonise GUI applications
   * Auto-generate .desktop and .service files for GUI apps
 
 Completed tasks:
 
+  * manual generation of Debian control file in XML [DONE]
+  * Dependencies for tarball fetches. [DONE]
+  * Allow specification of configure switches for automake-based stuff [DONE]
   * Auto-built build dependencies may result in run-time dependencies which
-    need to move to UPLOAD_DIR
+    need to move to UPLOAD_DIR [DONE]
   * Tarball fetcher [DONE]
   * Auto-modify debian/control to be Maemo AM-compatible (e.g. 'user/'
     sections) [DONE]
