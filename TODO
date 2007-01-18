@@ -6,6 +6,12 @@ Outstanding tasks:
 
   * Remove documentation from deb unless specified.
   * Add Subversion fetcher
+  * Add file system fetcher (suggested by Ted Zlatanov)
+  * Add command-line fetcher (suggested by Ted Zlatanov)
+  * Allow specification of environment variables for build in XML (suggested
+    by Ted Zlatanov)
+  * Allow XML-specification of configure switches (suggested by Ted Zlatanov)
+  * Allow files to be specified (suggest by Ted Zlatanov)
   * Auto-Hildonise GUI applications
   * Auto-generate .desktop and .service files for GUI apps
 
