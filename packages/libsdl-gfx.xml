@@ -1,0 +1,8 @@
+<package>
+   <fetch type="tarball">
+      <url>http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.15.tar.gz</url>
+   </fetch>
+   <deb>
+      <icon>http://www.ferzkopp.net/joomla/images/favicon.ico</icon>
+   </deb>
+</package>
