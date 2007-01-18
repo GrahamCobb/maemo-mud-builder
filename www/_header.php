@@ -4,9 +4,10 @@ html1/DTD/xhtml1-strict.dtd">
   $script_root = $_SERVER['PHP_SELF'];
   $script_root = dirname($script_root);
 
-  for ($i = 0; $i < 5 && !is_file("$_SERVER[DOCUMENT_ROOT]/$script_root/style.css"); $i++) {
+  for ($i = 0; $i < 5 && $script_root != '/' && !is_file("$_SERVER[DOCUMENT_ROOT]/$script_root/style.css"); $i++) {
       $script_root = dirname($script_root);
    }
+   if ($script_root == '/') $script_root = '';
 ?>
 <html>
 <head>
