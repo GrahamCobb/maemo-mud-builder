@@ -17,5 +17,5 @@ html1/DTD/xhtml1-strict.dtd">
 </head>
 <body>
 <h1>mud-builder</h1>
-<? if ($title != '') echo "<h2>$title</h2>" ?>
+<? if ($title != '') echo "<h2 class=\"subtitle\">$title</h2>" ?>
 

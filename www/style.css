@@ -1,14 +1,35 @@
 body {
-    font-family: Helvetica, Arial, sans-serif;
+    background: #fff url(images/bgfade.png) top left repeat-x;
+    font-family: Tahoma, Helvetica, Arial, sans-serif;
     font-size: 10pt;
-    padding: 1em 3em 1em 3em;
+    padding: 88px 3em 1em 3em;
     color: #555;
-    line-height: 1.45em;
+    line-height: 1.5em;
+}
+
+a {
+    color: #00b;
+}
+
+a:visited {
+    color: #81c;
+}
+
+a:hover {
+    color: #66e;
 }
 
 h1 {
-    color: #ec0;
-    font-size: 16pt;
+    background: url(images/title.png) top left no-repeat;
+    width: 188px;
+    height: 66px;
+    font-size: 10pt;
+    position: absolute;
+    top: 0px;
+    left: 3em;
+    padding: 0px;
+    margin: 0px;
+    text-indent: -1000em;
 }
 
 h2.subtitle {
@@ -16,6 +37,8 @@ h2.subtitle {
     font-size: 10pt;
     margin-top: 0.1em;
     margin-bottom: 1em;
+    width:         100%;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 h2 {
@@ -31,7 +54,7 @@ li {
 
 li span.note {
     display:      block;
-    background:   #fff url(alert.png) 4px 0.5em no-repeat;
+    background:   #fff url(images/alert.png) 4px 0.5em no-repeat;
     padding:      0.8em 4em 0.5em 42px;
     margin:       0.5em 0px 1em 50%;
     border:       1px solid #888;
@@ -49,8 +72,9 @@ pre {
 
 .meta {
     margin-top: 2em;
-    border-top: 2px solid #ccc;
+    border-top: 2px solid #ddd;
     padding-top: 0.5em;
+    font-size:   8pt;
 }
 
 #valid {
@@ -71,8 +95,56 @@ pre {
     list-style: none;
     font-size: 8pt;
     line-height: 1.2em;
+    background: #fff0ed;
+}
+
+#index.nav li {
+    margin:      0px;
+    padding:     3px;
 }
 
 #index.nav li.selected {
     font-weight: bold;
+}
+
+#index.nav a {
+    text-decoration: none;
+    color:           #55a;
+}
+
+#index.nav a:hover {
+    text-decoration: underline;
+    color:           #66b;
+}
+
+#footerhook {
+  position:      absolute;
+  top:           0px;
+  bottom:        -0.1px;
+  z-index:       -1;
+  width:         1em;
+}
+
+ul#navigation {
+  position:      absolute;
+  top:           20px;
+  right:         3em;
+  padding:       0px;
+  margin:        0px;
+  font-weight:   bold;
+}
+
+ul#navigation li {
+  display:       inline;
+  padding-left:  1em;
+}
+
+ul#navigation li a {
+  text-decoration: none;
+  color:         #ddd;
+}
+
+ul#navigation li a:hover {
+  text-decoration: underline;
+  color:           #fff;
 }
