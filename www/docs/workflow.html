@@ -1,0 +1,27 @@
+<ol>
+<li>User wants (say) <a href="http://insecure.org/nmap/">nmap</a> on his 770,
+    but notes no-one has yet ported it to the 770 or armel. Even if there was
+    an armel deb available, chances are it wouldn't be in a Maemo repo or the
+    deb configured for the Application Manager.</li>
+
+<li>User downloads/installs mud to his scratchbox and adds the
+   necessary configuration to build <code>nmap</code>. Ideally, this would take
+   no more than a single file containing a single line, but obviously
+   more options are available.</li>
+
+<li>User runs <code>mud build nmap</code> (or similar) and gets an Application
+   Manager-compatible, armel deb ready for uploading to the extras
+   repo. User notices, however, that he doesn't have a Garage account
+   and doesn't think it worthwhile to create one for this one deb.</li>
+
+<li>User submits patch to the mud project, where the patch is reviewed
+   and, potentially included. Next time the mud admins run
+   <code>mud -a build</code>, an additional nmap deb is produced. This is
+   then uploaded to the contrib repo by the mud admins.</li>
+
+<li>Other users refresh their packages and now see that nmap is
+   ported.</li>
+
+<li>As the upstream nmap is updated, so too is the mud package
+   available through the contrib repo.</li>
+</ol>
