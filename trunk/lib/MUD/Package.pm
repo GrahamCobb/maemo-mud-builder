@@ -9,6 +9,7 @@ use strict;
 use vars qw(@ISA $VERSION);
 use XML::Simple;
 use Text::Wrap;
+use File::Basename;
 use Carp;
 
 @ISA     = qw();
@@ -34,6 +35,11 @@ sub load {
     my ($name) = @_;
 
     my $file = $self->{config}->directory('PACKAGES_DIR') . "/$name.xml";
+    if (-f $name) {
+        print "+++ Got file [$name]\n";
+        $file = $name;
+        $name = basename($file, ".xml");
+    }
 
     croak("Unknown package '$name': can't find [$file]") unless -f $file;
 

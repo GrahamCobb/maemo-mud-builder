@@ -16,6 +16,7 @@ use MUD::Build;
 use MUD::Package;
 use Getopt::Long;
 use File::Basename;
+use Data::Dumper;
 
 use vars qw(%ACTIONS %OPTS $config);
 
