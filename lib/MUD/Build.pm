@@ -224,7 +224,7 @@ sub patchDebControl {
         my $iconData = `uuencode -m icon <$iconFile`;
         $iconData =~ s/^begin-base64 \d{3,4} icon[\s\r\n]+//m;
 	$iconData =~ s/^/  /mg;
-        $control .= "XB-Maemo-Icon-26:$iconData";
+        $control .= "XB-Maemo-Icon-26:$iconData" if $iconData;
     }
 
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
