@@ -3,11 +3,12 @@
 <ol>
 <li>Check out <a
 href="https://garage.maemo.org/scm/?group_id=63">mud-builder/trunk</a> from
-Subversion into a directory under your Scratchbox home. <span class="note">This
-can be done from within Scratchbox, which might be easiest, or externally if
-necessary.</span></li>
+Subversion into a directory under your Scratchbox home:
 
-<li>In Scratchbox, change to the mud-builder directory and type:
+<pre><code>svn co https://garage.maemo.org/svn/mud-builder/trunk mud-builder</code></pre>
+</li>
+
+<li>In Scratchbox, change to the <code>mud-builder</code> directory and type:
 
 <pre><code>alias mud=$(pwd)/mud</code></pre>
 
@@ -26,3 +27,6 @@ necessary.</span></li>
 <li>Copy the resulting <code>upload/netcat-&#8230;.deb</code> to your Maemo
 device and install with the Application Manager.</li>
 </ol>
+
+<p>This shows how easy it is to compile Maemo-compatible deb files with
+mud-builder.</p>

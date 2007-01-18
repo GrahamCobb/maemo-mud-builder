@@ -72,3 +72,7 @@ pre {
     font-size: 8pt;
     line-height: 1.2em;
 }
+
+#index.nav li.selected {
+    font-weight: bold;
+}
