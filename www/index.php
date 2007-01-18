@@ -22,8 +22,4 @@ resulting deb deployed to the contrib repository during the next run.</p>
 <p>The source code to the autobuilder is under the Artistic Licence, but the
 resulting debs will be under the licence of the original project.</p>
 
-<h2>Documentation</h2>
-<a name="gettingstarted"></a><a name="creating"></a><a name="workflow"></a>
-<p>Documentation now has its <a href="docs/index.php">own pages</a>.</p>
-
 <? include("_footer.php") ?>
