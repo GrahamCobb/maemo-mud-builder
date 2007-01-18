@@ -61,3 +61,11 @@ pre {
 #valid img {
     border:  none;
 }
+
+#index.nav {
+    float:   right;
+    margin:  0.5em 0px 5em 3em;
+    padding: 0.5em;
+    border:  1px solid #900;
+    width:   30%;
+}
