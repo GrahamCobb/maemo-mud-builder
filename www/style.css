@@ -64,8 +64,11 @@ pre {
 
 #index.nav {
     float:   right;
-    margin:  0.5em 0px 5em 3em;
+    margin:  0.5em 0px 2em 3em;
     padding: 0.5em;
     border:  1px solid #900;
-    width:   30%;
+    width:   20%;
+    list-style: none;
+    font-size: 8pt;
+    line-height: 1.2em;
 }
