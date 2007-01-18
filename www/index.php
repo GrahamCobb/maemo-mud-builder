@@ -53,6 +53,6 @@ resulting debs will be under the licence of the original project.</p>
 
 <h2>Documentation</h2>
 <a name="gettingstarted"></a><a name="creating"></a>
-<p>Documentation now has its <a href="docs/">own pages</a>.</p>
+<p>Documentation now has its <a href="docs/index.php">own pages</a>.</p>
 
 <? include("_footer.php") ?>
