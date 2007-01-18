@@ -1,0 +1,28 @@
+<p>In lieu of proper documentation (which is forthcoming), here's a quick start guide:</p>
+
+<ol>
+<li>Check out <a
+href="https://garage.maemo.org/scm/?group_id=63">mud-builder/trunk</a> from
+Subversion into a directory under your Scratchbox home. <span class="note">This
+can be done from within Scratchbox, which might be easiest, or externally if
+necessary.</span></li>
+
+<li>In Scratchbox, change to the mud-builder directory and type:
+
+<pre><code>alias mud=$(pwd)/mud</code></pre>
+
+<span class="note">This allows you to type <code>mud</code> to invoke the system, without having to add it to your path.</span></li>
+
+<li>Switch to your SDK_ARMEL target:
+
+<pre><code>sbox-config -st SDK_ARMEL</code></pre>
+
+<span class="note">Your device architecture target may be named differently. Substitute the correct name for <code>SDK_ARMEL</code> in this case.</span></li>
+
+<li>Build the existing <code>netcat</code> package:
+
+<pre><code>mud build netcat</code></pre></li>
+
+<li>Copy the resulting <code>upload/netcat-&#8230;.deb</code> to your Maemo
+device and install with the Application Manager.</li>
+</ol>

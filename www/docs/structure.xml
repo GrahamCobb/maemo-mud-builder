@@ -1,0 +1,6 @@
+<docs>
+  <section title="Quick Start">
+    <doc file="gettingstarted">Getting started</doc>
+    <doc file="creating">Creating a new package</doc>
+  </section>
+</docs>
