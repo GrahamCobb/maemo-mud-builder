@@ -180,3 +180,20 @@ dt {
   font-weight:   bold;
   color:         #c84;
 }
+
+.link {
+  border-top:    1px solid #f0f0f0;
+  font-size:     8pt;
+}
+
+.link a {
+  display:       block;
+}
+
+.link a.prev {
+  float:         left;
+}
+
+.link a.next {
+  float:         right;
+}
