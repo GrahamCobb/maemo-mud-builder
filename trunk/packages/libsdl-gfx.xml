@@ -1,8 +1,41 @@
 <package>
+   <!--
+   This is the package file format for the mud builder
+   this file tries to give some examples of the possibilities
+   -->
    <fetch type="tarball">
       <url>http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.15.tar.gz</url>
    </fetch>
    <deb>
+      <!--
+       it is possible to add any debian/control field in here
+       the tag name is used as key in the configuration file
+       and the value if used as content. It is possible to
+       enter multi line entries like required by the description
+       the first line will be the "short" description
+       and the rest the long (enters will be replaces by enter + space
+       there are a few special fields(the short dest must not be longer then 66 chars)
+
+       icon: this is a url to an image and will be converted by mud
+       usefull are Description and Section. you can check yout result
+       by running dpkg -I libsdl-gfx_2.0.15_armel.deb on your package
+
+       It might be handy to read packaging on the maemo website
+       but recommented Section names are  
+       * user/accessories
+       * user/communication
+       * user/games
+       * user/multimedia
+       * user/office
+       * user/other
+       * user/programming
+       * user/support
+       * user/themes
+       * user/tools
+      -->
       <icon>http://www.ferzkopp.net/joomla/images/favicon.ico</icon>
+      <Description>SDL graphics drawing primitives.
+      SDL graphics drawing primitives and other support functions wrapped up in an addon library for the Simple Direct Media (SDL) cross-platform API layer</Description>
+      <Section>user/libs</Section>
    </deb>
 </package>
