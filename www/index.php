@@ -22,4 +22,24 @@ resulting deb deployed to the contrib repository during the next run.</p>
 <p>The source code to the autobuilder is under the Artistic Licence, but the
 resulting debs will be under the licence of the original project.</p>
 
+<h2>Getting started</h2>
+<p>The <a href="docs/index.php">documentation</a> section is burgeoning, and
+will guide you through installation and creating simple - and more complex -
+packages.</p>
+
+<p>At the moment, it's a little sparse, but feel free to ask questions on the
+<a href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing
+list</a> and people would be happy to help. Alternatively, there are often
+people who use and develop MUD hanging out in the <a
+href="http://maemo.org/pipermail/maemo-developers/2005-May/000018.html">#maemo</a>
+IRC channel.</p>
+
+<p>The <a href="docs/index.php?id=workflow">workflow</a> is designed around
+<em>contributions</em> of packages which people would like to see on their
+Maemo device, without the hassle of continually building, uploading and
+signing the packages. Therefore, getting involved is crucial to the survival
+of the project in meeting its aims. Patch trackers, access to the Subversion
+version control system and other statistics can be found on the <a
+href="https://garage.maemo.org/projects/mud-builder/">Garage page</a>.</p>
+
 <? include("_footer.php") ?>
