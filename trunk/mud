@@ -61,8 +61,11 @@ my $action = shift;
 if ($OPTS{all}) {
     die "TODO: Not implemented";
 } else {
-    eval("print \&$action(\$_)") foreach @ARGV;
-    croak "Failed to run $action: $@\n" if $@;
+    foreach my $n (@ARGV) {
+        $n = basename($n, ".xml") if -f $n;
+        eval("print \&$action(\$n)") foreach @ARGV;
+        croak "Failed to run $action on $n: $@\n" if $@;
+    }
 }
 
     
