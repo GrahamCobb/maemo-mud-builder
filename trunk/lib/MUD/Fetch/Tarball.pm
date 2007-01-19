@@ -20,7 +20,7 @@ sub fetch {
    
     my $basename  = $self->{package}->{data}->{fetch}->{file}; 
     $basename   ||= $1 if $url =~ m!^.*?/([^/]+)(\?.*)?$!;
-    my $isOld     = -f $basename;
+    my $isOld     = -s $basename;
     system('wget', '-O', $basename, $url) unless $isOld;
 
     croak "Unable to download [$url] to [$basename]\n" unless -f $basename;
