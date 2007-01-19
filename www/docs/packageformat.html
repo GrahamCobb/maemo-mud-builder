@@ -104,6 +104,10 @@ the build package, and <code>deb</code> to find build dependencies. <em>(Default
     &lt;copyright&gt;<i>(gpl|lgpl|artistic|bsd</i>&lt;/copyright&gt;
     &lt;include&gt;<i>(changelogs|docs|examples|info|man)*</i>&lt;/include&gt;
     &lt;configure-append&gt;&#8230;&lt;/configure-append&gt;
+    &lt;env&gt;<i>
+        &lt;SOMEOPT&gt;true&lt;/SOMEOPT&gt;
+        &lt;PATH&gt;/usr/sbin:$PATH&lt;/PATH&gt;
+    </i>&lt;/env&gt;
 &lt;/build&gt;</code></pre>
 
 <p>Out of all of the sections, this is the &quot;most&quot; optional: for many
