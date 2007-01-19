@@ -6,6 +6,8 @@
 $id    = preg_replace('/[^a-z0-9]+/i', '', $_GET[id]);
 $curId = '';
 $head  = '';
+
+if ($id == '') echo '<div id="branding" class="docs"></div>';
 ?>
 
 <?php
