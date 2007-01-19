@@ -4,4 +4,5 @@
     <doc file="gettingstarted">Getting started</doc>
     <doc file="creating">Creating a new package</doc>
   </section>
+  <doc file="packageformat">Package format</doc>
 </docs>

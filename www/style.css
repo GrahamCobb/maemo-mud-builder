@@ -52,7 +52,7 @@ li {
     padding-bottom: 0.75em;
 }
 
-li span.note {
+li span.note, dd span.note {
     display:      block;
     background:   #fff url(images/alert.png) 4px 0.5em no-repeat;
     padding:      0.8em 4em 0.5em 42px;
@@ -68,6 +68,7 @@ pre {
     background:   #ddd;
     color:        #222;
     padding:      0.2em;
+    width:        66%;
 }
 
 .meta {
@@ -166,4 +167,16 @@ ul#navigation li a:hover {
 
 #branding.docs {
   background-image: url(images/docs-brand.jpg);
+}
+
+dl {
+  margin-left:   4em;
+  border-left:   2px double #ddd;
+  padding-left:  0.5em;
+}
+
+dt {
+  margin-top:    0.5em;
+  font-weight:   bold;
+  color:         #c84;
 }
