@@ -1,0 +1,10 @@
+<package>
+   <fetch type="tarball">
+	   <url>ftp://ftp.ruby-lang.org/pub/ruby/ruby-1.8.5-p12.tar.gz</url>
+   </fetch>
+   <deb>
+     <icon>http://www.ruby-lang.org/favicon.icon</icon>
+     <Description>A dynamic, open source programming language with a focus on simplicity and productivity.</Description>
+     <Section>user/programming</Section>
+   </deb>
+</package>

@@ -1,0 +1,13 @@
+Index: common.mk
+===================================================================
+--- common.mk	(revision 1)
++++ common.mk	(working copy)
+@@ -52,7 +52,7 @@
+ 		version.$(OBJEXT) \
+ 		$(MISSING)
+ 
+-SCRIPT_ARGS   =	--dest-dir="$(DESTDIR)" \
++SCRIPT_ARGS   =	--dest-dir="`dirname $(prefix)`" \
+ 		--make="$(MAKE)" \
+ 		--mflags="$(MFLAGS)" \
+ 		--make-flags="$(MAKEFLAGS)"
