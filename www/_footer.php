@@ -1,7 +1,7 @@
 <ul id="navigation">
 <li><a href="<?= $script_root ?>/index.php">Home</a></li>
 <li><a title="User and developer manuals, getting started etc." href="<?= $script_root ?>/docs/index.php">Documentation</a></li>
-<li><a title="Available packages" href="https://garage.maemo.org/plugins/scmsvn/viewcvs.php/trunk/packages/?root=mud-builder">Packages</a></li>
+<li><a title="Available packages" href="https://garage.maemo.org/plugins/scmsvn/viewcvs.php/trunk/packages/?root=mud-builder#dirlist">Packages</a></li>
 <li><a title="Mailing lists, source code etc." href="https://garage.maemo.org/projects/mud-builder/">Garage page</a></li>
 </ul>
 
