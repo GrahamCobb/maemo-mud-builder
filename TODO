@@ -5,6 +5,8 @@
 Outstanding tasks:
 
   * Remove documentation from deb unless specified.
+  * Strip binaries by default.
+  * Rename build directory to <name>-<version>, if necessary.
   * Add Subversion fetcher
   * Add file system fetcher (suggested by Ted Zlatanov)
   * Add command-line fetcher (suggested by Ted Zlatanov)
