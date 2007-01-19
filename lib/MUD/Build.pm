@@ -176,9 +176,10 @@ sub genDebControl {
          close(IN);
      }
 
+     my $type = $self->{package} =~ /^lib/ ? 'l' : 's';
      my @args = ('dh_make', #'-c', 'unknown',
                             '-e', $maintainer, 
-                            '-s',
+                            "-$type",
                             '-n', '-p', $self->{package});
      croak("Cannot fork: $!") unless defined(my $pid = open(EXC, "|-"));
      exec(@args) unless $pid;
