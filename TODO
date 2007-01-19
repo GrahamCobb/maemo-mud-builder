@@ -7,15 +7,19 @@ Outstanding tasks:
   * Remove documentation from deb unless specified.
   * Strip binaries by default.
   * Rename build directory to <name>-<version>, if necessary.
+  * Add mud-builder svn revision to package version (suggested by Kees
+    Jongenburger)
   * Add Subversion fetcher
   * Add file system fetcher (suggested by Ted Zlatanov)
   * Add command-line fetcher (suggested by Ted Zlatanov)
   * Allow specification of environment variables for build in XML (suggested
     by Ted Zlatanov)
   * Allow XML-specification of configure switches (suggested by Ted Zlatanov)
-  * Allow files to be specified (suggest by Ted Zlatanov)
+  * Allow files to be specified in deb (suggested by Ted Zlatanov)
   * Auto-Hildonise GUI applications
   * Auto-generate .desktop and .service files for GUI apps
+  * Test repository for distributed real-world testing, before pushing packages
+    live (suggested by Kees Jongenburger)
 
 Completed tasks:
 
