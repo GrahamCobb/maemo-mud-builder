@@ -157,14 +157,13 @@ ul#navigation li a:hover {
   background:    top left no-repeat;
   padding:       0px;
   width:         240px;
-  height:        240px;
+  height:        204px;
 }
 
 #branding.package {
   background-image: url(images/package-brand.jpg);
-  height:        203px;
 }
 
 #branding.docs {
-  background-image: url(images/books-brand.jpg);
+  background-image: url(images/docs-brand.jpg);
 }
