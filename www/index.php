@@ -1,6 +1,8 @@
 <? include("_header.php") ?>
 <h2 class="subtitle">Maemo Unofficial Debs</h2>
 
+<div id="branding"></div>
+
 <p>MUD is "Maemo Unofficial Debs". It's an autobuilder to make it bring together
 simple source ports, and to ensure they're available in a single repository.</p>
 
