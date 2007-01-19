@@ -53,7 +53,7 @@ and son on. Many settings in this section will be automatically determined
 if possible.</dd>
 </dl>
 
-<h2>Fetch section</h2>
+<h2 id="fetch">Fetch section</h2>
 <pre><code>&lt;fetch type=&quot;<i>plugin</i>&quot;&gt;
     &#8230;
 &lt;/fetch&gt;</code></pre>
@@ -98,7 +98,7 @@ the build package, and <code>deb</code> to find build dependencies. <em>(Default
 <h3>Tarball</h3>
 <p>TBC...</p>
 
-<h2>Build section</h2>
+<h2 id="build">Build section</h2>
 <pre><code>&lt;build&gt;
     &lt;result&gt;<i>(single|multiple|library)</i>&lt;/result&gt;
     &lt;copyright&gt;<i>(gpl|lgpl|artistic|bsd</i>&lt;/copyright&gt;
@@ -106,9 +106,16 @@ the build package, and <code>deb</code> to find build dependencies. <em>(Default
     &lt;configure-append&gt;&#8230;&lt;/configure-append&gt;
 &lt;/build&gt;</code></pre>
 
-<p>TBC...</p>
+<p>Out of all of the sections, this is the &quot;most&quot; optional: for many
+packages <em>all</em> of the information here will be determined automatically,
+from the package licence, to whether a single, multiple or library-style
+packages should be produced. However, if the auto-detection fails, or there
+is a need to override the defaults, that power is available.</p>
 
-<h2>Deb section</h2>
+<p>TBC... also note that <em>this hasn't been implemented yet, so is
+subject to change.</em></p>
+
+<h2 id="deb">Deb section</h2>
 <pre><code>&lt;deb prefix-section=&quot;<i>(0|1)</i>&quot;&gt;
     &lt;icon&gt;<i>URL</i>&lt;/icon&gt;
     &lt;description&gt;
