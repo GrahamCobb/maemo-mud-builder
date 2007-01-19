@@ -24,16 +24,19 @@ sub new {
 
 sub _init {
     my $self = shift;
-    my $file = $self->{file} || 'config';
+    my $file = $self->{file};
+    carp("Unable to open [$file]\n") if $file and ! -f $file;
+    $file ||= 'config';
 
     $self->{config} = {};
-    open(IN, "<$file") or carp("WARNING: Unable to open [$file]: $!");
-    while(<IN>) {
-	chomp;
-	next unless my ($k, $v) = /^\s*([\w_]+)\s*=\s*(.*)$/;
-	$self->{config}->{$k} = $v;
+    if(open(IN, "<$file")) {
+        while(<IN>) {
+  	    chomp;
+	    next unless my ($k, $v) = /^\s*([\w_]+)\s*=\s*(.*)$/;
+	    $self->{config}->{$k} = $v;
+        }
+        close(IN);
     }
-    close(IN);
 }
 
 sub option {
