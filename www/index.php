@@ -19,7 +19,7 @@ result in one or many debs which can then be deployed on
 scratching an itch for a port will not have to find a repo to host it, and
 projects with little or no changes for Maemo from the upstream source will not
 have to apply for a Garage project: a patch will be provided to MUD and the
-resulting deb deployed to the contrib repository during the next run.</p>
+resulting deb deployed to the extras repository during the next run.</p>
 
 <p>The source code to the autobuilder is under the Artistic Licence, but the
 resulting debs will be under the licence of the original project.</p>
