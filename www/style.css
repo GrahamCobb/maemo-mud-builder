@@ -197,3 +197,16 @@ dt {
 .link a.next {
   float:         right;
 }
+
+ul.compact li {
+  display:       block;
+  width:         30%;
+  float:         left;
+  background:    #fff0f0;
+  margin:        0.5em;
+  padding;       0.1em;
+}
+
+.post-compact {
+  clear:         left;
+}

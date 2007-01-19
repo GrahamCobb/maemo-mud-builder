@@ -112,10 +112,39 @@ the build package, and <code>deb</code> to find build dependencies. <em>(Default
 <pre><code>&lt;deb prefix-section=&quot;<i>(0|1)</i>&quot;&gt;
     &lt;icon&gt;<i>URL</i>&lt;/icon&gt;
     &lt;description&gt;
-        <i>short descriptioin</i>\n<i>long description</i>
+        <i>short description</i>\n<i>long description</i>
     &lt;/description&gt;
     &lt;section&gt;<i>section name</i>&lt;/section&gt;
     &#8230;
 &lt;/deb&gt;</code></pre>
 
-<p>TBC...</p>
+<p>Most of the child elements of the <code>deb</code> node correspond to fields
+within the <a
+href="http://www.debian.org/doc/debian-policy/ch-controlfields.html#s-controlfieldslist">debian/control</a>,
+allowing you to change their value without patching the file.</p>
+
+<p>The capitalised tag name is used as the field name, and the value is used as
+the content. Multi-line entries can be entered, such as the description, by entering <code>\n</code> within the text.</p>
+
+<p>The <em>description</em> should contain two parts: the synopsis at around 60
+characters, and the extended description over several lines following it. The <em>section</em> will be automatically prefixed with <code>user/</code>, if not already by <i>mud-builder</i> unless the <code>prefix-section</code> attribute is set to <code>0</code>, or a section is specified explicitly. Packages which
+end-users can install directly (rather than libraries) are prefixed like this,
+according to the <a href="http://www.maemo.org//platform/docs/howtos/howto_making_an_application_package_bora.html">Maemo packaging guide</a>. In addition,
+certain sections are recommended, if possible:</p>
+
+<ul class="compact">
+<li>user/accessories</li>
+<li>user/communication</li>
+<li>user/games</li>
+<li>user/multimedia</li>
+<li>user/office</li>
+<li>user/other</li>
+<li>user/programming</li>
+<li>user/support</li>
+<li>user/themes</li>
+<li>user/tools</li>
+</ul>
+
+<p class="post-compact">Other sections should have the second word capitalised,
+such as <code>user/CLI</code>.</p>
+
