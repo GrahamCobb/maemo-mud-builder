@@ -1,6 +1,3 @@
 <package>
     <fetch type="debian"/>
 </package>
-<package>
-    <fetch type="debian"/>
-</package>
