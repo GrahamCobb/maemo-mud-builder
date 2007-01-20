@@ -9,8 +9,15 @@ $prev  = array( );
 $next  = array( );
 $label = array( );
 
-if ($id == '') echo '<div id="branding" class="docs"></div>';
-?>
+if ($id == '') { ?>
+    <div id="branding" class="docs"></div>
+    <p>This documentation is woefully lacking at the moment, for that I
+    apologise. However, it does attempt to cover enough to get you up and
+    running and a small package compiled. In the meantime, please ask any
+    questions you've got on the <a
+    href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing
+    list</a>.</p>
+<? } ?>
 
 <?php
 
