@@ -20,8 +20,8 @@ sub fetch {
    
     my $basename  = $self->{package}->{data}->{fetch}->{file}; 
     $basename   ||= $1 if $url =~ m!^.*?/([^/]+)(\?.*)?$!;
-    my $isOld     = -s $basename;
-    system('wget', '-O', $basename, $url) unless $isOld;
+    my $isOld     = -l $self->{workdir}.'/.build';
+    system('wget', '-O', $basename, $url) unless -s $basename;
 
     croak "Unable to download [$url] to [$basename]\n" unless -f $basename;
     $self->{file} = $basename;
@@ -29,10 +29,9 @@ sub fetch {
     my @start = <*>;
     $self->unpack($basename);
     my @end = <*>;
-    return if $isOld;
 
     if ($#end > $#start + 1) {
-        $self->{package}->{build} = '.';
+        $self->{package}->{build} ||= '.';
     } else {
         my %s = map { $_ => 1 } @start;
         @end = grep { !$s{$_} } @end;

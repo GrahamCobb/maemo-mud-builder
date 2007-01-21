@@ -38,6 +38,16 @@ sub load {
 
     $self->{data} = XMLin($file) or croak("Unable to parse configuration for '$name': error in [$file]?");
     $self->{name} = $name;
+
+    if ($self->{data}->{build}->{env}) {
+        while(my ($k, $v) = each %{ $self->{data}->{build}->{env} }) {
+            $v =~ s/\$([\w_]+)/$ENV{$1} || ''/egx;
+            $ENV{$k} = $v;
+            print "+++ Set [$k] to [$v]\n";
+        }
+    }
+
+    return $self;
 }
 
 sub parseField {

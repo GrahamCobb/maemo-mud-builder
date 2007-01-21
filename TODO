@@ -4,17 +4,17 @@
 
 Outstanding tasks:
 
-  * Remove documentation from deb unless specified.
-  * Strip binaries by default.
+  * Allow specification of resulting deb(s) type.
+  * Allow specification of licence manually.
+  * Auto-derive licence from files.
+  * Auto-derive description from files/Google.
   * Rename build directory to <name>-<version>, if necessary.
+  * Revert files changed during build process automatically.
   * Add mud-builder svn revision to package version (suggested by Kees
     Jongenburger)
   * Add Subversion fetcher
   * Add file system fetcher (suggested by Ted Zlatanov)
   * Add command-line fetcher (suggested by Ted Zlatanov)
-  * Allow specification of environment variables for build in XML (suggested
-    by Ted Zlatanov)
-  * Allow XML-specification of configure switches (suggested by Ted Zlatanov)
   * Allow files to be specified in deb (suggested by Ted Zlatanov)
   * Auto-Hildonise GUI applications
   * Auto-generate .desktop and .service files for GUI apps
@@ -23,6 +23,12 @@ Outstanding tasks:
 
 Completed tasks:
 
+  * Strip binaries by default. [DONE as std by dh_make]
+  * Allow XML-specification of configure switches (suggested by
+    Ted Zlatanov) [DONE]
+  * Remove documentation from deb unless specified. [DONE]
+  * Allow specification of environment variables for build in XML (suggested
+    by Ted Zlatanov) [DONE]
   * manual generation of Debian control file in XML [DONE]
   * Dependencies for tarball fetches. [DONE]
   * Allow specification of configure switches for automake-based stuff [DONE]
