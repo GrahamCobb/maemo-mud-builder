@@ -1,0 +1,9 @@
+<package>
+  <fetch type="tarball">
+    <url>http://www.irssi.org/files/irssi-0.8.10a.tar.gz</url>
+  </fetch>
+  <deb>
+    <description>Irssi is a terminal based IRC client for UNIX systems\nirssi is a terminal based IRC client for UNIX systems. It also supports SILC and ICB protocols via plugins.</description>
+     <section>user/communication</section>
+  </deb>
+</package>
