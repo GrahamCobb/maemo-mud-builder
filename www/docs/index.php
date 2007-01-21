@@ -17,6 +17,8 @@ if ($id == '') { ?>
     questions you've got on the <a
     href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing
     list</a>.</p>
+
+    <p>You may also find the <a href="http://www.debian.org/doc/maint-guide/">Debian New Maintainers' Guide</a> a useful reference.</p>
 <? } ?>
 
 <?php
