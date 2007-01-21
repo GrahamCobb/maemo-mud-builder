@@ -2,6 +2,9 @@
     <fetch type="tarball">
 	    <url>ftp://ftp.imagemagick.org/pub/ImageMagick/ImageMagick.tar.gz</url>
     </fetch>
+    <build>
+        <configure-append>--without-x</configure-append>
+    </build>
     <deb>
 	    <icon>http://www.imagemagick.org/favicon.ico</icon>
 	    <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>

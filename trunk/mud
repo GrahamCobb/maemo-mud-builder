@@ -63,7 +63,7 @@ if ($OPTS{all}) {
 } else {
     foreach my $n (@ARGV) {
         $n = basename($n, ".xml") if -f $n;
-        eval("print \&$action(\$n)") foreach @ARGV;
+        eval("print \&$action(\$n)");
         croak "Failed to run $action on $n: $@\n" if $@;
     }
 }

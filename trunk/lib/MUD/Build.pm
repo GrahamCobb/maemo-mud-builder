@@ -6,7 +6,7 @@
 package MUD::Build;
 
 use strict;
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA $VERSION @PREVENT_INSTALL); 
 use Carp;
 use File::Path;
 use File::Spec;
@@ -17,6 +17,7 @@ use Data::Dumper;
 
 @ISA     = qw();
 $VERSION = '0.10';
+@PREVENT_INSTALL = qw(changelogs docs examples info man);
 
 sub new {
     my $that = shift;
@@ -105,6 +106,37 @@ sub patch {
         system("patch -p0 <$patch");
         croak "Failed to apply patch [$?]\n" if $?;
     }
+
+    # -- Remove documentation...
+    #
+    my $include = $self->{data}->{data}->{build}->{include} || '';
+    $include =~ s/\W+/|/g;
+    $include = "|$include|";
+
+    my @replace = grep { $include !~ /\|$_\|/ } @PREVENT_INSTALL;
+    my $rules = '';
+    open(IN, "<debian/rules") or croak "Unable to open debian/rules: $!\n";
+    while(<IN>) { $rules .= $_; }
+    close(IN);
+    my $origRules = $rules;
+
+    print "+++ Preventing install of [".join(',', @replace)."] in deb.\n";
+    $rules =~ s/^(\s+dh_install$_\b.*)$/#$1/mg foreach @replace;
+
+    # -- Append configure flags...
+    #
+    my $append = $self->{data}->{data}->{build}->{'configure-append'} || '';
+    print "+++ Appending [$append] to configure.\n";
+    $rules =~ s/([\b\s]\.\/configure[\b\s].*?)([\r\n]+?\s*[\r\n]+?)/$1 $append$2/sg if $append;
+
+    # -- Write back debian/rules...
+    #
+    if ($origRules ne $rules) {
+        open(OUT, ">debian/rules") or croak "Can't write debian/rules: $!\n";
+        print OUT $rules;
+        close(OUT);
+    }
+
 }
 
 sub compile {
@@ -115,7 +147,6 @@ sub compile {
     # -- Tweak for Maemo compatibility...
     #
     $self->patchDebControl();
-
     
     system("dpkg-buildpackage -rfakeroot -b | tee ../log"); 
 }
