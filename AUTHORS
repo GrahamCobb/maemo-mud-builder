@@ -6,5 +6,5 @@
 Maintainer
 	Andrew Flegg <andrew@bleb.org>
 
-ode, libsdl-gfx, ruby, screen, irssi, lua
+ode, libsdl-gfx, ruby, screen, irssi, lua, sdl-svg
         Kees Jongenburger <kees.jongenburger@gmail.com>
