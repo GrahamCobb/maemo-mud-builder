@@ -12,6 +12,8 @@ Outstanding tasks:
   * Revert files changed during build process automatically.
   * Add mud-builder svn revision to package version (suggested by Kees
     Jongenburger)
+  * Ability to search existing Debian packages in non-current repos
+    (suggested by Kees Jongenburger)
   * Add Subversion fetcher
   * Add file system fetcher (suggested by Ted Zlatanov)
   * Add command-line fetcher (suggested by Ted Zlatanov)
