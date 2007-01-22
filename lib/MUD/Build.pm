@@ -123,6 +123,10 @@ sub patch {
     print "+++ Preventing install of [".join(',', @replace)."] in deb.\n";
     $rules =~ s/^(\s+dh_install$_\b.*)$/#$1/mg foreach @replace;
 
+    # -- Include dh_install...
+    #
+    $rules =~ s/^\s*#\s*dh_install\s*$/\tdh_install --sourcedir=debian\/tmp/mg;
+
     # -- Append configure flags...
     #
     my $append = $self->{data}->{data}->{build}->{'configure-append'} || '';
@@ -218,6 +222,12 @@ sub genDebControl {
          print EXC "\n" if /Hit <enter>/;
      }
      close(EXC);
+
+     foreach my $f (<debian/*.files>) {
+         my $i = $f;
+         $i =~ s/\.files$/\.install/;
+         rename $f, $i;
+     }
 }
 
 
