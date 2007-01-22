@@ -136,19 +136,18 @@ sub patch {
         print OUT $rules;
         close(OUT);
     }
-
 }
 
 sub compile {
     my $self = shift;
 
     chdir $self->{data}->{build} || croak "Build dir not set.\n";
-    
+
     # -- Tweak for Maemo compatibility...
     #
     $self->patchDebControl();
-    
-    system("dpkg-buildpackage -rfakeroot -b | tee ../log"); 
+
+    system("dpkg-buildpackage -rfakeroot | tee ../log"); 
 }
 
 sub clean {
@@ -231,6 +230,11 @@ sub patchDebControl {
     close(IN);
     my $origControl = $control;
 
+    # -- Fix "BROKEN" libraries...
+    #
+    my $name = $self->{package};
+    $control =~ s/${name}BROKEN/${name}1/mgi;
+
     # -- Fix section...
     #
     my $userSection = $self->{data}->{data}->{deb}->{'prefix-section'};
@@ -256,7 +260,10 @@ sub patchDebControl {
         my $iconData = `uuencode -m icon <$iconFile`;
         $iconData =~ s/^begin-base64 \d{3,4} icon[\s\r\n]+//m;
 	$iconData =~ s/^/  /mg;
-        $control .= "XB-Maemo-Icon-26:$iconData" if $iconData;
+	if ($iconData) {
+            chomp($iconData);
+            $control =~ s/^Package: .*$/$&\nXB-Maemo-Icon-26:$iconData/mg;
+        }
     }
 
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
@@ -266,6 +273,7 @@ sub patchDebControl {
 
     if ($control ne $origControl) {
         print $control;
+        rename "debian/control", "debian/control.mud";
         open(OUT, ">debian/control") or croak "Unable to write control: $!\n";
         print OUT $control;
         close(OUT) or croak "Unable to close control: $!\n";

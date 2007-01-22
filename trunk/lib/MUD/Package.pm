@@ -72,10 +72,10 @@ sub setField {
     $value =~ s/[\s\r\n]+$//;
     $value =~ s/\\n/\n/g;
     my $wrapped = wrap("", "  ", "$field: $value");
-    if ($data =~ /[\r\n]+\s?$field:/i) {
-        $data =~ s/([\r\n]+\s?)$field:(\s+[^\r\n]*[\r\n])*/$1$wrapped\n/sig;
+    if ($data =~ /^$field:/im) {
+        $data =~ s/(\n?\s?)$field:([ \t]+[^\n]+\n)*/$1$wrapped\n/ig;
     } else {
-        $data .= "$wrapped\n";
+        $data =~ s/^Package: .*$/$&\n$wrapped\n/mg;
     }
 
     return $data;
