@@ -75,7 +75,7 @@ sub setField {
     if ($data =~ /^$field:/im) {
         $data =~ s/(\n?\s?)$field:([ \t]+[^\n]+\n)*/$1$wrapped\n/ig;
     } else {
-        $data =~ s/^Package: .*$/$&\n$wrapped\n/mg;
+        $data =~ s/^Package: .*$/$&\n$wrapped/mg;
     }
 
     return $data;
