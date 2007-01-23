@@ -9,6 +9,7 @@ Outstanding tasks:
   * Auto-derive licence from files.
   * Auto-derive description from files/Google.
   * Rename build directory to <name>-<version>, if necessary.
+  * Run commands post/pre-patch (by convention(?))
   * Revert files changed during build process automatically.
   * Add mud-builder svn revision to package version (suggested by Kees
     Jongenburger)
