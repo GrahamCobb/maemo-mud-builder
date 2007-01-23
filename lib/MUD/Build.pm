@@ -277,7 +277,7 @@ sub patchDebControl {
     }
 
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
-	next if $k eq 'icon';
+	next if $k eq 'icon' or $k eq 'prefixSection';
 	$control = MUD::Package->setField($control, ucfirst($k), $v);
     }
 
