@@ -34,26 +34,42 @@ Index: Makefile
 ===================================================================
 --- Makefile	(revision 1)
 +++ Makefile	(working copy)
-@@ -18,7 +18,7 @@
+@@ -18,12 +18,12 @@
  
  # Where to install things:
  
 -PREFIX=/usr/local
-+PREFIX=$(DESTDIR)
++PREFIX=/usr
  
  
  # Root directory to place files when creating packages.
-@@ -118,7 +118,8 @@
+ 
+-PKG_ROOT=
++PKG_ROOT=$(DESTDIR)
+ 
+ 
+ # Program:
+@@ -102,7 +102,8 @@
+ 	-Wbad-function-cast -Wwrite-strings \
+ 	-Waggregate-return \
+ 	-Wstrict-prototypes -Wmissing-prototypes \
+-	`src/test-option.sh -Wdeclaration-after-statement`
++	`src/test-option.sh -Wdeclaration-after-statement` \
++	-DNOKIA_770
+ 
+ DEFS=-DDATA_PREFIX=\"$(DATA_PREFIX)/\" \
+ 	-D$(NOSOUNDFLAG) -DDOC_PREFIX=\"$(DOC_PREFIX)/\" \
+@@ -118,7 +119,8 @@
  
  # "make" with no arguments builds the program and man page from sources:
  
 -all:	tuxpaint translations
-+all:	tuxpaint 
++all:	tuxpaint
 +oldall:	tuxpaint translations
  	@echo
  	@echo "--------------------------------------------------------------"
  	@echo
-@@ -211,15 +212,16 @@
+@@ -211,15 +213,16 @@
  # "make nokia770" builds the program for the Nokia 770.
  
  nokia770:
@@ -74,7 +90,7 @@ Index: Makefile
  		install-icon install-gettext install-importscript \
  		install-default-config install-example-stamps \
  		install-example-starters \
-@@ -515,14 +517,12 @@
+@@ -515,14 +518,12 @@
  install-nokia770:
  	@echo
  	@echo "...Installing launcher icon into the Nokia 770..."
@@ -86,12 +102,12 @@ Index: Makefile
 -	 cp hildon/tuxpaint.desktop $(PKG_ROOT)$(NOKIA770_PREFIX)/share/applications/hildon/; \
 -	 chmod 644 $(PKG_ROOT)$(NOKIA770_PREFIX)/share/applications/hildon/tuxpaint.desktop; \
 -	fi
-+	install -d $(PREFIX)/share/pixmaps; \
-+	cp data/images/icon.png $(PREFIX)/share/pixmaps/tuxpaint.png; \
-+	chmod 644 $(PREFIX)/share/pixmaps/tuxpaint.png; \
-+	install -d $(PREFIX)/share/applications/hildon; \
-+	cp hildon/tuxpaint.desktop $(PREFIX)/share/applications/hildon/; \
-+	chmod 644 $(PREFIX)/share/applications/hildon/tuxpaint.desktop; \
++	install -d $(PKG_ROOT)$(PREFIX)/share/pixmaps; \
++	cp data/images/icon.png $(PKG_ROOT)$(PREFIX)/share/pixmaps/tuxpaint.png; \
++	chmod 644 $(PKG_ROOT)$(PREFIX)/share/pixmaps/tuxpaint.png; \
++	install -d $(PKG_ROOT)$(PREFIX)/share/applications/hildon; \
++	cp hildon/tuxpaint.desktop $(PKG_ROOT)$(PREFIX)/share/applications/hildon/; \
++	chmod 644 $(PKG_ROOT)$(PREFIX)/share/applications/hildon/tuxpaint.desktop; \
  
  
  # Install a launcher icon in the KDE menu...
