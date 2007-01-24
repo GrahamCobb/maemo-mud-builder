@@ -8,6 +8,8 @@ Outstanding tasks:
   * Auto-derive description from files/Google.
   * Run commands post/pre-patch (by convention(?))
   * Revert files changed during build process automatically.
+  * Cache downloaded tarballs etc. outside of build directory (suggested by
+    Kees Jongenburger)
   * Provide ability for commands to be executed before/after build (suggested
     by Kees Jongenburger)
   * Add mud-builder svn revision to package version (suggested by Kees
