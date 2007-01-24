@@ -4,20 +4,16 @@
 
 Outstanding tasks:
 
-  * Allow specification of resulting deb(s) type.
-  * Allow specification of licence manually.
   * Auto-derive licence from files.
   * Auto-derive description from files/Google.
-  * Rename build directory to <name>-<version>, if necessary.
   * Run commands post/pre-patch (by convention(?))
   * Revert files changed during build process automatically.
+  * Provide ability for commands to be executed before/after build (suggested
+    by Kees Jongenburger)
   * Add mud-builder svn revision to package version (suggested by Kees
     Jongenburger)
   * Ability to search existing Debian packages in non-current repos
     (suggested by Kees Jongenburger)
-  * Add Subversion fetcher
-  * Add file system fetcher (suggested by Ted Zlatanov)
-  * Add command-line fetcher (suggested by Ted Zlatanov)
   * Allow files to be specified in deb (suggested by Ted Zlatanov)
   * Auto-Hildonise GUI applications
   * Auto-generate .desktop and .service files for GUI apps
@@ -26,6 +22,14 @@ Outstanding tasks:
 
 Completed tasks:
 
+  * Rename build directory to <name>-<version>, if necessary. [DONE]
+  * Add Subversion fetcher [DONE by MUD::Fetch::Command]
+  * Add file system fetcher (suggested by Ted Zlatanov)
+    [DONE by MUD::Fetch:Command]
+  * Add command-line fetcher (suggested by Ted Zlatanov)
+    [DONE by MUD::Fetch::Command]
+  * Allow specification of resulting deb(s) type. [DONE]
+  * Allow specification of licence manually. [DONE]
   * Strip binaries by default. [DONE as std by dh_make]
   * Allow XML-specification of configure switches (suggested by
     Ted Zlatanov) [DONE]
