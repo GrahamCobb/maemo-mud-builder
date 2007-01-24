@@ -1,0 +1,36 @@
+Index: debian/sauna.links
+===================================================================
+--- debian/sauna.links	(revision 0)
++++ debian/sauna.links	(revision 0)
+@@ -0,0 +1,2 @@
++/usr/share/applications/sauna.desktop /etc/others-menu/extra_applications/sauna.desktop
++
+Index: src/main.c
+===================================================================
+--- src/main.c	(revision 1)
++++ src/main.c	(working copy)
+@@ -50,7 +50,7 @@
+ 	
+ 	SDL_WM_SetCaption("Sauna", "Sauna");
+ 	SDL_ShowCursor(SDL_DISABLE);
+-	chdir("/var/lib/install" PREFIX "/share/" PACKAGE);
++	chdir("/usr/share/sauna");
+ 	init();
+ 
+ 	loop=1;
+Index: data/sauna.desktop
+===================================================================
+--- data/sauna.desktop	(revision 1)
++++ data/sauna.desktop	(working copy)
+@@ -3,9 +3,9 @@
+ Version=1.0
+ Type=Application
+ Name=Sauna
+-Exec=/var/lib/install/usr/bin/sauna
++Exec=/usr/share/sauna
+ Icon=sauna
+-X-Icon-path=/var/lib/install/usr/share/icons
++X-Icon-path=/usr/share/icons
+ X-Window-Icon=sauna
+ X-HildonDesk-ShowInToolbar=true
+ X-Osso-Type=application/x-executable

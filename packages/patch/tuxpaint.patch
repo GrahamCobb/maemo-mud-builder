@@ -1,0 +1,97 @@
+Index: debian/tuxpaint.links
+===================================================================
+--- debian/tuxpaint.links	(revision 0)
++++ debian/tuxpaint.links	(revision 0)
+@@ -0,0 +1,2 @@
++/usr/share/applications/hildon/tuxpaint.desktop /etc/others-menu/extra_applications/tuxpaint.desktop
++
+Index: src/i18n.c
+===================================================================
+--- src/i18n.c	(revision 1)
++++ src/i18n.c	(working copy)
+@@ -31,6 +31,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <locale.h>
+ #include <libintl.h>
+ #include "i18n.h"
+ #include "debug.h"
+Index: hildon/tuxpaint.desktop
+===================================================================
+--- hildon/tuxpaint.desktop	(revision 1)
++++ hildon/tuxpaint.desktop	(working copy)
+@@ -2,7 +2,7 @@
+ Encoding=UTF-8
+ Name=Tux Paint
+ Type=Application
+-Exec=/var/lib/install/usr/bin/tuxpaint
++Exec=/usr/bin/tuxpaint
+ Icon=tuxpaint
+ Terminal=false
+ GenericName=Drawing program
+Index: Makefile
+===================================================================
+--- Makefile	(revision 1)
++++ Makefile	(working copy)
+@@ -18,7 +18,7 @@
+ 
+ # Where to install things:
+ 
+-PREFIX=/usr/local
++PREFIX=$(DESTDIR)
+ 
+ 
+ # Root directory to place files when creating packages.
+@@ -118,7 +118,8 @@
+ 
+ # "make" with no arguments builds the program and man page from sources:
+ 
+-all:	tuxpaint translations
++all:	tuxpaint 
++oldall:	tuxpaint translations
+ 	@echo
+ 	@echo "--------------------------------------------------------------"
+ 	@echo
+@@ -211,15 +212,16 @@
+ # "make nokia770" builds the program for the Nokia 770.
+ 
+ nokia770:
+-	make \
+-		DATA_PREFIX=/var/lib/install/usr/share/tuxpaint \
+-		CFLAGS="-DNOKIA_770"
++	make CFLAGS="-DNOKIA_770"
+ 
+ # "make install" installs all of the various parts
+ # (depending on the *PREFIX variables at the top, you probably need
+ # to do this as superuser ("root"))
+ 
+-install:	install-bin install-data install-man install-doc \
++install:	install-bin install-data install-icon install-importscript \
++		install-default-config install-example-stamps \
++		install-example-starters install-nokia770
++old_install:	install-bin install-data install-man install-doc \
+ 		install-icon install-gettext install-importscript \
+ 		install-default-config install-example-stamps \
+ 		install-example-starters \
+@@ -515,14 +517,12 @@
+ install-nokia770:
+ 	@echo
+ 	@echo "...Installing launcher icon into the Nokia 770..."
+-	@if [ "x$(NOKIA770_PREFIX)" != "x" ]; then \
+-	 install -d $(PKG_ROOT)$(NOKIA770_PREFIX)/share/pixmaps; \
+-	 cp data/images/icon.png $(PKG_ROOT)/$(NOKIA770_PREFIX)/share/pixmaps/tuxpaint.png; \
+-	 chmod 644 $(PKG_ROOT)$(NOKIA770_PREFIX)/share/pixmaps/tuxpaint.png; \
+-	 install -d $(PKG_ROOT)$(NOKIA770_PREFIX)/share/applications/hildon; \
+-	 cp hildon/tuxpaint.desktop $(PKG_ROOT)$(NOKIA770_PREFIX)/share/applications/hildon/; \
+-	 chmod 644 $(PKG_ROOT)$(NOKIA770_PREFIX)/share/applications/hildon/tuxpaint.desktop; \
+-	fi
++	install -d $(PREFIX)/share/pixmaps; \
++	cp data/images/icon.png $(PREFIX)/share/pixmaps/tuxpaint.png; \
++	chmod 644 $(PREFIX)/share/pixmaps/tuxpaint.png; \
++	install -d $(PREFIX)/share/applications/hildon; \
++	cp hildon/tuxpaint.desktop $(PREFIX)/share/applications/hildon/; \
++	chmod 644 $(PREFIX)/share/applications/hildon/tuxpaint.desktop; \
+ 
+ 
+ # Install a launcher icon in the KDE menu...
