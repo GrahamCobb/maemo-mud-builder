@@ -1,0 +1,12 @@
+<package>
+  <fetch type="tarball">
+	  <!--
+	  <url>http://www.luolamies.org/software/sauna_0.1.0_maemo.tar.gz</url>
+	  -->
+	  <url>http://box.mmapps.net/~keesj/sauna_0.1.0.tar.gz</url>
+  </fetch>
+  <deb>
+	  <description>The object of the game is to heat up the sauna as hot as possible.\nThe object of the game is to heat up the sauna as hot as possible. Heating is done by throwing water on the stove. The temperature decreases all the time and you consume stamina every time you throw, so you have to be quick and accurate! You can regain stamina by hitting a powerup that appears every now and then with water. The game ends when you run out of stamina or the sauna gets too cold.</description>
+   <section>user/mudwip</section>
+  </deb>
+</package>
