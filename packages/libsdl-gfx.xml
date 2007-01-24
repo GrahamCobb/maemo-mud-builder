@@ -8,8 +8,7 @@
    </build>
    <deb>
       <icon>http://www.ferzkopp.net/joomla/images/favicon.ico</icon>
-      <description>SDL graphics drawing primitives.
-      SDL graphics drawing primitives and other support functions wrapped up in an addon library for the Simple Direct Media (SDL) cross-platform API layer</description>
-      <Section>user/libs</Section>
+      <description>SDL graphics drawing primitives.\nSDL graphics drawing primitives and other support functions wrapped up in an addon library for the Simple Direct Media (SDL) cross-platform API layer</description>
+      <section>user/libs</section>
    </deb>
 </package>
