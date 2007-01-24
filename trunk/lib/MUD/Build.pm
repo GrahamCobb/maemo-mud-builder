@@ -78,8 +78,18 @@ sub fetch {
     chdir $self->{workdir};
     $fetch->fetch();
 
-    $self->{data}->{build} = File::Spec->rel2abs($self->{data}->{build} || '.',
-                                            $self->{workdir});
+    my $buildDir = $self->{data}->{build} || '.';
+    my $origBDir = $buildDir;
+    if ($buildDir =~ /^(\w+)-(\w+)$/) {
+        print "Name of [$buildDir] meets requirements.\n";
+    } elsif ($buildDir =~ /^(\w+?)(\d+)$/) {
+        $buildDir = "$1-$2";
+    } else {
+        $buildDir .= "-1";
+    }
+    rename $origBDir, $buildDir if $origBDir ne $buildDir;
+
+    $self->{data}->{build} = File::Spec->rel2abs($buildDir, $self->{workdir});
     print "Set build dir to [".$self->{data}->{build}."]\n";
     system('ln', '-snf', $self->{data}->{build}, $self->{workdir}.'/.build');
 
@@ -211,6 +221,7 @@ sub genDebControl {
      }
 
      my $type = $self->{package} =~ /^lib/ ? 'l' : 's';
+     $type = $1 if ($self->{data}->{data}->{build}->{result} || '') =~ /^(.)/;
      my @args = ('dh_make', #'-c', 'unknown',
                             '-e', $maintainer, 
                             "-$type",

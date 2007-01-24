@@ -3,6 +3,7 @@
 	    <url>ftp://ftp.imagemagick.org/pub/ImageMagick/ImageMagick.tar.gz</url>
     </fetch>
     <build>
+	<result>library</result>
         <configure-append>--without-x</configure-append>
     </build>
     <deb>

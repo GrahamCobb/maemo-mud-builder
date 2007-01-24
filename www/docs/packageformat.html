@@ -45,7 +45,7 @@ required, and has the following outline:</p>
 <dd>Information on how to build the package; including its licence, whether
 single, multiple or library packages should be produced, whether any of the
 documentation stripped out by default should be included, configure flags and
-so on. <em>This element has not yet been implemented.</em></dd>
+so on.</p>
 
 <dt>deb</dt>
 <dd>Information on the output package; such as description, icon, maintainer
@@ -76,6 +76,11 @@ source directly.</span></dd>
 (<code>.tar.gz</code>, <code>.tgz</code>, <code>.tar.bz2</code> and
 <code>.zip</code> are supported file extensions). This is downloaded and
 unpacked in the build directory.</dd>
+
+<dt>command</dt>
+<dd>A command is given which is executed using <code>/bin/sh</code>. This
+command should unpack the source in an appropriate subdirectory. This will be
+most used for CVS or Subversion exports.</dd>
 </dl>
 
 <h3>Debian</h3>
@@ -98,6 +103,20 @@ the build package, and <code>deb</code> to find build dependencies. <em>(Default
 <h3>Tarball</h3>
 <p>TBC...</p>
 
+<h3>Command</h3>
+<p>The command fetcher is very basic: it relies on a given command - or sequence
+of commands - to provide the source in the appropriate build directory. It
+supports the following child element of the <code>fetch</code> node only:</p>
+
+<ul>
+<li><code>&lt;command&gt;&#8230;&lt;/command&gt;</code> - the shell script to
+be executed to fetch the time. It is executed using <code>/bin/sh</code> and
+starts from the working directory for the package, that is
+<code>build/<var>packagename</var></code>. Ideally the source would be created
+in a directory named <code><var>packagename</var>-<var>version</var></code>.</li>
+</ul>
+
+
 <h2 id="build">Build section</h2>
 <pre><code>&lt;build&gt;
     &lt;result&gt;<i>(single|multiple|library)</i>&lt;/result&gt;
@@ -116,8 +135,7 @@ from the package licence, to whether a single, multiple or library-style
 packages should be produced. However, if the auto-detection fails, or there
 is a need to override the defaults, that power is available.</p>
 
-<p>TBC... also note that <em>this hasn't been implemented yet, so is
-subject to change.</em></p>
+<p>TBC...</p>
 
 <h2 id="deb">Deb section</h2>
 <pre><code>&lt;deb prefix-section=&quot;<i>(0|1)</i>&quot;&gt;
