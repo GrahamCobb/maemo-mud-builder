@@ -1,0 +1,30 @@
+<package>
+  <!--
+  Thu Jan 25 06:21:26 CET 2007: keesj given up on cvs export
+  I think the automake tools on scratchbox are broken
+  <fetch type="command">
+    <command>
+      cvs -d:pserver:anonymous@xmoto.cvs.sourceforge.net:/cvsroot/xmoto login 
+      cvs -z3 -d:pserver:anonymous@xmoto.cvs.sourceforge.net:/cvsroot/xmoto co -P xmoto
+      mv xmoto xmoto-0.2.5
+      cd  xmoto-0.2.5
+      sh bootstrap
+      #configure on the sb target is kinda broken
+      echo "removing CVS directories"
+      find . -type d -name CVS -exec rm -rf \{\} \;
+      #perl -p -i -e 's/src/-d//bar/g' src/Makefile
+    </command>
+  </fetch>
+  -->
+  <fetch type="tarball">
+    <url>http://box.mmapps.net/~keesj/xmoto-0.2.5.tar.gz</url>
+  </fetch>
+  <build>
+    <configure-append>--with-renderer-openGl=0 --with-renderer-sdlGfx=1 --disable-nls</configure-append>
+    <!--
+    keesj:it workds on my machine but that is becasue I have copied and cleaned an existing .xmoto file to the
+    user home directory, the installes can perhaps ask for a username to use?
+    -->
+    <section>user/mudwip</section>
+  </build>
+</package>
