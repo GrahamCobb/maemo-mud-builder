@@ -1,0 +1,14 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 1)
++++ Makefile	(working copy)
+@@ -5,8 +5,7 @@
+ netdate: netdate.o
+ 
+ install: netdate
+-	install -s -m 0755 netdate /usr/local/sbin/netdate
+-	install -m 0644 netdate.8 /usr/local/man/man8
++	install -s -m 0755 netdate $(DESTDIR)/usr/sbin/netdate
+ 
+ clean:
+ 	rm -f netdate *.o core
