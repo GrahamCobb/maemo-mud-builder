@@ -32,7 +32,7 @@ Index: Makefile
  # doc directory.)
  #
 -INSTALL_TOP= /usr/local
-+INSTALL_TOP= $(DESTDIR)
++INSTALL_TOP= $(DESTDIR)/usr
  INSTALL_BIN= $(INSTALL_TOP)/bin
  INSTALL_INC= $(INSTALL_TOP)/include
  INSTALL_LIB= $(INSTALL_TOP)/lib
