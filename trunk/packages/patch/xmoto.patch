@@ -16,3 +16,15 @@ Index: debian/control
 +Depends: ${shlibs:Depends}, ${misc:Depends}, lua , libsdl-gfx1
  Description: <insert up to 60 chars description>
   <insert long description, indented with spaces>
+Index: src/GameMenus.cpp
+===================================================================
+--- src/GameMenus.cpp	(revision 1)
++++ src/GameMenus.cpp	(working copy)
+@@ -2122,6 +2122,7 @@
+         m_pNewProfileMsgBox = m_Renderer.getGUI()->msgBox(std::string(GAMETEXT_ENTERPLAYERNAME) + ":",
+                                                           (UIMsgBoxButton)(UI_MSGBOX_OK|UI_MSGBOX_CANCEL),
+                                                           true);
++        m_pNewProfileMsgBox->setTextInput("N800User");
+         m_pNewProfileMsgBox->setTextInputFont(m_Renderer.getMediumFont());                                                          
+       }
+     }
