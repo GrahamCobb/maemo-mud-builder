@@ -254,7 +254,7 @@ sub patchDebControl {
     # -- Fix "BROKEN" libraries...
     #
     my $name = $self->{package};
-    $control =~ s/${name}BROKEN/${name}1/mgi;
+    $control =~ s/\Q${name}\EBROKEN/${name}1/mgi;
 
     # -- Fix section...
     #
