@@ -1,3 +1,6 @@
 <package>
-    <fetch type="debian"/>
+	<fetch type="debian"/>
+	<deb>
+		<section>user/games</section>
+	</deb>
 </package>
