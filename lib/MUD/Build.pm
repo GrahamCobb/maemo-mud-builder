@@ -177,7 +177,7 @@ sub copy {
 
     my $output = $self->{config}->directory('UPLOAD_DIR', 1);
     print "+++ Calculating dependencies to copy to [$output]\n";
-    $self->addDebs(\%debs, $self->{workdir}, '*.deb');
+    $self->addDebs(\%debs, $self->{workdir}, '*');
     foreach my $deb (keys(%debs)) {
         system('cp', '-v', $deb, "$output/");
     }
@@ -188,16 +188,16 @@ sub addDebs {
     my ($ref, $dir, $pattern) = @_;
 
     print "Finding debs for [$pattern] in [$dir]\n";
-    my @results = `find '$dir' -type f -name '$pattern'`;
+    my @results = `find '$dir' -type f -name '$pattern.deb' -o -name '$pattern.changes' -o -name '$pattern.dsc'`;
     my @add     = ();
     foreach my $d (@results) {
         chomp($d);
-        next if $ref->{$d}++;
+        next if $ref->{$d}++ or $d !~ /\.deb$/;
         my @deps = MUD::Package->parseField('Depends',
 					    scalar(`dpkg --info '$d'`));
         foreach my $p (@deps) {
             $self->addDebs($ref, $self->{config}->directory('BUILD_DIR'),
-                                 "${p}_*.deb") unless $ref->{$p};
+                                 "${p}_*") unless $ref->{$p};
         }
     }
 }

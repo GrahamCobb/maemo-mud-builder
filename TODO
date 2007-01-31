@@ -21,6 +21,13 @@ Outstanding tasks:
   * Auto-generate .desktop and .service files for GUI apps
   * Test repository for distributed real-world testing, before pushing packages
     live (suggested by Kees Jongenburger)
+  * Support for .mud files outside of MUD project (suggested by Kees
+    Jongenburger)
+  * Document how to create keys using gpg:
+    http://www.madboa.com/geek/gpg-quickstart/ - RSA *outside* sbox
+  * Run `mud upload' from *outside* Scratchbox, but use debsign from
+    Scratchbox devkit:
+    http://maemo.org/pipermail/maemo-users/2006-September/002080.html
 
 Completed tasks:
 
