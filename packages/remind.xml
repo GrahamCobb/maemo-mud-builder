@@ -1,0 +1,10 @@
+<package>
+    <fetch type="tarball">
+        <url>http://www.roaringpenguin.com/files/download/remind-03.00.24.tar.gz</url>
+    </fetch>
+    <deb>
+        <icon>http://www.roaringpenguin.com/favicon.ico</icon>
+        <description>Remind is a sophisticated calendar and alarm
+program.</description>
+    </deb>
+</package>
