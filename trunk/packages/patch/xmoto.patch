@@ -28,3 +28,64 @@ Index: src/GameMenus.cpp
          m_pNewProfileMsgBox->setTextInputFont(m_Renderer.getMediumFont());                                                          
        }
      }
+Index: src/GameInit.cpp
+===================================================================
+--- src/GameInit.cpp	(revision 1)
++++ src/GameInit.cpp	(working copy)
+@@ -617,19 +617,19 @@
+ 
+     /* Display */
+     m_Config.createVar( "DisplayWidth",           "800" );
+-    m_Config.createVar( "DisplayHeight",          "600" );
+-    m_Config.createVar( "DisplayBPP",             "32" );
++    m_Config.createVar( "DisplayHeight",          "480" );
++    m_Config.createVar( "DisplayBPP",             "16" );
+     m_Config.createVar( "DisplayWindowed",        "false" );
+     m_Config.createVar( "MenuBackgroundGraphics", "High" );
+-    m_Config.createVar( "GameGraphics",           "High" );
+-    m_Config.createVar( "DrawLib",                "OPENGL" );
++    m_Config.createVar( "GameGraphics",           "Low" );
++    m_Config.createVar( "DrawLib",                "SDLGFX" );
+         
+     /* Audio */
+     m_Config.createVar( "AudioEnable",            "true" );
+     m_Config.createVar( "AudioSampleRate",        "22050" );
+     m_Config.createVar( "AudioSampleBits",        "16" );
+     m_Config.createVar( "AudioChannels",          "Mono" );
+-    m_Config.createVar( "EngineSoundEnable",      "true" );
++    m_Config.createVar( "EngineSoundEnable",      "false" );
+ 
+     /* Controls */
+     m_Config.createVar( "ControllerMode1",        "Keyboard" );
+@@ -637,9 +637,9 @@
+     m_Config.createVar( "KeyBrake1",              "Down" );
+     m_Config.createVar( "KeyFlipLeft1",           "Left" );
+     m_Config.createVar( "KeyFlipRight1",          "Right" );
+-    m_Config.createVar( "KeyChangeDir1",          "Space" );
++    m_Config.createVar( "KeyChangeDir1",          "Left Click" );
+     
+-    m_Config.createVar( "AutosaveHighscoreReplays", "true");
++    m_Config.createVar( "AutosaveHighscoreReplays", "false");
+     m_Config.createVar("LimitFramerate", "false");
+ 
+     #if defined(ENABLE_ZOOMING)
+@@ -671,16 +671,16 @@
+     m_Config.createVar( "DefaultProfile",         "" );
+     m_Config.createVar( "ScreenshotFormat",       "png" );
+     m_Config.createVar( "NotifyAtInit",           "true" );
+-    m_Config.createVar( "ShowMiniMap",            "true" );
++    m_Config.createVar( "ShowMiniMap",            "false" );
+     m_Config.createVar( "ShowEngineCounter",      "false" );
+ 
+-    m_Config.createVar( "StoreReplays",           "true" );
++    m_Config.createVar( "StoreReplays",           "false" );
+     m_Config.createVar( "ReplayFrameRate",        "25" );
+     m_Config.createVar( "CompressReplays",        "true" );
+     m_Config.createVar( "LevelCache",             "true" );
+     m_Config.createVar( "ContextHelp",            "true" );
+     m_Config.createVar( "MenuMusic",              "true" );    
+-    m_Config.createVar( "InitZoom",               "false" );
++    m_Config.createVar( "InitZoom",               "true" );
+     m_Config.createVar( "DeathAnim",              "true" );
+ 
+ #if defined(SUPPORT_WEBACCESS)
