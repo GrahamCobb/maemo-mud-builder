@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>http://luaforge.net/frs/download.php/1589/luasocket-2.0.1.tar.gz</url>
+  </fetch>
+  <deb>
+    <icon>http://www.lua.org/favicon.ico</icon>
+    <description>LuaSocket is the most comprehensive networking support library for the Lua language.\nLuaSocket is the most comprehensive networking support library for the Lua language. It provides easy access to TCP, UDP, DNS, SMTP, FTP, HTTP, MIME and much more.</description>
+    <Section>user/programming</Section>
+  </deb>
+</package>
