@@ -1,0 +1,30 @@
+Index: config
+===================================================================
+--- config	(revision 1)
++++ config	(working copy)
+@@ -15,7 +15,8 @@
+ #------
+ # Lua includes and libraries
+ #
+-LUAINC=-I/usr/local/include/lua50
++#keesj:lua is included in /usr/include
++#LUAINC=-I/usr/local/include/lua50
+ #LUAINC=-I/usr/local/include/lua5.1
+ 
+ #------
+@@ -27,10 +28,11 @@
+ # Top of your Lua installation
+ # Relative paths will be inside the src tree
+ #
+-INSTALL_TOP_SHARE=/usr/local/share/lua/5.0
+-INSTALL_TOP_LIB=/usr/local/lib/lua/5.0
+-#INSTALL_TOP_SHARE=/usr/local/share/lua/5.1
+-#INSTALL_TOP_LIB=/usr/local/lib/lua/5.1
++#INSTALL_TOP_SHARE=/usr/local/share/lua/5.0
++#INSTALL_TOP_LIB=/usr/local/lib/lua/5.0
++#keesj:we build against lua 5.1
++INSTALL_TOP_SHARE=$(DESTDIR)/usr/local/share/lua/5.1
++INSTALL_TOP_LIB=$(DESTDIR)/usr/local/lib/lua/5.1
+ 
+ INSTALL_DATA=cp
+ INSTALL_EXEC=cp
