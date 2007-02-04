@@ -1,0 +1,44 @@
+Index: common/include/app.mak
+===================================================================
+--- common/include/app.mak	(revision 1)
++++ common/include/app.mak	(working copy)
+@@ -3,7 +3,7 @@
+ OBJECTS = $(SOURCES:.c=.o)
+ DEPS    = $(SOURCES:.c=.d)
+ 
+-INST_DIR ?= /usr/local/bin
++INST_DIR ?= $(DESTDIR)/bin
+ 
+ all: $(APP_NAME)
+ 
+@@ -11,6 +11,7 @@
+ 	$(CC) -o $@ $(OBJECTS) $(LDFLAGS) $(LDLIBS)
+ 
+ install: $(APP_NAME)
++	mkdir -p  $(INST_DIR)
+ 	cp $(APP_NAME) $(INST_DIR)
+ 
+ clean:
+Index: common/include/lib.mak
+===================================================================
+--- common/include/lib.mak	(revision 1)
++++ common/include/lib.mak	(working copy)
+@@ -27,14 +27,17 @@
+ install: install_header install_static install_shared
+ 
+ install_header:
++	mkdir -p  $(INC_INST_DIR)
+ 	cp $(LIB_NAME).h $(INC_INST_DIR)
+ 
+ install_static: static
++	mkdir -p  $(LIB_INST_DIR)
+ 	cp $(STATIC_LIB) $(LIB_INST_DIR)
+ 
+ install_shared: shared
++	mkdir -p  $(LIB_INST_DIR)
+ 	cp $(SHARED_LIB) $(LIB_INST_DIR)
+-	ln -sf $(SO_NAME) $(LIB_INST_DIR)/$(LINK_NAME)
++	cd $(LIB_INST_DIR) && ln -sf $(SO_NAME) $(LIB_INST_DIR)/$(LINK_NAME)
+ 	ldconfig
+ 
+ clean:
