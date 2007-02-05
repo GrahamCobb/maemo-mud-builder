@@ -188,7 +188,7 @@ sub addDebs {
     my ($ref, $dir, $pattern) = @_;
 
     print "Finding debs for [$pattern] in [$dir]\n";
-    my @results = `find '$dir' -type f -name '$pattern.deb' -o -name '$pattern.changes' -o -name '$pattern.dsc'`;
+    my @results = `find '$dir' -type f -name '$pattern.deb' -o -name '$pattern.changes' -o -name '$pattern.dsc -o -name '$pattern.tar.gz -o -name '$pattern.diff.gz''`;
     my @add     = ();
     foreach my $d (@results) {
         chomp($d);
@@ -250,6 +250,10 @@ sub patchDebControl {
     while(<IN>) { $control .= $_; }
     close(IN);
     my $origControl = $control;
+
+    # -- Fix standards version...
+    #
+    $control = MUD::Package->setField($control, 'Standards-Version', '3.6.0');
 
     # -- Fix "BROKEN" libraries...
     #
