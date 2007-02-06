@@ -4,6 +4,8 @@
 
 Outstanding tasks:
 
+  * Force maintainer to be a MUD-owned address (what about name?)
+  * Ensure packages are lowercase.
   * Auto-derive licence from files.
   * Auto-derive description from files/Google.
   * Run commands post/pre-patch (by convention(?))
