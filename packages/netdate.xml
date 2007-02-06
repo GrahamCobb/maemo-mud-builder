@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <package>
   <fetch type="tarball">
     <url>ftp://ftp.suse.com/pub/people/kukuk/ipv6/netdate-1.2.tar.bz2</url>

@@ -1,16 +1,17 @@
+<?xml version="1.0"?>
 <package>
-	<fetch type="command">
-		<command>
+  <fetch type="command">
+    <command>
 			mkdir helloworld-0.1
 			cd helloworld-0.1
-			cat >helloworld.c &lt;&lt;EOM
-#include &lt;stdio.h>
+			cat &gt;helloworld.c &lt;&lt;EOM
+#include &lt;stdio.h&gt;
 
 int main() {
 	printf("Hello world from MUD-Builder!\n");
 }
 EOM
-			cat >Makefile &lt;&lt;EOM
+			cat &gt;Makefile &lt;&lt;EOM
 all: helloworld
 
 helloworld: helloworld.c
@@ -20,12 +21,12 @@ install:
 	cp helloworld \$(DESTDIR)/usr/bin/
 EOM
 		</command>
-	</fetch>
-	<deb>
-		<section>user/programming</section>
-		<maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
-		<description>
+  </fetch>
+  <deb>
+    <section>user/programming</section>
+    <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
+    <description>
 			Provide a "hello world" command.\nPart of the MUD-Builder project, this simple package provides a 'helloworld' command which does exactly what it says on the tin.
 		</description>
-	</deb>
+  </deb>
 </package>

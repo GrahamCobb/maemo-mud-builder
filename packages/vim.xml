@@ -1,8 +1,9 @@
+<?xml version="1.0"?>
 <package>
-    <fetch type="tarball">
-    	<url>ftp://ftp.vim.org/pub/vim/unix/vim-7.0.tar.bz2</url>
-    </fetch>
-    <build>
-        <configure-append>--disable-darwin --disable-xsmp --disable-netbeans --enable-gui=no --disable-gtktest --disable-gpm --disable-acl --disable-nls</configure-append>
-    </build>
+  <fetch type="tarball">
+    <url>ftp://ftp.vim.org/pub/vim/unix/vim-7.0.tar.bz2</url>
+  </fetch>
+  <build>
+    <configure-append>--disable-darwin --disable-xsmp --disable-netbeans --enable-gui=no --disable-gtktest --disable-gpm --disable-acl --disable-nls</configure-append>
+  </build>
 </package>

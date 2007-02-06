@@ -1,14 +1,15 @@
+<?xml version="1.0"?>
 <package>
-   <fetch type="tarball">
-      <url>http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.15.tar.gz</url>
-   </fetch>
-   <build>
-	   <!-- amrel does not support mmx of course -->
-	   <configure-append>--disable-mmx</configure-append>
-   </build>
-   <deb>
-      <icon>http://www.ferzkopp.net/joomla/images/favicon.ico</icon>
-      <description>SDL graphics drawing primitives.\nSDL graphics drawing primitives and other support functions wrapped up in an addon library for the Simple Direct Media (SDL) cross-platform API layer</description>
-      <section>user/libs</section>
-   </deb>
+  <fetch type="tarball">
+    <url>http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.15.tar.gz</url>
+  </fetch>
+  <build>
+<!-- amrel does not support mmx of course -->
+    <configure-append>--disable-mmx</configure-append>
+  </build>
+  <deb>
+    <icon>http://www.ferzkopp.net/joomla/images/favicon.ico</icon>
+    <description>SDL graphics drawing primitives.\nSDL graphics drawing primitives and other support functions wrapped up in an addon library for the Simple Direct Media (SDL) cross-platform API layer</description>
+    <section>user/libs</section>
+  </deb>
 </package>

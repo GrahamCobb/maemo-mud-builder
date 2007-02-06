@@ -1,5 +1,6 @@
+<?xml version="1.0"?>
 <package>
-  <!--
+<!--
   Thu Jan 25 06:21:26 CET 2007: keesj given up on cvs export
   I think the automake tools on scratchbox are broken
   <fetch type="command">
@@ -23,7 +24,7 @@
     <configure-append>--with-renderer-openGl=0 --with-renderer-sdlGfx=1 --disable-nls</configure-append>
   </build>
   <deb>
-    <!--
+<!--
     keesj:it workds on my machine but that is becasue I have copied and cleaned an existing .xmoto file to the
     user home directory, the installes can perhaps ask for a username to use?
     -->
@@ -31,5 +32,5 @@
     <Depends> ${shlibs:Depends}, ${misc:Depends}, lua , libsdl-gfx1, libode0</Depends>
     <build-Depends> debhelper (&gt;= 4.0.0) , libsdl-gfx-dev, libode0-dev</build-Depends>
     <section>user/games</section>
- </deb>
+  </deb>
 </package>
