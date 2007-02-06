@@ -1,9 +1,11 @@
+<?xml version="1.0"?>
 <package>
   <fetch type="tarball">
     <url>http://prdownloads.sourceforge.net/tuxpaint/tuxpaint-0.9.16.tar.gz</url>
   </fetch>
   <deb>
-  <description>Tux Paint is a free, award-winning drawing program for children ages 3 to 12.</description>
-  <section>user/mudwip</section>
+    <description>Tux Paint is a free, award-winning drawing program for children ages 3 to 12.</description>
+    <maintainer>Alessandro Pasotti &lt;elpase@users.garage.maemo.org&gt;&gt;</maintainer>
+    <section>user/games</section>
   </deb>
 </package>
