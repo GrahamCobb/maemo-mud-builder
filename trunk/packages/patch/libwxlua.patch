@@ -1,0 +1,43 @@
+Index: debian/libwxlua-dev.install
+===================================================================
+--- debian/libwxlua-dev.install	(revision 1)
++++ debian/libwxlua-dev.install	(working copy)
+@@ -1,5 +1,10 @@
++usr/lib/pkgconfig/*
+ usr/include/*
+-usr/lib/lib*.a
+-usr/lib/lib*.so
+-usr/lib/pkgconfig/*
+-usr/lib/*.la
++usr/include/wxlua/include/*
++usr/include/wxbind/include/*
++usr/include/wxbind/setup/*
++usr/include/wxluadebug/include/*
++usr/include/wxluasocket/include/*
++usr/src/wxbind/*
++usr/src/wxbind/build/*
++usr/share/wxlua/samples/*
+Index: debian/libwxlua1.install
+===================================================================
+--- debian/libwxlua1.install	(revision 1)
++++ debian/libwxlua1.install	(working copy)
+@@ -1 +1,5 @@
+-usr/lib/lib*.so.*
++usr/lib/*
++usr/lib/lua/5.1/wx.so
++usr/share/applications/wxlua.desktop
++usr/share/mime/packages/wxlua.xml
++usr/share/pixmaps/wxlualogo.xpm
+Index: modules/wxbind/setup/wxluasetup.h
+===================================================================
+--- modules/wxbind/setup/wxluasetup.h	(revision 1)
++++ modules/wxbind/setup/wxluasetup.h	(working copy)
+@@ -68,7 +68,7 @@
+ #define wxLUA_USE_wxID_XXX                      1
+ #define wxLUA_USE_wxImage                       1
+ #define wxLUA_USE_wxImageList                   1
+-#define wxLUA_USE_wxJoystick                    1
++#define wxLUA_USE_wxJoystick                    0
+ #define wxLUA_USE_wxLayoutConstraints           1
+ #define wxLUA_USE_wxList                        1
+ #define wxLUA_USE_wxListBox                     1
