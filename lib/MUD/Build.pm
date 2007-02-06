@@ -80,7 +80,7 @@ sub fetch {
 
     my $buildDir = $self->{data}->{build} || '.';
     my $origBDir = $buildDir;
-    if ($buildDir =~ /^(\w+)-(\w+)$/) {
+    if ($buildDir =~ /^(.*?)-(\w+[\w+\-\.]*\w+|\w+)$/) {
         print "Name of [$buildDir] meets requirements.\n";
     } elsif ($buildDir =~ /^(\w+?)(\d+)$/) {
         $buildDir = "$1-$2";
