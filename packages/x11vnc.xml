@@ -1,10 +1,11 @@
+<?xml version="1.0"?>
 <package>
-   <fetch type="tarball">
-     <url>http://downloads.sourceforge.net/libvncserver/x11vnc-0.8.4.tar.gz</url>
-   </fetch>
-   <deb>
-      <icon>http://www.realvnc.com/favicon.ico</icon>
-      <description>x11vnc allows one to view remotely and interact with real X displays\nx11vnc allows one to view remotely and interact with real X displays (i.e. a display corresponding to a physical monitor, keyboard, and mouse) with any VNC viewer. In this way it plays the role for Unix/X11 that WinVNC plays for Windows.</description>
-      <section>user/communication</scetion>
-   </deb>
+  <fetch type="tarball">
+    <url>http://downloads.sourceforge.net/libvncserver/x11vnc-0.8.4.tar.gz</url>
+  </fetch>
+  <deb>
+    <icon>http://www.realvnc.com/favicon.ico</icon>
+    <description>x11vnc allows one to view remotely and interact with real X displays\nx11vnc allows one to view remotely and interact with real X displays (i.e. a display corresponding to a physical monitor, keyboard, and mouse) with any VNC viewer. In this way it plays the role for Unix/X11 that WinVNC plays for Windows.</description>
+    <section>user/communication</section>
+  </deb>
 </package>
