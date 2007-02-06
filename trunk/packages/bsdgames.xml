@@ -1,6 +1,7 @@
+<?xml version="1.0"?>
 <package>
-	<fetch type="debian"/>
-	<deb>
-		<section>user/games</section>
-	</deb>
+  <fetch type="debian"/>
+  <deb>
+    <section>user/games</section>
+  </deb>
 </package>

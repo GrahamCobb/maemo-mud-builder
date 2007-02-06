@@ -1,6 +1,7 @@
+<?xml version="1.0"?>
 <package>
-       <fetch type="debian">
-               <name>ode</name>
-               <deb-src>http://ftp.debian.org/ stable main</deb-src>
-       </fetch>
+  <fetch type="debian">
+    <name>ode</name>
+    <deb-src>http://ftp.debian.org/ stable main</deb-src>
+  </fetch>
 </package>

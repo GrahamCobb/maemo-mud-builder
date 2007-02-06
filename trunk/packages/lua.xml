@@ -1,10 +1,11 @@
+<?xml version="1.0"?>
 <package>
-   <fetch type="tarball">
-	   <url>http://www.lua.org/ftp/lua-5.1.1.tar.gz</url>
-   </fetch>
-   <deb>
-     <icon>http://www.lua.org/favicon.ico</icon>
-     <description>Lua is a powerful light-weight programming language\nLua is a powerful light-weight programming language designed for extending applications. Lua is also frequently used as a general-purpose, stand-alone language</description>
-     <Section>user/programming</Section>
-   </deb>
+  <fetch type="tarball">
+    <url>http://www.lua.org/ftp/lua-5.1.1.tar.gz</url>
+  </fetch>
+  <deb>
+    <icon>http://www.lua.org/favicon.ico</icon>
+    <description>Lua is a powerful light-weight programming language\nLua is a powerful light-weight programming language designed for extending applications. Lua is also frequently used as a general-purpose, stand-alone language</description>
+    <Section>user/programming</Section>
+  </deb>
 </package>
