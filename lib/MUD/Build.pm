@@ -188,7 +188,7 @@ sub addDebs {
     my ($ref, $dir, $pattern) = @_;
 
     print "Finding debs for [$pattern] in [$dir]\n";
-    my @results = `find '$dir' -type f -name '$pattern.deb' -o -name '$pattern.changes' -o -name '$pattern.dsc -o -name '$pattern.tar.gz -o -name '$pattern.diff.gz''`;
+    my @results = `find '$dir' -type f -name '$pattern.deb' -o -name '$pattern.changes' -o -name '$pattern.dsc' -o -name '$pattern.tar.gz' -o -name '$pattern.diff.gz'`;
     my @add     = ();
     foreach my $d (@results) {
         chomp($d);
