@@ -6,8 +6,6 @@ Outstanding tasks:
 
   * Ignore build-dependencies once we think we've met them as well as possible
     (reported by Graham Cobb)
-  * Packages in earlier repo can block required source (reported by Kees
-    Jongenburger)
   * Sources.list keeps growing (reported by Kees Jongenburger)
   * Force maintainer to be a MUD-owned address (mud-builder-team).
   * Ensure packages are lowercase.
