@@ -96,6 +96,11 @@ in Debian. <em>(Defaults to the name of the MUD package)</em></li>
 <li><code>&lt;deb-src&gt;&#8230;&lt;/deb-src&gt;</code> - the line in
 <code>sources.list</code> which is prefixed with <code>deb-src</code> to find
 the build package, and <code>deb</code> to find build dependencies. <em>(Defaults to <code>http://ftp.debian.org/ etch main</code>)</em></li>
+
+<li><code>&lt;depends&gt;&#8230;&lt;/depends&gt;</code> - overrides the
+Build Depends in <code>debian/control</code> if the package author knows better
+what packages are present/are needed for this build. For example, there's no
+need to specify <code>debhelper</code> as it is implicitly available.</li>
 </ul>
 
 <p>TBC...</p>
