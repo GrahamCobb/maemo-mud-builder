@@ -1,13 +1,9 @@
 <?xml version="1.0"?>
 <package>
   <fetch type="debian">
-<!-- there is a maemo tf in the  mistral catalog this is why we overide
-	  location here -->
     <deb-src>http://ftp.debian.org/ stable main</deb-src>
   </fetch>
   <deb>
-    <maintainer>Levi Bard &lt;taktaktaktaktaktaktaktaktaktak@gmail.com&gt;</maintainer>
-    <description>TinyFugue, aka "tf"is a flexible, screen-oriented MUD client\nTinyFugue, aka "tf", is a flexible, screen-oriented MUD client, for use with any type of text MUD.</description>
     <section>user/games</section>
   </deb>
 </package>

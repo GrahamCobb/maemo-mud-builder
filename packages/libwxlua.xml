@@ -5,9 +5,9 @@
   </fetch>
   <deb>
     <icon>http://wxlua.sourceforge.net/images/wxlualogo.png</icon>
-    <description>wxLua is a set of bindings to the wxWidgets library for the Lua programming language.\nwxLua is a set of bindings to the wxWidgets library for the Lua programming language. With wxLua you can write programs in Lua that use the wxWidgets cross-platform GUI library to develop and deliver your software with the programming ease of an interpreted language like Lua. Nearly all of the functionality of wxWidgets is exposed to Lua, meaning that your programs can have windows, dialogs, menus, toolbars, controls, image loading and saving, drawing, sockets, streams, printing, clipboard access... and much more</description>
+    <description>Lua bindings for wxWidgets GUI library\nwxLua is a set of bindings to the wxWidgets library for the Lua programming language. With wxLua you can write programs in Lua that use the wxWidgets cross-platform GUI library to develop and deliver your software with the programming ease of an interpreted language like Lua. Nearly all of the functionality of wxWidgets is exposed to Lua, meaning that your programs can have windows, dialogs, menus, toolbars, controls, image loading and saving, drawing, sockets, streams, printing, clipboard access and much more.</description>
     <section>dev/libs</section>
-    <Depends> ${shlibs:Depends}, ${misc:Depends}, lua , libwxgtk-dev (&gt;= 2.8.0)</Depends>
-    <build-Depends> debhelper (&gt;= 4.0.0) , lua ,libwxgtk1 (&gt;= 2.8.0)</build-Depends>
+    <depends>${shlibs:Depends}, ${misc:Depends}, lua, libwxgtk-dev (&gt;= 2.8.0)</depends>
+    <build-Depends>debhelper (&gt;= 4.0.0), lua, libwxgtk1 (&gt;= 2.8.0)</build-Depends>
   </deb>
 </package>

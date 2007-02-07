@@ -5,7 +5,7 @@
   </fetch>
   <deb>
     <icon>http://www.roaringpenguin.com/favicon.ico</icon>
-    <description>Remind is a sophisticated calendar and alarm
-program.</description>
+    <description>Calendar and alarams\nRemind is a sophisticated calendar and alarm program.</description>
+    <section>user/Commandline</section>
   </deb>
 </package>

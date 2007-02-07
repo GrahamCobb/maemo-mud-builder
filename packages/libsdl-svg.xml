@@ -4,7 +4,6 @@
     <url>http://www.linuxmotors.com/SDL_svg/download/SDL_svg-1.1.9.tar.gz</url>
   </fetch>
   <deb>
-    <description>This library is used to render SVG files onto SDL surfaces.</description>
-    <Section>user/libs</Section>
+    <description>Graphics library for SDL apps\nThis library is used to render SVG files onto SDL surfaces.</description>
   </deb>
 </package>

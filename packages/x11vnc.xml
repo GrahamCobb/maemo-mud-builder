@@ -5,7 +5,7 @@
   </fetch>
   <deb>
     <icon>http://www.realvnc.com/favicon.ico</icon>
-    <description>x11vnc allows one to view remotely and interact with real X displays\nx11vnc allows one to view remotely and interact with real X displays (i.e. a display corresponding to a physical monitor, keyboard, and mouse) with any VNC viewer. In this way it plays the role for Unix/X11 that WinVNC plays for Windows.</description>
+    <description>View remotely and interact with X displays\nx11vnc allows one to view remotely and interact with real X displays (i.e. a display corresponding to a physical monitor, keyboard, and mouse) with any VNC viewer. In this way it plays the role for Unix/X11 that WinVNC plays for Windows.</description>
     <section>user/communication</section>
   </deb>
 </package>

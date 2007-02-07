@@ -5,7 +5,7 @@
   </fetch>
   <deb>
     <icon>http://www.lua.org/favicon.ico</icon>
-    <description>LuaSocket is the most comprehensive networking support library for the Lua language.\nLuaSocket is the most comprehensive networking support library for the Lua language. It provides easy access to TCP, UDP, DNS, SMTP, FTP, HTTP, MIME and much more.</description>
-    <Section>user/programming</Section>
+    <description>Network support library for Lua\nLuaSocket is the most comprehensive networking support library for the Lua language. It provides easy access to TCP, UDP, DNS, SMTP, FTP, HTTP, MIME and much more.</description>
+    <section>dev/programming</section>
   </deb>
 </package>

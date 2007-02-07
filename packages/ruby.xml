@@ -5,7 +5,7 @@
   </fetch>
   <deb>
     <icon>http://www.ruby-lang.org/favicon.icon</icon>
-    <Description>A dynamic, open source programming language with a focus on simplicity and productivity.</Description>
+    <Description>Dynamic programming language\nA dynamic, open source programming language with a focus on simplicity and productivity.</Description>
     <Section>user/programming</Section>
   </deb>
 </package>
