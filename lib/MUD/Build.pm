@@ -161,7 +161,7 @@ sub compile {
     #
     $self->patchDebControl();
 
-    system("dpkg-buildpackage -rfakeroot | tee ../log"); 
+    system("dpkg-buildpackage -d -rfakeroot | tee ../log"); 
 }
 
 sub clean {
