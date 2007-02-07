@@ -5,8 +5,6 @@
 Outstanding tasks:
 
   * Sources.list keeps growing (reported by Kees Jongenburger)
-  * Force maintainer to be a MUD-owned address (mud-builder-team).
-  * Ensure packages are lowercase.
   * Auto-derive licence from files.
   * Auto-derive description from files/Google.
   * Run commands post/pre-patch (by convention(?))
@@ -34,6 +32,10 @@ Outstanding tasks:
 
 Completed tasks:
 
+  * Allow overriding of Debian build dependencies [DONE]
+  * Ensure packages are lowercase. [DONE]
+  * Force maintainer to be a MUD-owned address (mud-builder-team). [DONE]
+  * Force build despite debhelper and other build dep issues. [DONE]
   * Rename build directory to <name>-<version>, if necessary. [DONE]
   * Add Subversion fetcher [DONE by MUD::Fetch::Command]
   * Add file system fetcher (suggested by Ted Zlatanov)

@@ -33,6 +33,7 @@ sub load {
     my $self = shift;
     my ($name) = @_;
 
+    croak "Package names must be lowercase.\n" if lc($name) ne $name;
     my $file = $self->{config}->directory('PACKAGES_DIR') . "/$name.xml";
     croak("Unknown package '$name': can't find [$file]") unless -f $file;
 

@@ -251,9 +251,10 @@ sub patchDebControl {
     close(IN);
     my $origControl = $control;
 
-    # -- Fix standards version...
+    # -- Fix standards version and uploaders...
     #
     $control = MUD::Package->setField($control, 'Standards-Version', '3.6.0');
+    $control = MUD::Package->setField($control, 'Uploaders', 'MUD Project <mud-builder-team@garage.maemo.org>');
 
     # -- Fix "BROKEN" libraries...
     #
@@ -262,7 +263,8 @@ sub patchDebControl {
 
     # -- Fix section...
     #
-    my $userSection = $self->{data}->{data}->{deb}->{'prefix-section'};
+    my $userSection = $self->{data}->{data}->{deb}->{'prefix-section'} ||
+                     ($self->{package} =~ /^lib/);
     $userSection = 1 unless defined($userSection);
     if ($userSection) {
        $control =~ s/^(Section:)\s*(user\/)*(.*)$/$1 user\/$3/mig;

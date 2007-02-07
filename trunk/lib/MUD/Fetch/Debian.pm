@@ -36,12 +36,15 @@ sub fetch {
     $self->{package}->{build} = $buildDir.'/'.$d[0];
 
     chdir $self->{package}->{build};
-    my $deps = `dpkg-checkbuilddeps 2>&1`;
-    if ($?) {
-        $deps =~ s/.*Unmet build dependencies: //is;
-        my %list = map { $_ => 0 }
-                   grep { /^[\w\._\-]+$/ }
-                   split /[\s\r\n]+/, $deps;
+    my %list = ();
+    my $deps = $self->{package}->{data}->{fetch}->{depends} ||
+                  `dpkg-checkbuilddeps 2>&1`;
+    $deps =~ s/.*Unmet build dependencies: //is;
+    my %list = map { $_ => 0 }
+               grep { /^[\w\._\-]+$/ }
+               split /[\s\r\n]+/, $deps;
+
+    if (keys(%list)) {
 	warn "Need extra deps: ".join(", ", keys(%list))."\n";
         foreach my $dep (keys %list) {
             my $build;
