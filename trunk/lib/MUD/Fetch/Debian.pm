@@ -103,6 +103,7 @@ sub addSource {
     my $foundSrc = 0;
     open(IN, "<$input") or croak("Unable to open sources list [$input]: $!\n");
     while(<IN>) {
+        s/^\s*deb-src\s+http:\/\/repository\.maemo\.org/#$&/;
         $data .= $_;
         $foundBin ||= /deb\s+$store/;
         $foundSrc ||= /deb-src\s+$store/;
