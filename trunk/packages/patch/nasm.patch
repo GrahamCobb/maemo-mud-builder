@@ -1,0 +1,13 @@
+Index: doc/Makefile.in
+===================================================================
+--- doc/Makefile.in	(revision 1)
++++ doc/Makefile.in	(working copy)
+@@ -24,7 +24,7 @@
+ SRCS		= nasmdoc.src
+ OUT		= nasm.info nasmdoc.ps nasmdoc.pdf
+ 
+-all: $(OUT)
++all:
+ 
+ os2: nasm.inf
+ 
