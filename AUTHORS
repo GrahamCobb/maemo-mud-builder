@@ -8,3 +8,6 @@ Maintainer
 
 ode, libsdl-gfx, ruby, screen, irssi, lua, libsdl-svg
         Kees Jongenburger <kees.jongenburger@gmail.com>
+
+nasm
+        Jeff Buchbinder <jeff@freemedsoftware.org>
