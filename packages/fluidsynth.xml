@@ -2,6 +2,6 @@
 <package>
   <fetch type="debian"/>
   <deb>
-    <maintainer>Jeff &lt;jeff@freemedsoftware.org&gt;</maintainer>
+    <maintainer>Jeff Buchbinder&lt;jeff@freemedsoftware.org&gt;</maintainer>
   </deb>
 </package>

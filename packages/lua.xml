@@ -6,6 +6,7 @@
   <deb>
     <icon>http://www.lua.org/favicon.ico</icon>
     <description>Lua is a powerful light-weight programming language\nLua is a powerful light-weight programming language designed for extending applications. Lua is also frequently used as a general-purpose, standalone language.</description>
+    <maintainer>Kees Jongenburger &lt;kees.jongenburger@gmail.com&gt;</maintainer>
     <Section>user/programming</Section>
   </deb>
 </package>

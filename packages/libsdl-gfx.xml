@@ -9,5 +9,6 @@
   <deb>
     <icon>http://www.ferzkopp.net/joomla/images/favicon.ico</icon>
     <description>SDL graphics drawing primitives.\nSDL graphics drawing primitives and other support functions wrapped up in an addon library for the Simple Direct Media (SDL) cross-platform API layer</description>
+    <maintainer>Kees Jongenburger &lt;kees.jongenburger@gmail.com&gt;</maintainer>
   </deb>
 </package>

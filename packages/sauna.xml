@@ -2,6 +2,7 @@
 <package>
   <fetch type="tarball">
     <!--
+      todo:keesj:use this file a default , it currently contains a debian subdir
       <url>http://www.luolamies.org/software/sauna_0.1.0_maemo.tar.gz</url>
     -->
     <url>http://box.mmapps.net/~keesj/sauna_0.1.0.tar.gz</url>

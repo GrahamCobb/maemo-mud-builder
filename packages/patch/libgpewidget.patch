@@ -12,28 +12,6 @@ Index: debian/changelog
  libgpewidget (0.73-1) unstable; urgency=low
  
    * New upstream version.
-Index: debian/rules
-===================================================================
---- debian/rules	(revision 1)
-+++ debian/rules	(working copy)
-@@ -31,6 +31,8 @@
- 	# Add here commands to configure the package.
- 
-+	sh autogen.sh
-+	./configure --prefix=/usr --enable-hildon --disable-cairo
- 	touch configure-stamp
- 
- 
- build: build-stamp
-@@ -61,7 +63,7 @@
- 
- 	# Add here commands to install the package into debian/tmp
- 	$(MAKE) install PREFIX=/usr DESTDIR=$(CURDIR)/debian/tmp
--	$(MAKE) install-devel PREFIX=/usr DESTDIR=$(CURDIR)/debian/tmp
-+	#$(MAKE) install-devel PREFIX=/usr DESTDIR=$(CURDIR)/debian/tmp
- 
- 
- # Build architecture-independent files here.
 Index: configure.ac
 ===================================================================
 --- configure.ac	(revision 1)

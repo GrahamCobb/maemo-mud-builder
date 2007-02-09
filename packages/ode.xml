@@ -2,6 +2,10 @@
 <package>
   <fetch type="debian">
     <name>ode</name>
+    <!-- keesj:todo this is a lib -->
     <deb-src>http://ftp.debian.org/ stable main</deb-src>
   </fetch>
+  <deb>
+    <maintainer>Kees Jongenburger &lt;kees.jongenburger@gmail.com&gt;</maintainer>
+  </deb>
 </package>
