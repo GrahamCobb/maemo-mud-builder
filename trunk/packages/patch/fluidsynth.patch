@@ -1,0 +1,57 @@
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -2,7 +2,7 @@
+ Section: sound
+ Priority: optional
+ Maintainer: Eric Van Buggenhaut <ericvb@debian.org>
+-Build-Depends: debhelper (>> 3.0.0), libreadline5-dev | libreadline-dev, libjack0.100.0-dev | libjack-dev, ladcca-dev, ladspa-sdk, automake1.4, libtool, autotools-dev, libasound2-dev 
++Build-Depends: debhelper (>> 3.0.0), libreadline5-dev | libreadline-dev, ladcca-dev, ladspa-sdk, automake1.4, libtool, autotools-dev, libasound2-dev 
+ Standards-Version: 3.7.2
+ 
+ Package: fluidsynth
+@@ -32,7 +32,7 @@
+ Package: libfluidsynth-dev
+ Architecture: any
+ Section: libdevel
+-Depends: libfluidsynth1 (= ${Source-Version}), libreadline5-dev | libreadline-dev, libncurses5-dev | libncurses-dev, ladcca-dev, libasound2-dev, libjack0.100.0-dev
++Depends: libfluidsynth1 (= ${Source-Version}), libreadline5-dev | libreadline4-dev | libreadline-dev, libncurses5-dev | libncurses-dev, libasound2-dev
+ Description: Real-time MIDI software synthesizer (development files)
+  Fluidsynth is a real-time midi synthesizer based on the soundfont2
+  specifications. It can be used to render MIDI input or MIDI files to audio.
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -29,8 +29,7 @@
+ 	chmod 744 configure
+ 	./configure $(confflags) --disable-rpath --prefix=/usr --bindir=\$${prefix}/bin \
+ 	--mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info \
+-	--libdir=\$${prefix}/lib --includedir=\$${prefix}/include \
+-	--enable-jack-support
++	--libdir=\$${prefix}/lib --includedir=\$${prefix}/include
+ 
+ 	touch configure-stamp
+ 
+@@ -94,16 +93,16 @@
+ 	dh_testdir
+ 	dh_testroot
+ #	dh_installdebconf	
+-	dh_installdocs
+-	dh_installexamples
++#	dh_installdocs
++#	dh_installexamples
+ 	dh_installmenu
+ #	dh_installlogrotate
+ #	dh_installinit
+ #	dh_installcron
+ 	#dh_installman
+-	dh_installinfo
++#	dh_installinfo
+ #	dh_undocumented
+-	dh_installchangelogs ChangeLog
++#	dh_installchangelogs ChangeLog
+ 	dh_link
+ 	dh_makeshlibs
+ 	dh_strip

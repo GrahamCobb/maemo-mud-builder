@@ -1,0 +1,26 @@
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -3,7 +3,7 @@
+ Priority: optional
+ Maintainer: Loic Minier <lool@dooz.org>
+ Uploaders: David I. Lehn <dlehn@debian.org>, Sam Hocevar (Debian packages) <sam+deb@zoy.org>
+-Build-Depends: debhelper (>= 4.1.0), cdbs (>= 0.4.5), libsdl1.2-dev (>= 1.2.3), autotools-dev, gcc-3.4
++Build-Depends: debhelper (>= 4.1.0), cdbs (>= 0.4.5), libsdl1.2-dev (>= 1.2.3), autotools-dev
+ Standards-Version: 3.6.2
+ 
+ Package: libmpeg2-4-dev
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -2,7 +2,7 @@
+ 
+ DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+ 
+-CC=gcc-3.4
++CC=gcc
+ 
+ include /usr/share/cdbs/1/rules/debhelper.mk
+ include /usr/share/cdbs/1/rules/simple-patchsys.mk

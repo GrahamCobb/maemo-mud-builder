@@ -1,0 +1,68 @@
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -2,7 +2,7 @@
+ Section: sound
+ Priority: optional
+ Maintainer: Joshua Kwan <joshk@triplehelix.org>
+-Build-Depends: debhelper (>= 4), xmms-dev, nasm (>= 0.98.34-1) [i386], doxygen, libid3-3.8.3-dev (>= 3.8.3-4.2), libogg-dev, g++ (>= 2:3.2), dpatch
++Build-Depends: debhelper (>= 4), nasm (>= 0.98.34-1) [i386], doxygen, libid3-3.8.3-dev (>= 3.8.3-4.2), libogg-dev, g++ (>= 2:3.2), dpatch
+ Standards-Version: 3.7.2
+ 
+ Package: flac
+@@ -191,23 +191,3 @@
+  .
+  This package contains the development library libOggFLAC++.
+ 
+-Package: xmms-flac
+-Section: sound
+-Architecture: any
+-Depends: ${shlibs:Depends}
+-Suggests: beep-media-player
+-Description: Free Lossless Audio Codec - XMMS and Beep input plugin
+- FLAC stands for Free Lossless Audio Codec. Grossly oversimplified, FLAC is
+- similar to MP3, but lossless.  The FLAC project consists of:
+- .
+-  * The stream format
+-  * libFLAC, which implements a reference encoder, stream decoder, and file
+-    decoder
+-  * flac, which is a command-line wrapper around libFLAC to encode and decode
+-    .flac files
+-  * Input plugins for various music players (Winamp, XMMS, and more in the
+-    works)
+- .
+- This package contains an XMMS input plugin to play FLAC audio streams. It also
+- provides symlinks for it to work with Beep Media Player, since plugins between
+- the two players are interchangeable.
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -71,8 +71,8 @@
+ binary-indep: build install
+ 	dh_testdir -i
+ 	dh_testroot -i
+-	dh_installdocs -i
+-	dh_installchangelogs -i
++#	dh_installdocs -i
++#	dh_installchangelogs -i
+ 	dh_compress -i -X.html
+ 	dh_fixperms -i
+ 	dh_installdeb -i
+@@ -85,12 +85,12 @@
+ 	dh_testdir
+ 	dh_testroot
+ 	dh_installdebconf -a
+-	dh_installchangelogs -a
+-	dh_installdocs -a
++#	dh_installchangelogs -a
++#	dh_installdocs -a
+ 	dh_strip -a
+ 	dh_compress -a
+ 	dh_fixperms -a
+-	dh_makeshlibs -a -Xxmms-flac
++	dh_makeshlibs -a
+ 	dh_link -a
+ 	dh_installdeb -a
+ 	dh_shlibdeps -a -ldebian/libflac7/usr/lib:debian/libflac++5/usr/lib

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian"/>
+  <deb>
+    <maintainer>Jeff &lt;jeff@freemedsoftware.org&gt;</maintainer>
+  </deb>
+</package>

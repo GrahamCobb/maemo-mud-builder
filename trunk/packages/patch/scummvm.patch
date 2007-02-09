@@ -1,0 +1,51 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -1,6 +1,6 @@
+ #!/usr/bin/make -f
+ 
+-build: doc/README.pdf scummvm
++build: scummvm
+ 
+ doc/README.pdf:
+ 	(cd doc; latex readme.tex)
+@@ -30,7 +30,8 @@
+ 	install -m0755 scummvm debian/scummvm/usr/games/scummvm
+ 	install -m0644 icons/scummvm.xpm debian/scummvm/usr/share/icons
+ 	install -m0644 debian/scummvm.svg debian/scummvm/usr/share/icons
+-	install -m0644 dists/scummvm.desktop debian/scummvm/usr/share/applications
++	mkdir -p debian/scummvm/usr/share/applications/hildon
++	install -m0644 dists/scummvm.desktop debian/scummvm/usr/share/applications/hildon
+ 	install -m0644 gui/themes/modern.zip debian/scummvm/usr/share/scummvm
+ 	install -m0644 gui/themes/modern.ini debian/scummvm/usr/share/scummvm
+ 
+@@ -39,9 +40,9 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installdocs
+-	dh_installchangelogs NEWS
+-	dh_installman
++#	dh_installdocs
++#	dh_installchangelogs NEWS
++#	dh_installman
+ 	dh_installmenu
+ 	dh_desktop
+ 	dh_strip
+Index: dists/scummvm.desktop
+===================================================================
+--- dists/scummvm.desktop	(revision 1)
++++ dists/scummvm.desktop	(working copy)
+@@ -6,9 +6,9 @@
+ Comment=Interpreter for several adventure games
+ Comment[pl]=Interpreter graficznych gier przygodowych
+ Comment[sv]=Tolk för flera äventyrsspel
+-Exec=scummvm
++Exec=/usr/games/scummvm
+ Icon=scummvm.svg
+ Terminal=false
+ Type=Application
+-Categories=Application;Game;AdventureGame;
++Categories=Games
+ StartupNotify=false
