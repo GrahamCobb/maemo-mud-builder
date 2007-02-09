@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>http://heanet.dl.sourceforge.net/sourceforge/swig/swig-1.3.31.tar.gz</url>
+  </fetch>
+  <deb>
+    <description>Generate scripting interfaces to C/C++ code</description>
+  </deb>
+</package>
