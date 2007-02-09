@@ -1,10 +1,15 @@
 <?xml version="1.0"?>
 <package>
   <fetch type="command">
-<command>
+    <command>
 svn export -r 8911 svn://projects.linuxtogo.org/svn/gpe/trunk/base/libgpewidget libgpewidget-0svn
+wget "http://skaboy.no-ip.org/~luogni/mud/libgpewidget-debian.patch" -O libgpewidget-0svn/libgpewidget-debian.patch
+patch -d libgpewidget-0svn -p0 &lt; ./libgpewidget-0svn/libgpewidget-debian.patch
 </command>
   </fetch>
+  <build>
+    <configure-append>--enable-hildon --disable-cairo</configure-append>
+  </build>
   <deb>
     <maintainer>Luca Ognibene &lt;luca.ognibene@gmail.com&gt;</maintainer>
     <description>gpe packaged with mud</description>

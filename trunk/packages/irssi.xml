@@ -5,6 +5,7 @@
   </fetch>
   <deb>
     <description>Irssi is a terminal based IRC client for UNIX systems\nirssi is a terminal based IRC client for UNIX systems. It also supports SILC and ICB protocols via plugins.</description>
+    <maintainer>Kees Jongenburger &lt;kees.jongenburger@gmail.com&gt;</maintainer>
     <section>user/communication</section>
   </deb>
 </package>

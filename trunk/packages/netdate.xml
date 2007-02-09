@@ -5,6 +5,6 @@
   </fetch>
   <deb>
     <description>Set date and time by ARPA Internet RFC 868</description>
-    <section>mudwip</section>
+    <maintainer>Kees Jongenburger &lt;kees.jongenburger@gmail.com&gt;</maintainer>
   </deb>
 </package>

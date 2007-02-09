@@ -4,7 +4,6 @@
     <name>liblzo2-2</name>
   </fetch>
   <deb>
-    <description>A real-time data compression librar</description>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
   </deb>
 </package>

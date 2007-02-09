@@ -5,7 +5,8 @@
   </fetch>
   <deb>
     <icon>http://www.ruby-lang.org/favicon.icon</icon>
-    <Description>Dynamic programming language\nA dynamic, open source programming language with a focus on simplicity and productivity.</Description>
-    <Section>user/programming</Section>
+    <description>Dynamic programming language\nA dynamic, open source programming language with a focus on simplicity and productivity.</description>
+    <maintainer>Kees Jongenburger &lt;kees.jongenburger@gmail.com&gt;</maintainer>
+    <section>user/programming</section>
   </deb>
 </package>
