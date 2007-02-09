@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian">
+	  A      flac.xml
+	  A      scummvm.xml
+	  A      libmad.xml
+	  A      fluidsynth.xml
+	  A      libogg.xml
+
+  </fetch>
+  <deb>
+    <maintainer>Jeff &lt;jeff@freemedsoftware.org&gt;</maintainer>
+  </deb>
+</package>
