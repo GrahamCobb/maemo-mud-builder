@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="command">
+<command>
+svn export -r 8911 svn://projects.linuxtogo.org/svn/gpe/trunk/base/libgpewidget libgpewidget-0svn
+</command>
+  </fetch>
+  <deb>
+    <maintainer>Luca Ognibene &lt;luca.ognibene@gmail.com&gt;</maintainer>
+    <description>gpe packaged with mud</description>
+    <build-Depends>debhelper (&gt;&gt; 3.0.0), libgtk2.0-dev, xlibs-dev, libxrender-dev</build-Depends>
+  </deb>
+</package>
