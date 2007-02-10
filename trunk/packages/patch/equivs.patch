@@ -1,0 +1,36 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -4,7 +4,7 @@
+ 
+ #export DH_VERBOSE=1
+ PKG := equivs
+-MANPAGES := debian/equivs-control.1 debian/equivs-build.1
++MANPAGES := 
+ 
+ %.1: %.pod
+ 	pod2man --section=1 --release="$(date +'%d %b %Y')" \
+@@ -25,6 +25,7 @@
+ 
+ 	mkdir -p debian/$(PKG)
+ 	cp -la usr debian/$(PKG)
++	-find debian/$(PKG) -name .svn -print0 | xargs -0 rm -r
+ 
+ # Build architecture-dependent packages - nothing to do here
+ binary-arch: build install
+@@ -33,10 +34,10 @@
+ binary-indep: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installdocs
+-	dh_installexamples
+-	dh_installman
+-	dh_installchangelogs
++#	dh_installdocs
++#	dh_installexamples
++#	dh_installman
++#	dh_installchangelogs
+ 	dh_link
+ 	dh_compress
+ 	dh_fixperms

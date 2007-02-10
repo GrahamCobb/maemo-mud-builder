@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian">
+    <name>libextutils-parsexs-perl</name>
+  </fetch>
+  <deb>
+  </deb>
+</package>

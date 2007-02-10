@@ -1,0 +1,25 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -14,6 +14,7 @@
+ build:
+ 	dh_testdir
+ 	# Add here commands to compile the package.
++	-rm t/xs.t 
+ 	perl Build.PL installdirs=vendor
+ clean:
+ 	dh_testdir
+@@ -39,9 +40,9 @@
+ binary-indep: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installdocs
+-	dh_installman
+-	dh_installchangelogs Changes
++#	dh_installdocs
++#	dh_installman
++#	dh_installchangelogs Changes
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
