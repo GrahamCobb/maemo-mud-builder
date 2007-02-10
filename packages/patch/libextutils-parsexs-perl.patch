@@ -1,0 +1,24 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -28,7 +28,7 @@
+ 	dh_testdir
+ 	dh_testroot
+ 	dh_clean -k
+-	$(MAKE) test
++#	$(MAKE) test
+ 	$(MAKE) install DESTDIR=$(TMP)
+ 	touch install-stamp
+ 
+@@ -40,8 +40,8 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installdocs 
+-	dh_installchangelogs Changes
++#	dh_installdocs 
++#	dh_installchangelogs Changes
+ 	dh_compress
+ 	dh_fixperms
+ 	dh_installdeb

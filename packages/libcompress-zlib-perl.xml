@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian">
+    <name>libcompress-zlib-perl</name>
+  </fetch>
+  <deb>
+  </deb>
+</package>

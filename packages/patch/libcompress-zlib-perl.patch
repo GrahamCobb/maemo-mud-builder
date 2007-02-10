@@ -1,0 +1,26 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -18,9 +18,9 @@
+ binary-arch-stamp: arrange
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installdocs ANNOUNCE README
+-	dh_installexamples -X.bak examples/*
+-	dh_installchangelogs Changes
++#	dh_installdocs ANNOUNCE README
++#	dh_installexamples -X.bak examples/*
++#	dh_installchangelogs Changes
+ 	dh_compress
+ 	dh_fixperms
+ 	dh_strip
+@@ -41,7 +41,7 @@
+ build-stamp: config
+ 	dh_testdir
+ 	$(MAKE)
+-	$(MAKE) test
++#	$(MAKE) test
+ 	touch build-stamp
+ 
+ clean:
