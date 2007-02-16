@@ -58,14 +58,17 @@ $config->{file} = $OPTS{config} if $OPTS{config};
 $config = new MUD::Config(%$config);
 
 my $action = shift;
+my @pkgs   = @ARGV;
 if ($OPTS{all}) {
-    die "TODO: Not implemented";
-} else {
-    foreach my $n (@ARGV) {
-        $n = basename($n, ".xml") if -f $n;
-        eval("print \&$action(\$n)");
-        croak "Failed to run $action on $n: $@\n" if $@;
-    }
+    opendir(DIR, $config->directory('PACKAGES_DIR')) or die "Can't read packages dir: $!\n";
+    @pkgs = map { s/\.xml$//; $_ } grep { /\.xml$/ } readdir(DIR);
+    closedir(DIR);
+}
+
+foreach my $n (@pkgs) {
+    $n = basename($n, ".xml") if -f $n;
+    eval("print \&$action(\$n)");
+    croak "Failed to run $action on $n: $@\n" if $@;
 }
 
     
