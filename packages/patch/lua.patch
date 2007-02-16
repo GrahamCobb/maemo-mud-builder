@@ -1,21 +1,3 @@
-Index: debian/control
-===================================================================
---- debian/control	(revision 1)
-+++ debian/control	(working copy)
-@@ -2,11 +2,11 @@
- Section: unknown
- Priority: optional
- Maintainer: unknown <>
--Build-Depends: debhelper (>= 4.0.0)
-+Build-Depends: debhelper (>= 4.0.0), libreadline4-dev 
- Standards-Version: 3.6.1
- 
- Package: lua
- Architecture: any
--Depends: ${shlibs:Depends}, ${misc:Depends}
-+Depends: ${shlibs:Depends}, ${misc:Depends}, libreadline4
- Description: <insert up to 60 chars description>
-  <insert long description, indented with spaces>
 Index: Makefile
 ===================================================================
 --- Makefile	(revision 1)

@@ -2,11 +2,12 @@
 <package>
   <fetch type="tarball">
     <url>http://www.lua.org/ftp/lua-5.1.1.tar.gz</url>
+    <depends>libreadline4-dev</depends>
   </fetch>
   <deb>
     <icon>http://www.lua.org/favicon.ico</icon>
     <description>Lua is a powerful light-weight programming language\nLua is a powerful light-weight programming language designed for extending applications. Lua is also frequently used as a general-purpose, standalone language.</description>
     <maintainer>Kees Jongenburger &lt;kees.jongenburger@gmail.com&gt;</maintainer>
-    <Section>user/programming</Section>
+    <section>user/programming</section>
   </deb>
 </package>
