@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <fetch type="tarball">
-    <url>http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.15.tar.gz</url>
+    <url>http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.16.tar.gz</url>
   </fetch>
   <build>
     <configure-append>--disable-mmx</configure-append>
