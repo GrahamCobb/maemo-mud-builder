@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>http://downloads.sourceforge.net/cmusphinx/pocketsphinx-0.3.tar.bz2</url>
+  </fetch>
+  <build>
+    <configure-append>--with-alsa</configure-append>
+  </build>
+  <deb>
+    <description>Portable speech recognition</description>
+    <maintainer>Jeff Buchbinder &lt;jeff@freemedsoftware.org&gt;</maintainer>
+    <depends>sphinxbase</depends>
+    <section>user/games</section>
+  </deb>
+</package>
