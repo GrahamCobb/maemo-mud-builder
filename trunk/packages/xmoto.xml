@@ -18,7 +18,7 @@
   </fetch>
   -->
   <fetch type="tarball">
-    <url>http://box.mmapps.net/~keesj/xmoto-0.2.5.tar.gz</url>
+    <url>http://box.mmapps.net/~keesj/xmoto-0.2.5-1.tar.gz</url>
   </fetch>
   <build>
     <configure-append>--with-renderer-openGl=0 --with-renderer-sdlGfx=1 --disable-nls</configure-append>
