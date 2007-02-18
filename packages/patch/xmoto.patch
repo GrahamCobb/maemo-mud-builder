@@ -14,7 +14,7 @@ Index: src/GameInit.cpp
 ===================================================================
 --- src/GameInit.cpp	(revision 1)
 +++ src/GameInit.cpp	(working copy)
-@@ -617,19 +617,19 @@
+@@ -624,19 +624,19 @@
  
      /* Display */
      m_Config.createVar( "DisplayWidth",           "800" );
@@ -39,7 +39,7 @@ Index: src/GameInit.cpp
  
      /* Controls */
      m_Config.createVar( "ControllerMode1",        "Keyboard" );
-@@ -637,9 +637,9 @@
+@@ -644,9 +644,9 @@
      m_Config.createVar( "KeyBrake1",              "Down" );
      m_Config.createVar( "KeyFlipLeft1",           "Left" );
      m_Config.createVar( "KeyFlipRight1",          "Right" );
@@ -51,7 +51,7 @@ Index: src/GameInit.cpp
      m_Config.createVar("LimitFramerate", "false");
  
      #if defined(ENABLE_ZOOMING)
-@@ -671,16 +671,16 @@
+@@ -678,13 +678,13 @@
      m_Config.createVar( "DefaultProfile",         "" );
      m_Config.createVar( "ScreenshotFormat",       "png" );
      m_Config.createVar( "NotifyAtInit",           "true" );
@@ -63,11 +63,8 @@ Index: src/GameInit.cpp
 +    m_Config.createVar( "StoreReplays",           "false" );
      m_Config.createVar( "ReplayFrameRate",        "25" );
      m_Config.createVar( "CompressReplays",        "true" );
-     m_Config.createVar( "LevelCache",             "true" );
+-    m_Config.createVar( "LevelCache",             "true" );
++    m_Config.createVar( "LevelCache",             "false" );
      m_Config.createVar( "ContextHelp",            "true" );
      m_Config.createVar( "MenuMusic",              "true" );    
--    m_Config.createVar( "InitZoom",               "false" );
-+    m_Config.createVar( "InitZoom",               "true" );
-     m_Config.createVar( "DeathAnim",              "true" );
- 
- #if defined(SUPPORT_WEBACCESS)
+     m_Config.createVar( "InitZoom",               "true" );
