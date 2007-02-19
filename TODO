@@ -4,6 +4,9 @@
 
 Outstanding tasks:
 
+  * Try to auto-derive version number from URL, if not in directory
+  * Abstract dependency-building code out of MUD::Fetch::* since it's so
+    common across all.
   * Sources.list keeps growing (reported by Kees Jongenburger)
   * Auto-derive licence from files.
   * Auto-derive description from files/Google.

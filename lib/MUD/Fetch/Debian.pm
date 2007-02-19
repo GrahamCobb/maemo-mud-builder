@@ -53,7 +53,9 @@ sub fetch {
 	    # -- Build from one of MUD, existing binaries or upstream source...
 	    #
 	    if (-f $self->{config}->directory('PACKAGES_DIR') . "/$dep.xml") {
-                $build = new MUD::Build( package => $dep );
+                print "[Got existing MUD package for $dep]\n";
+                $build = new MUD::Build( package => $dep,
+					 config => $self->{config} );
 
             } else {
                 system('fakeroot', 'apt-get', '-y', 'install', $dep);
@@ -90,7 +92,7 @@ sub clean {
 
     return unless $self->{deps};
     foreach my $dep (values %{ $self->{deps} }) {
-        $dep->clean();
+        $dep->clean() if $dep;
     }
 }
 
