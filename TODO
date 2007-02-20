@@ -4,10 +4,11 @@
 
 Outstanding tasks:
 
-  * Try to auto-derive version number from URL, if not in directory
+  * Try to auto-derive version number from URL, if not in directory, allowing
+    override in XML file.
   * Abstract dependency-building code out of MUD::Fetch::* since it's so
     common across all.
-  * Sources.list keeps growing (reported by Kees Jongenburger)
+  * Allow deletion of files rather than just patching to empty.
   * Auto-derive licence from files.
   * Auto-derive description from files/Google.
   * Run commands post/pre-patch (by convention(?))
