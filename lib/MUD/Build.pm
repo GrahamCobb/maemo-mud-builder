@@ -80,13 +80,16 @@ sub fetch {
 
     my $buildDir = $self->{data}->{build} || '.';
     my $origBDir = $buildDir;
-    if ($buildDir =~ /^(.*?)-(\w+[\w+\-\.]*\w+|\w+)$/) {
-        print "Name of [$buildDir] meets requirements.\n";
-    } elsif ($buildDir =~ /^(\w+?)(\d+)$/) {
-        $buildDir = "$1-$2";
-    } else {
-        $buildDir .= "-1";
-    }
+    $buildDir    =~ s/-src\b//;
+    my $version  = $self->{data}->{version};
+    print "Version = $version\n";
+    $version   ||= $1 if $buildDir =~ /-(\d[\w\-\.]+\w|\d\w*)*$/;
+    $version   ||= $1 if $buildDir =~ /(\d+)$/;
+    $version     = $self->{data}->{data}->{deb}->{version} || $version;
+    $version   ||= 1;
+    print "Version = $version\n";
+    $buildDir    = $self->{package}."-$version";
+    print "Build dir = $buildDir\n";
     rename $origBDir, $buildDir if $origBDir ne $buildDir;
 
     $self->{data}->{build} = File::Spec->rel2abs($buildDir, $self->{workdir});
@@ -294,7 +297,7 @@ sub patchDebControl {
     }
 
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
-	next if $k eq 'icon' or $k eq 'prefixSection';
+	next if $k =~ /^(icon|prefixSection|version)$/;
 	$control = MUD::Package->setField($control, ucfirst($k), $v);
     }
 

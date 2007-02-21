@@ -135,7 +135,7 @@ sub apt {
                            '-o', 'Dir::Etc::SourceList='.$self->{sources}, 
                            @_);
     my $data = '';
-    unshift @args, 'fakeroot' if -f '/scratchbox/tools/bin/fakeroot';
+    unshift @args, 'fakeroot' if -e '/scratchbox/tools/bin/fakeroot';
 
     warn join(" ", @args)."\n";
     croak("Cannot fork: $!") unless defined(my $pid = open(EXC, "-|"));
