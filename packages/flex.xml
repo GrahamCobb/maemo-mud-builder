@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>http://downloads.sourceforge.net/flex/flex-2.5.33.tar.gz</url>
+  </fetch>
+  <deb>
+    <description>A fast lexical analyzer generator.
+ flex is a tool for generating scanners: programs which recognized lexical
+ patterns in text. flex reads the given input files for a description of a
+ scanner to generate. The description is in the form of pairs of regular
+ expressions and C code, called rules. flex generates as output a C source
+ file, lex.yy.c, which defines a routine yylex().  This file is compiled
+ and linked with the -lfl library to produce an executable. When the
+ executable is run, it analyzes its input for occurrences of the regular
+ expressions. Whenever it finds one, it executes the corresponding C code.
+ .
+ The behaviour of Flex has undergone a major change since version
+ 2.5.4a; Flex scanners are now reentrant, you may have multiple
+ scanners in the same program with differing sets of defaults, and
+ they play nicer with modern C and C++ compilers. The Flip side is
+ that Flex no longer conforms to the POSIX lex behaviour, and the
+ scanners require conforming implementations when flex is used in ANSI
+ C mode. The package flex-old provides the older behaviour.
+ .
+ This product includes software developed by the University of California,
+ Berkeley and its contributors. The upstream source code can be found at
+ http://prdownloads.sourceforge.net/flex/flex-2.5.33.tar.bz2?download
+ The project web page is at http://flex.sf.net/</description>
+  </deb>
+</package>
