@@ -8,6 +8,7 @@ package MUD::Build;
 use strict;
 use vars qw(@ISA $VERSION @PREVENT_INSTALL); 
 use Carp;
+use File::Basename;
 use File::Path;
 use File::Spec;
 use MUD::Config;
@@ -78,17 +79,18 @@ sub fetch {
     chdir $self->{workdir};
     $fetch->fetch();
 
-    my $buildDir = $self->{data}->{build} || '.';
+    my $buildDir = basename($self->{data}->{build} || '.');
     my $origBDir = $buildDir;
     $buildDir    =~ s/-src\b//;
     my $version  = $self->{data}->{version};
-    print "Version = $version\n";
-    $version   ||= $1 if $buildDir =~ /-(\d[\w\-\.]+\w|\d\w*)*$/;
-    $version   ||= $1 if $buildDir =~ /(\d+)$/;
+    print "Version = $version, buildDir = $buildDir\n";
+    $version   ||= $1 if $buildDir =~ s/-(\d[\w\-\.]+\w|\d\w*)*$//;
+    $version   ||= $1 if !$version and $buildDir =~ s/(\d+)$//;
     $version     = $self->{data}->{data}->{deb}->{version} || $version;
     $version   ||= 1;
-    print "Version = $version\n";
-    $buildDir    = $self->{package}."-$version";
+    print "Version = $version, buildDir = $buildDir\n";
+    $buildDir    = $self->{package} unless $buildDir =~ /^[a-z0-9\-\+]+$/;
+    $buildDir   .= "-$version";
     print "Build dir = $buildDir\n";
     rename $origBDir, $buildDir if $origBDir ne $buildDir;
 
