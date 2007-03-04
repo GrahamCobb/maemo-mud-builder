@@ -36,7 +36,7 @@ Syntax:
 
 Options:
     -h, --help                Usage instructions
-    -a, --all                 Build all packages ready for upload
+    -a, --all                 Run <action> on all packages
     -c, --config=FILE         Use FILE for configuration rather than 'config'
 
 Actions:
