@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <fetch type="tarball">
-   <url>http://abstrakraft.org/cwiid/downloads/CWiid-0.4.01.tgz</url>
-    <!--
     <url>http://abstrakraft.org/cwiid/downloads/cwiid-0.5.01.tgz</url>
-    -->
   </fetch>
   <deb>
     <icon>http://www.wiili.org/favicon.ico</icon>
