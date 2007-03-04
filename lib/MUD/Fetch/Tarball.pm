@@ -20,6 +20,10 @@ sub fetch {
    
     my $basename  = $self->{package}->{data}->{fetch}->{file}; 
     $basename   ||= $1 if $url =~ m!^.*?/([^/]+)(\?.*)?$!;
+
+    #Create the download dir if it does not exits
+    $basename = $self->{config}->directory("DOWNLOADS_DIR",1) . "/$basename" ;
+
     my $isOld     = -l $self->{workdir}.'/.build';
     system('wget', '-O', $basename, $url) unless -s $basename;
 
@@ -80,7 +84,8 @@ sub fetch {
 sub clean {
     my $self = shift;
 
-    unlink $self->{file};
+    #remove the downloaded file only if DOWNLOAD_KEEP false
+    #unlink $self->{file} if $self->{config}->{"DOWNLOAD_KEEP"};
 }
 
 
