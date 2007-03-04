@@ -12,3 +12,7 @@ UPLOAD_DIR = upload
 
 # Package descriptions
 PACKAGES_DIR = packages
+
+# Download directory for upstream Tarball packages
+DOWNLOADS_DIR = downloads
+
