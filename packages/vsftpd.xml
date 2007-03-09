@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>ftp://vsftpd.beasts.org/users/cevans/vsftpd-2.0.5.tar.gz</url>
+  </fetch>
+  <build>
+    <configure-append>--dummy=dummy</configure-append>
+  </build>
+  <deb>
+    <maintainer>Neil Jerram &lt;neil@ossau.uklinux.net&gt;</maintainer>
+    <section>user/programming</section>
+    <description>Secure, fast FTP server\nProbably the most secure and fastest FTP server for UNIX-like systems.</description>
+  </deb>
+</package>
