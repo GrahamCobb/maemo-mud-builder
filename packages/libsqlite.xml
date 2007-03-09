@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>http://sqlite.org/sqlite-3.3.12.tar.gz</url>
+    <configure-append>--disable-tcl --disable-static</configure-append>
+  </fetch>
+  <deb>
+    <section>user/libs</section>
+  </deb>
+</package>
