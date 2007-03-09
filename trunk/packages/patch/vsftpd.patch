@@ -1,0 +1,286 @@
+Index: debian/postinst
+===================================================================
+--- debian/postinst	(revision 0)
++++ debian/postinst	(revision 0)
+@@ -0,0 +1,21 @@
++#!/bin/sh -e
++
++action="$1"
++oldversion="$2"
++
++if [ "$action" != configure ]
++  then
++  exit 0
++fi
++
++
++if [ -x /etc/init.d/vsftpd ]; then
++        update-rc.d vsftpd defaults >/dev/null
++        if [ -x /usr/sbin/invoke-rc.d ]; then
++                invoke-rc.d vsftpd restart
++        else
++                /etc/init.d/vsftpd restart
++        fi
++fi
++
++exit 0
+Index: debian/postrm
+===================================================================
+--- debian/postrm	(revision 0)
++++ debian/postrm	(revision 0)
+@@ -0,0 +1,8 @@
++#!/bin/sh
++# postrm for vsftpd
++
++if [ "$1" = "purge" ] ; then
++    update-rc.d vsftpd remove >/dev/null
++fi
++
++exit 0
+Index: debian/prerm
+===================================================================
+--- debian/prerm	(revision 0)
++++ debian/prerm	(revision 0)
+@@ -0,0 +1,30 @@
++#!/bin/sh
++# prerm for vsftpd
++
++case "$1" in
++    remove|deconfigure)
++	if [ -h /usr/doc/vsftpd ]; then
++	    rm -f /usr/doc/vsftpd
++	fi
++	if [ -x /etc/init.d/vsftpd ]; then
++		if [ -x /usr/sbin/invoke-rc.d ]; then
++			invoke-rc.d vsftpd stop
++		else
++			/etc/init.d/vsftpd stop
++		fi
++	fi
++	;;
++    upgrade)
++	if [ -h /usr/doc/vsftpd ]; then
++	    rm -f /usr/doc/vsftpd
++	fi
++        ;;
++    failed-upgrade)
++        ;;
++    *)
++        echo "prerm called with unknown argument \`$1'" >&2
++        exit 0
++	;;
++esac
++
++exit 0
+Index: debian/dirs
+===================================================================
+--- debian/dirs	(revision 1)
++++ debian/dirs	(working copy)
+@@ -1,2 +1,4 @@
+-usr/bin
+ usr/sbin
++etc
++etc/default
++etc/init.d
+Index: Makefile
+===================================================================
+--- Makefile	(revision 1)
++++ Makefile	(working copy)
+@@ -24,21 +24,10 @@
+ 	$(CC) -o vsftpd $(OBJS) $(LINK) $(LIBS) $(LDFLAGS)
+ 
+ install:
+-	if [ -x /usr/local/sbin ]; then \
+-		$(INSTALL) -m 755 vsftpd /usr/local/sbin/vsftpd; \
+-	else \
+-		$(INSTALL) -m 755 vsftpd /usr/sbin/vsftpd; fi
+-	if [ -x /usr/local/man ]; then \
+-		$(INSTALL) -m 644 vsftpd.8 /usr/local/man/man8/vsftpd.8; \
+-		$(INSTALL) -m 644 vsftpd.conf.5 /usr/local/man/man5/vsftpd.conf.5; \
+-	elif [ -x /usr/share/man ]; then \
+-		$(INSTALL) -m 644 vsftpd.8 /usr/share/man/man8/vsftpd.8; \
+-		$(INSTALL) -m 644 vsftpd.conf.5 /usr/share/man/man5/vsftpd.conf.5; \
+-	else \
+-		$(INSTALL) -m 644 vsftpd.8 /usr/man/man8/vsftpd.8; \
+-		$(INSTALL) -m 644 vsftpd.conf.5 /usr/man/man5/vsftpd.conf.5; fi
+-	if [ -x /etc/xinetd.d ]; then \
+-		$(INSTALL) -m 644 xinetd.d/vsftpd /etc/xinetd.d/vsftpd; fi
++	$(INSTALL) -m 755 vsftpd $(DESTDIR)/usr/sbin/vsftpd
++	$(INSTALL) -m 644 vsftpd.conf $(DESTDIR)/etc/vsftpd.conf
++	$(INSTALL) -m 755 vsftpd.init $(DESTDIR)/etc/init.d/vsftpd
++	$(INSTALL) -m 644 vsftpd.defaults $(DESTDIR)/etc/default/vsftpd
+ 
+ clean:
+ 	rm -f *.o *.swp vsftpd
+Index: configure
+===================================================================
+--- configure	(revision 0)
++++ configure	(revision 0)
+@@ -0,0 +1,2 @@
++#!/bin/sh
++echo configure: noop
+
+Property changes on: configure
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Index: vsftpd.init
+===================================================================
+--- vsftpd.init	(revision 0)
++++ vsftpd.init	(revision 0)
+@@ -0,0 +1,100 @@
++#! /bin/sh
++set -e
++
++# /etc/init.d/vsftpd: start and stop the vsftpd daemon
++
++DAEMON=/usr/sbin/vsftpd
++VSFTPD_ENABLE=false
++VSFTPD_OPTS=''
++VSFTPD_DEFAULTS_FILE=/etc/default/vsftpd
++VSFTPD_CONFIG_FILE=/etc/vsftpd.conf
++VSFTPD_NICE_PARM=''
++
++test -x $DAEMON || exit 0
++
++if [ -s $VSFTPD_DEFAULTS_FILE ]; then
++    . $VSFTPD_DEFAULTS_FILE
++    case "x$VSFTPD_ENABLE" in
++        xtrue|xfalse)   ;;
++        xinetd)         exit 0
++                        ;;
++        *)              echo "Value of VSFTPD_ENABLE in $VSFTPD_DEFAULTS_FILE must be either 'true' or 'false';"
++                        echo "not starting vsftpd daemon."
++                        exit 1
++                        ;;
++    esac
++    case "x$VSFTPD_NICE" in
++        x[0-9])         VSFTPD_NICE_PARM="--nicelevel $VSFTPD_NICE";;
++        x[1-9][0-9])    VSFTPD_NICE_PARM="--nicelevel $VSFTPD_NICE";;
++        x)              ;;
++        *)              echo "Value of VSFTPD_NICE in $VSFTPD_DEFAULTS_FILE must be a value"
++                        echo "between 0 and 19 (inclusive); ignoring VSFTPD_NICE now."
++                        ;;
++    esac
++fi
++
++export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
++
++case "$1" in
++  start)
++	if "$VSFTPD_ENABLE"; then
++            echo -n "Starting vsftpd daemon: vsftpd"
++	    if [ -s /var/run/vsftpd.pid ] && kill -0 $(cat /var/run/vsftpd.pid) >/dev/null 2>&1; then
++	    	echo " apparently already running."
++		exit 0
++	    fi
++            if [ ! -s "$VSFTPD_CONFIG_FILE" ]; then
++                echo " missing or empty config file $VSFTPD_CONFIG_FILE"
++                exit 1
++            fi
++            start-stop-daemon --start --quiet --background \
++                --pidfile /var/run/vsftpd.pid --make-pidfile \
++                $VSFTPD_NICE_PARM --exec $DAEMON $VSFTPD_CONFIG_FILE $VSFTPD_OPTS
++            echo "."
++        else
++            if [ -s "$VSFTPD_CONFIG_FILE" ]; then
++                echo "vsftpd daemon not enabled in /etc/default/vsftpd"
++            fi
++        fi
++	;;
++  stop)
++        echo -n "Stopping vsftpd daemon: vsftpd"
++	start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/vsftpd.pid
++	rm -f /var/run/vsftpd.pid
++        echo "."
++	;;
++
++  reload|force-reload)
++        echo "Reloading vsftpd daemon: not needed, as the daemon"
++        echo "re-reads the config file whenever a client connects."
++	;;
++
++  restart)
++	set +e
++        if $VSFTPD_ENABLE; then
++            echo -n "Restarting vsftpd daemon: vsftpd"
++	    if [ -s /var/run/vsftpd.pid ] && kill -0 $(cat /var/run/vsftpd.pid) >/dev/null 2>&1; then
++		start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/vsftpd.pid || true
++		sleep 1
++	    else
++	    	rm -f /var/run/vsftpd.pid
++	    fi
++            if ! start-stop-daemon --start --quiet --background \
++                --pidfile /var/run/vsftpd.pid --make-pidfile \
++                $VSFTPD_NICE_PARM --exec $DAEMON $VSFTPD_CONFIG_FILE $VSFTPD_OPTS
++	    then
++	    	echo "start failed?"
++		rm -f /var/run/vsftpd.pid
++	    fi
++            echo "."
++        else
++            echo "vsftpd daemon not enabled in /etc/default/vsftpd"
++        fi
++	;;
++
++  *)
++	echo "Usage: /etc/init.d/vsftpd {start|stop|reload|force-reload|restart}"
++	exit 1
++esac
++
++exit 0
+Index: vsftpd.defaults
+===================================================================
+--- vsftpd.defaults	(revision 0)
++++ vsftpd.defaults	(revision 0)
+@@ -0,0 +1,6 @@
++# Options for starting vsftpd at boot time. -*- sh -*-
++
++VSFTPD_ENABLE=true
++# VSFTPD_OPTS=''
++# VSFTPD_CONFIG_FILE=/etc/vsftpd.conf
++# VSFTPD_NICE_PARM=''
+Index: vsftpd.conf
+===================================================================
+--- vsftpd.conf	(revision 1)
++++ vsftpd.conf	(working copy)
+@@ -9,13 +9,13 @@
+ # capabilities.
+ #
+ # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
+-anonymous_enable=YES
++#anonymous_enable=YES
+ #
+ # Uncomment this to allow local users to log in.
+-#local_enable=YES
++local_enable=YES
+ #
+ # Uncomment this to enable any form of FTP write command.
+-#write_enable=YES
++write_enable=YES
+ #
+ # Default umask for local users is 077. You may wish to change this to 022,
+ # if your users expect that (022 is used by most other ftpd's)
+@@ -35,10 +35,10 @@
+ dirmessage_enable=YES
+ #
+ # Activate logging of uploads/downloads.
+-xferlog_enable=YES
++#xferlog_enable=YES
+ #
+ # Make sure PORT transfer connections originate from port 20 (ftp-data).
+-connect_from_port_20=YES
++#connect_from_port_20=YES
+ #
+ # If you want, you can arrange for uploaded anonymous files to be owned by
+ # a different user. Note! Using "root" for uploaded files is not
+@@ -101,3 +101,8 @@
+ # the presence of the "-R" option, so there is a strong case for enabling it.
+ #ls_recurse_enable=YES
+ 
++# Settings added for Maemo package (in addition to some edits above).
++listen=YES
++ftp_username=user
++check_shell=NO
++force_dot_files=YES
