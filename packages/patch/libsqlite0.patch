@@ -1,0 +1,100 @@
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -1,12 +1,13 @@
+ Source: sqlite
+-Section: devel
++Section: user/devel
+ Priority: optional
+-Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.hu>
++Maintainer: Graham Cobb <g+770@cobb.uk.net>
+ Build-Depends: cdbs (>= 0.4.15), debhelper (>= 4.1.16), autoconf (>= 2.59), libtool (>= 1.5.2), automake1.9, autotools-dev, libreadline5-dev, tcl8.4-dev
+-Standards-Version: 3.7.2
++Standards-Version: 3.6.0
+ 
+ Package: sqlite
+-Section: misc
++Uploaders: MUD Project <mud-builder-team@garage.maemo.org>
++Section: user/misc
+ Architecture: any
+ Depends: ${shlibs:Depends}
+ Suggests: sqlite-doc
+@@ -15,20 +16,9 @@
+  Programs that link with the SQLite library can have SQL database 
+  access without running a separate RDBMS process.
+ 
+-Package: sqlite-doc
+-Section: doc
+-Architecture: all
+-Recommends: sqlite
+-Description: SQLite documentation
+- SQLite is a C library that implements an SQL database engine. 
+- Programs that link with the SQLite library can have SQL database 
+- access without running a separate RDBMS process.
+- .
+- This package contains the documentation that is also available on
+- the SQLite homepage.
+-
+ Package: libsqlite0
+-Section: libs
++Uploaders: MUD Project <mud-builder-team@garage.maemo.org>
++Section: user/libs
+ Architecture: any
+ Pre-Depends: ${misc:Depends}
+ Depends: ${shlibs:Depends}
+@@ -38,11 +28,12 @@
+  access without running a separate RDBMS process.
+ 
+ Package: libsqlite0-dev
++Uploaders: MUD Project <mud-builder-team@garage.maemo.org>
+ Provides: libsqlite-dev
+ Conflicts: libsqlite-dev
+ Replaces: libsqlite-dev (<< 2.7.0)
+ Suggests: sqlite-doc
+-Section: libdevel
++Section: user/libdevel
+ Architecture: any
+ Depends: libsqlite0 (= ${Source-Version}), libc6-dev
+ Description: SQLite development files
+@@ -52,16 +43,3 @@
+  .
+  This package contains the development files (headers, static libraries)
+ 
+-Package: libsqlite-tcl
+-Conflicts: libsqlite0-tcl
+-Replaces: libsqlite0-tcl
+-Suggests: sqlite-doc
+-Section: interpreters
+-Architecture: any
+-Depends: ${shlibs:Depends}
+-Description: SQLite TCL bindings
+- SQLite is a C library that implements an SQL database engine. 
+- Programs that link with the SQLite library can have SQL database 
+- access without running a separate RDBMS process.
+- .
+- This package contains the TCL bindings.
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -12,8 +12,8 @@
+ 
+ common-install-arch::
+ 	install -d debian/tmp/usr/lib/sqlite
+-	install -m 0664 debian/pkgIndex.tcl debian/tmp/usr/lib/sqlite
+-	./libtool --mode=install install libtclsqlite.la `pwd`/debian/tmp/usr/lib/sqlite
++	#install -m 0664 debian/pkgIndex.tcl debian/tmp/usr/lib/sqlite
++	#./libtool --mode=install install libtclsqlite.la `pwd`/debian/tmp/usr/lib/sqlite
+ 	install -d debian/tmp/usr/share/lemon
+ 	install -m 664 tool/lempar.c debian/tmp/usr/share/lemon
+ 	install -m 775 lemon debian/tmp/usr/bin
+@@ -27,7 +27,7 @@
+ 			    config_TARGET_LIBS="-lpthread" \
+ 			    --enable-utf8
+ 
+-DEB_BUILD_MAKE_TARGET = all libtclsqlite.la doc
++DEB_BUILD_MAKE_TARGET = all 
+ # DEB_MAKE_CHECK_TARGET = test
+ 
+ DEB_DH_INSTALL_ARGS := --sourcedir=debian/tmp
