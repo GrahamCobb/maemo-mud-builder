@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian">
+    <name>libsqlite0</name>
+    <depends></depends>
+  </fetch>
+  <deb>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+  </deb>
+</package>
