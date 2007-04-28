@@ -52,6 +52,10 @@ sub _init {
 sub build {
     my $self = shift;
 
+# Don't build more than once in the same command
+    print "***Already built $self->{package}***\n" if %::built->{$self->{package}};
+    return if %::built->{$self->{package}}++;
+
     $self->clean();
     $self->fetch();
     $self->patch();
