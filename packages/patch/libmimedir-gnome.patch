@@ -1,0 +1,75 @@
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -9,9 +9,9 @@
+ Architecture: any
+-Depends: libmimedir-gnomeBROKEN (= ${Source-Version})
++Depends: libmimedir-gnome1 (= ${Source-Version})
+ Description: <insert up to 60 chars description>
+  <insert long description, indented with spaces>
+ 
+-Package: libmimedir-gnomeBROKEN
++Package: libmimedir-gnome1
+ Section: libs
+ Architecture: any
+ Depends: ${shlibs:Depends}, ${misc:Depends}
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -33,6 +33,7 @@
+ configure-stamp:
+ 	dh_testdir
+ 	# Add here commands to configure the package.
++	REQUIRED_AUTOMAKE_VERSION=1.5 ./autogen.sh --enable-hildon --disable-cairo --disable-gtk-doc --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
+ 
+ 	touch configure-stamp
+ 
+@@ -74,10 +75,10 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installchangelogs ChangeLog
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs ChangeLog
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -87,7 +88,7 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
+Index: configure.in
+===================================================================
+--- configure.in	(revision 1)
++++ configure.in	(working copy)
+@@ -106,8 +106,5 @@
+ 	po/Makefile.in
+ 	mimedir/Makefile
+ 	bin/Makefile
+-	docs/Makefile
+-	docs/reference/Makefile
+-	docs/reference/mimedir/Makefile
+ 	mimedir-1.0.pc])
+ AC_OUTPUT
+Index: Makefile.am
+===================================================================
+--- Makefile.am	(revision 1)
++++ Makefile.am	(working copy)
+@@ -1,4 +1,4 @@
+-SUBDIRS = mimedir bin po docs
++SUBDIRS = mimedir bin po
+ 
+ EXTRA_DIST = \
+ 	COPYING.LIB		\

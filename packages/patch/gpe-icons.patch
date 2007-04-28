@@ -1,0 +1,31 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -41,11 +41,11 @@
+ binary-indep: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installdocs
+-	dh_installexamples
+-	dh_installman
++#	dh_installdocs
++#	dh_installexamples
++#	dh_installman
+ #	dh_undocumented
+-	dh_installchangelogs
++#	dh_installchangelogs
+ 	dh_link
+ 	dh_compress
+ 	dh_fixperms
+Index: Makefile
+===================================================================
+--- Makefile	(revision 1)
++++ Makefile	(working copy)
+@@ -33,5 +33,4 @@
+ BUILD = build
+ endif
+ 
+-include $(BUILD)/Makefile.dpkg_ipkg
+-
++install: install-program

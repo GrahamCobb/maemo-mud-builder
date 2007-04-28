@@ -2,7 +2,7 @@
 <package>
   <fetch type="command">
     <command>
-    pkg="libgpewidget"
+    pkg="gpe-timesheet"
     date="20070421"
     branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
     pkgdir="$pkg-0svn${date}maemo"
@@ -16,11 +16,13 @@
     cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
     rm -f $pkgdir/debian/changelog.tmp
     </command>
+    <depends>libtododb, libgpewidget</depends>
   </fetch>
   <build>
   </build>
   <deb>
+    <section>user/pim</section>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
-    <description>GPE packaged with mud</description>
+    <description>gpe packaged with mud</description>
   </deb>
 </package>

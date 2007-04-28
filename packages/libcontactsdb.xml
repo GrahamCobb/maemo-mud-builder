@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="command">
+    <command>
+    pkg="libcontactsdb"
+    date="20070421"
+    branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
+    pkgdir="$pkg-0svn${date}maemo"
+    svn export -r {${date}T0000Z} $branch/$pkg $pkgdir
+    </command>
+    <depends>libsqlite0, libgpepimc</depends>
+  </fetch>
+  <build>
+  </build>
+  <deb>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+    <description>gpe packaged with mud</description>
+  </deb>
+</package>

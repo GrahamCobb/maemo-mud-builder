@@ -1,0 +1,76 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -33,10 +33,14 @@
+ #major=`ls src/.libs/lib*.so.* | \
+ # awk '{if (match($$0,/\.so\.[0-9]+$$/)) print substr($$0,RSTART+4)}'`
+ 
++configure:
++#	intltoolize --copy --automake --force
++	autoreconf -f -i -s
++
+ config.status: configure
+ 	dh_testdir
+ 	# Add here commands to configure the package.
+-	CFLAGS="$(CFLAGS)" ./configure --enable-hildon --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
++	CFLAGS="$(CFLAGS)" ./configure --enable-hildon --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --enable-hildon --disable-cairo
+ 
+ 
+ build: build-stamp
+@@ -84,10 +88,10 @@
+ 	dh_testdir
+ 	dh_testroot
+ 	dh_movefiles
+-	dh_installchangelogs ChangeLog
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs ChangeLog
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -97,14 +101,14 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
+ 	dh_fixperms
+ #	dh_perl
+ #	dh_python
+-	dh_makeshlibs
++	dh_makeshlibs -V
+ 	dh_installdeb
+ 	dh_shlibdeps
+ 	dh_gencontrol
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 1)
++++ configure.ac	(working copy)
+@@ -14,7 +14,7 @@
+ PKG_CHECK_MODULES(TODODB, sqlite libgpepimc)
+ 
+ #gtk-doc for documentation
+-GTK_DOC_CHECK(1.2)
++#GTK_DOC_CHECK(1.2)
+ 
+-AC_CONFIG_FILES([Makefile libtododb.pc doc/Makefile])
++AC_CONFIG_FILES([Makefile libtododb.pc])
+ AC_OUTPUT
+Index: Makefile.am
+===================================================================
+--- Makefile.am	(revision 1)
++++ Makefile.am	(working copy)
+@@ -1,4 +1,4 @@
+-SUBDIRS = doc
++SUBDIRS = 
+ 
+ lib_LTLIBRARIES = libtododb.la
+ 

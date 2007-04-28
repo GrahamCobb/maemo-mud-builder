@@ -2,6 +2,7 @@
 <package>
   <fetch type="debian">
     <name>libsqlite0</name>
+    <deb-src>http://ftp.uk.debian.org/debian/ etch main</deb-src>
     <depends></depends>
   </fetch>
   <deb>

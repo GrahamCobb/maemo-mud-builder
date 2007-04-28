@@ -1,0 +1,233 @@
+Index: mkinstalldirs
+===================================================================
+--- mkinstalldirs	(revision 0)
++++ mkinstalldirs	(revision 0)
+@@ -0,0 +1,150 @@
++#! /bin/sh
++# mkinstalldirs --- make directory hierarchy
++
++scriptversion=2004-02-15.20
++
++# Original author: Noah Friedman <friedman@prep.ai.mit.edu>
++# Created: 1993-05-16
++# Public domain.
++#
++# This file is maintained in Automake, please report
++# bugs to <bug-automake@gnu.org> or send patches to
++# <automake-patches@gnu.org>.
++
++errstatus=0
++dirmode=""
++
++usage="\
++Usage: mkinstalldirs [-h] [--help] [--version] [-m MODE] DIR ...
++
++Create each directory DIR (with mode MODE, if specified), including all
++leading file name components.
++
++Report bugs to <bug-automake@gnu.org>."
++
++# process command line arguments
++while test $# -gt 0 ; do
++  case $1 in
++    -h | --help | --h*)         # -h for help
++      echo "$usage"
++      exit 0
++      ;;
++    -m)                         # -m PERM arg
++      shift
++      test $# -eq 0 && { echo "$usage" 1>&2; exit 1; }
++      dirmode=$1
++      shift
++      ;;
++    --version)
++      echo "$0 $scriptversion"
++      exit 0
++      ;;
++    --)                         # stop option processing
++      shift
++      break
++      ;;
++    -*)                         # unknown option
++      echo "$usage" 1>&2
++      exit 1
++      ;;
++    *)                          # first non-opt arg
++      break
++      ;;
++  esac
++done
++
++for file
++do
++  if test -d "$file"; then
++    shift
++  else
++    break
++  fi
++done
++
++case $# in
++  0) exit 0 ;;
++esac
++
++# Solaris 8's mkdir -p isn't thread-safe.  If you mkdir -p a/b and
++# mkdir -p a/c at the same time, both will detect that a is missing,
++# one will create a, then the other will try to create a and die with
++# a "File exists" error.  This is a problem when calling mkinstalldirs
++# from a parallel make.  We use --version in the probe to restrict
++# ourselves to GNU mkdir, which is thread-safe.
++case $dirmode in
++  '')
++    if mkdir -p --version . >/dev/null 2>&1 && test ! -d ./--version; then
++      echo "mkdir -p -- $*"
++      exec mkdir -p -- "$@"
++    else
++      # On NextStep and OpenStep, the `mkdir' command does not
++      # recognize any option.  It will interpret all options as
++      # directories to create, and then abort because `.' already
++      # exists.
++      test -d ./-p && rmdir ./-p
++      test -d ./--version && rmdir ./--version
++    fi
++    ;;
++  *)
++    if mkdir -m "$dirmode" -p --version . >/dev/null 2>&1 &&
++       test ! -d ./--version; then
++      echo "mkdir -m $dirmode -p -- $*"
++      exec mkdir -m "$dirmode" -p -- "$@"
++    else
++      # Clean up after NextStep and OpenStep mkdir.
++      for d in ./-m ./-p ./--version "./$dirmode";
++      do
++        test -d $d && rmdir $d
++      done
++    fi
++    ;;
++esac
++
++for file
++do
++  set fnord `echo ":$file" | sed -ne 's/^:\//#/;s/^://;s/\// /g;s/^#/\//;p'`
++  shift
++
++  pathcomp=
++  for d
++  do
++    pathcomp="$pathcomp$d"
++    case $pathcomp in
++      -*) pathcomp=./$pathcomp ;;
++    esac
++
++    if test ! -d "$pathcomp"; then
++      echo "mkdir $pathcomp"
++
++      mkdir "$pathcomp" || lasterr=$?
++
++      if test ! -d "$pathcomp"; then
++	errstatus=$lasterr
++      else
++	if test ! -z "$dirmode"; then
++	  echo "chmod $dirmode $pathcomp"
++	  lasterr=""
++	  chmod "$dirmode" "$pathcomp" || lasterr=$?
++
++	  if test ! -z "$lasterr"; then
++	    errstatus=$lasterr
++	  fi
++	fi
++      fi
++    fi
++
++    pathcomp="$pathcomp/"
++  done
++done
++
++exit $errstatus
++
++# Local Variables:
++# mode: shell-script
++# sh-indentation: 2
++# eval: (add-hook 'write-file-hooks 'time-stamp)
++# time-stamp-start: "scriptversion="
++# time-stamp-format: "%:y-%02m-%02d.%02H"
++# time-stamp-end: "$"
++# End:
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -33,10 +33,14 @@
+ #major=`ls src/.libs/lib*.so.* | \
+ # awk '{if (match($$0,/\.so\.[0-9]+$$/)) print substr($$0,RSTART+4)}'`
+ 
++configure:
++	intltoolize --copy --automake --force
++	autoreconf -f -i -s
++
+ config.status: configure
+ 	dh_testdir
+ 	# Add here commands to configure the package.
+-	CFLAGS="$(CFLAGS)" ./configure --enable-hildon --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
++	CFLAGS="$(CFLAGS)" ./configure --enable-hildon --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info 
+ 
+ 
+ build: build-stamp
+@@ -84,10 +88,10 @@
+ 	dh_testdir
+ 	dh_testroot
+ 	dh_movefiles
+-	dh_installchangelogs ChangeLog
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs ChangeLog
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -97,14 +101,14 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
+ 	dh_fixperms
+ #	dh_perl
+ #	dh_python
+-	dh_makeshlibs
++	dh_makeshlibs -V
+ 	dh_installdeb
+ 	dh_shlibdeps
+ 	dh_gencontrol
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 1)
++++ configure.ac	(working copy)
+@@ -46,10 +46,9 @@
+     PIMC_CFLAGS="$PIMC_CFLAGS -DIS_HILDON"
+ fi
+ 
+-GTK_DOC_CHECK(1.2)
+ 
+ AC_SUBST(ENABLE_HILDON)
+ AM_CONDITIONAL(HILDON, test x$ENABLE_HILDON = xtrue)
+ 
+-AC_CONFIG_FILES([Makefile libgpepimc.pc po/Makefile.in doc/Makefile])
++AC_CONFIG_FILES([Makefile libgpepimc.pc po/Makefile.in])
+ AC_OUTPUT
+Index: Makefile.am
+===================================================================
+--- Makefile.am	(revision 1)
++++ Makefile.am	(working copy)
+@@ -1,4 +1,4 @@
+-SUBDIRS = doc po
++SUBDIRS =  po
+ lib_LTLIBRARIES = libgpepimc.la
+ 
+ if HILDON

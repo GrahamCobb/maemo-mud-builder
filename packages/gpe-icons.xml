@@ -2,7 +2,7 @@
 <package>
   <fetch type="command">
     <command>
-    pkg="libgpewidget"
+    pkg="gpe-icons"
     date="20070421"
     branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
     pkgdir="$pkg-0svn${date}maemo"
@@ -19,8 +19,8 @@
   </fetch>
   <build>
   </build>
-  <deb>
+  <deb prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
-    <description>GPE packaged with mud</description>
+    <description>gpe packaged with mud</description>
   </deb>
 </package>
