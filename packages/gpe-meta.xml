@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="command">
+    <command>
+			mkdir gpe-0.1
+			cd gpe-0.1
+			cat &gt;Makefile &lt;&lt;EOM
+all: gpe_haha
+
+gpe_haha: 
+	echo haha
+
+install:
+	echo hehe
+EOM
+		</command>
+    <depends>libgpewidget,gpe-calendar,gpe-contacts,libgpevtype,gpesyncd,libgpepimc,gpe-icons,gpe-todo</depends>
+  </fetch>
+  <deb>
+  <description>gpe-meta package</description>
+    <section>user/communication</section>
+  </deb>
+</package>
+
