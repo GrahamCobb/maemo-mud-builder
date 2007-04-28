@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="command">
+    <depends>gnome-common</depends>
+    <command>
+    pkg="libmimedir-gnome"
+    date="20070421"
+    branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
+    pkgdir="$pkg-0svn${date}maemo"
+    svn export -r {${date}T0000Z} $branch/libmimedir $pkgdir
+    </command>
+  </fetch>
+  <build>
+  </build>
+  <deb>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+    <description>libmimedir from OE packaged with mud</description>
+  </deb>
+</package>
