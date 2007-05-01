@@ -65,10 +65,20 @@ if ($OPTS{all}) {
     closedir(DIR);
 }
 
+# Keep track of which packages are built in this specific command
+%::built = ();
+
 foreach my $n (@pkgs) {
     $n = basename($n, ".xml") if -f $n;
     eval("print \&$action(\$n)");
     croak "Failed to run $action on $n: $@\n" if $@;
+}
+
+if ($action eq "build") {
+# Clean packages which were built
+    foreach my $n (@pkgs) {
+	clean($n);
+    }
 }
 
     
@@ -158,7 +168,7 @@ sub build {
     my $builder = new MUD::Build( package => $pkg, config => $config);
     $builder->build();
     $builder->copy();
-    $builder->clean();
+#    $builder->clean();
 }
 
 sub show {
