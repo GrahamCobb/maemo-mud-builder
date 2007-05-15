@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+	  <url>http://downloads.sourceforge.net/wxcode/wxstedit-1.2.4.tar.gz</url>
+  </fetch>
+  <deb>
+    <description>Wrapper around the Scintilla text editor widget</description>
+    <section>user/editor</section>
+    <maintainer>Kees Jongenburger &lt;kees.jongenburger@gmail.com&gt;</maintainer>
+    <depends>${shlibs:Depends}, ${misc:Depends}, libwxgtk1</depends>
+    <build-Depends>debhelper (&gt;= 4.0.0), libwxgtk-dev</build-Depends>
+
+  </deb>
+</package>
