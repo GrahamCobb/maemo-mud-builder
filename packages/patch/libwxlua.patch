@@ -21,11 +21,13 @@ Index: debian/libwxlua1.install
 ===================================================================
 --- debian/libwxlua1.install	(revision 1)
 +++ debian/libwxlua1.install	(working copy)
-@@ -1 +1,5 @@
+@@ -1 +1,7 @@
 -usr/lib/lib*.so.*
 +usr/lib/*
++usr/bin/*
 +usr/lib/lua/5.1/wx.so
 +usr/share/applications/wxlua.desktop
++/usr/share/wxlua/samples/*
 +usr/share/mime/packages/wxlua.xml
 +usr/share/pixmaps/wxlualogo.xpm
 Index: modules/wxbind/setup/wxluasetup.h
