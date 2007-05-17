@@ -1,22 +1,46 @@
-Index: debian/libwxgtk-dev.links
+Index: debian/rules
 ===================================================================
---- debian/libwxgtk-dev.links	(revision 0)
-+++ debian/libwxgtk-dev.links	(revision 0)
-@@ -0,0 +1 @@
-+/usr/lib/wx/config/gtk2-ansi-release-2.8 /usr/bin/wx-config 
-Index: debian/libwxgtk-dev.install
-===================================================================
---- debian/libwxgtk-dev.install	(revision 1)
-+++ debian/libwxgtk-dev.install	(working copy)
-@@ -1,3 +1,4 @@
-+usr/bin/wxrc*
- usr/include/*
- usr/lib/lib*.a
- usr/lib/lib*.so
-@@ -3,2 +4,6 @@
- usr/lib/pkgconfig/*
- usr/lib/*.la
-+usr/lib/wx/*
-+usr/lib/wx/config/*
-+usr/lib/wx/include/*
-+
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -39,7 +39,7 @@
+ config.status: configure
+ 	dh_testdir
+ 	# Add here commands to configure the package.
+-	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
++	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --with-hildon
+ 
+ 
+ build: build-stamp
+@@ -76,6 +76,8 @@
+ 
+ 	# Add here commands to install the package into debian/tmp
+ 	$(MAKE) install prefix=$(CURDIR)/debian/tmp/usr
++	cd contrib/ && $(MAKE) install prefix=$(CURDIR)/debian/tmp/usr
++	cd $(CURDIR)
+ 
+ 
+ # Build architecture-independent files here.
+@@ -86,10 +88,10 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installchangelogs 
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs 
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -99,7 +101,7 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
