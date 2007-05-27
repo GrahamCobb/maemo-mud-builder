@@ -1,3 +1,10 @@
+Index: debian/libwxgtk1.install
+===================================================================
+--- debian/libwxgtk1.install	(revision 1)
++++ debian/libwxgtk1.install	(working copy)
+@@ -1 +1,2 @@
+ usr/lib/lib*.so.*
++usr/share
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
@@ -7,20 +14,24 @@ Index: debian/rules
  	dh_testdir
  	# Add here commands to configure the package.
 -	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
-+	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --with-hildon
++	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --with-hildon --with-hildon --with-hildon --with-hildon --with-hildon
  
  
  build: build-stamp
-@@ -76,6 +76,8 @@
+@@ -76,6 +76,12 @@
  
  	# Add here commands to install the package into debian/tmp
  	$(MAKE) install prefix=$(CURDIR)/debian/tmp/usr
 +	cd contrib/ && $(MAKE) install prefix=$(CURDIR)/debian/tmp/usr
 +	cd $(CURDIR)
++	rm -f $(CURDIR)/debian/tmp/usr/bin/wx-config
++	cd $(CURDIR)/debian/tmp/usr/bin/
++	ln -s ../lib/wx/config/gtk2-ansi-release-2.8 wx-config
++	cd $(CURDIR)
  
  
  # Build architecture-independent files here.
-@@ -86,10 +88,10 @@
+@@ -86,10 +92,10 @@
  binary-arch: build install
  	dh_testdir
  	dh_testroot
@@ -35,7 +46,7 @@ Index: debian/rules
  #	dh_installmenu
  #	dh_installdebconf	
  #	dh_installlogrotate
-@@ -99,7 +101,7 @@
+@@ -99,7 +105,7 @@
  #	dh_installinit
  #	dh_installcron
  #	dh_installinfo
@@ -44,3 +55,19 @@ Index: debian/rules
  	dh_link
  	dh_strip
  	dh_compress
+Index: debian/libwxgtk-dev.install
+===================================================================
+--- debian/libwxgtk-dev.install	(revision 1)
++++ debian/libwxgtk-dev.install	(working copy)
+@@ -1,5 +1,11 @@
+ usr/include/*
++usr/bin/wx-config
++usr/bin/wxrc
++usr/bin/wxrc-2.8
+ usr/lib/lib*.a
+ usr/lib/lib*.so
+ usr/lib/pkgconfig/*
+ usr/lib/*.la
++usr/lib/wx/config/*
++usr/lib/wx/include/
++usr/lib/wx/config/gtk2-ansi-release-2.8
