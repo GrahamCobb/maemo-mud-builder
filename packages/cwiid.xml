@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <package>
   <fetch type="tarball">
-    <url>http://abstrakraft.org/cwiid/downloads/cwiid-0.5.01.tgz</url>
+    <url>http://abstrakraft.org/cwiid/downloads/cwiid-0.5.03.tgz</url>
   </fetch>
   <deb>
     <icon>http://www.wiili.org/favicon.ico</icon>
     <description>CWiid is a Linux interface to the Wiimote written in C\nCWiid is a Linux interface to the Wiimote written in C. The goal of this project is to develop a working userspace driver along with various applications implementing event drivers, multiple wiimote connectivity, gesture recognition, and other Wiimote-based functionality. The library developed for this project is (almost) a full-featured programming interface to the Wiimote.</description>
     <section>user/libs</section>
+    <build-Depends>debhelper (&gt;= 4.0.0), libbluetooth2-dev</build-Depends>
   </deb>
 </package>
