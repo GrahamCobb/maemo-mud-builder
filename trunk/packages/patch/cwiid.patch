@@ -1,44 +1,57 @@
-Index: common/include/app.mak
+Index: debian/rules
 ===================================================================
---- common/include/app.mak	(revision 1)
-+++ common/include/app.mak	(working copy)
-@@ -3,7 +3,7 @@
- OBJECTS = $(SOURCES:.c=.o)
- DEPS    = $(SOURCES:.c=.d)
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -66,8 +66,12 @@
  
--INST_DIR ?= /usr/local/bin
-+INST_DIR ?= $(DESTDIR)/bin
+ 	# Add here commands to install the package into debian/cwiid.
+ 	$(MAKE) install prefix=$(CURDIR)/debian/cwiid/usr
++        #maemo stuff
++	mkdir -p $(CURDIR)/debian/cwiid/usr/share/applications/hildon
++	cp -v $(CURDIR)/wmgui.desktop $(CURDIR)/debian/cwiid/usr/share/applications/hildon/
  
- all: $(APP_NAME)
  
-@@ -11,6 +11,7 @@
- 	$(CC) -o $@ $(OBJECTS) $(LDFLAGS) $(LDLIBS)
- 
- install: $(APP_NAME)
-+	mkdir -p  $(INST_DIR)
- 	cp $(APP_NAME) $(INST_DIR)
- 
- clean:
-Index: common/include/lib.mak
++
+ # Build architecture-independent files here.
+ binary-indep: build install
+ # We have nothing to do by default.
+@@ -76,10 +80,10 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installchangelogs ChangeLog
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs ChangeLog
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -89,7 +93,7 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
+Index: wmgui.desktop
 ===================================================================
---- common/include/lib.mak	(revision 1)
-+++ common/include/lib.mak	(working copy)
-@@ -27,14 +27,17 @@
- install: install_header install_static install_shared
- 
- install_header:
-+	mkdir -p  $(INC_INST_DIR)
- 	cp $(LIB_NAME).h $(INC_INST_DIR)
- 
- install_static: static
-+	mkdir -p  $(LIB_INST_DIR)
- 	cp $(STATIC_LIB) $(LIB_INST_DIR)
- 
- install_shared: shared
-+	mkdir -p  $(LIB_INST_DIR)
- 	cp $(SHARED_LIB) $(LIB_INST_DIR)
--	ln -sf $(SO_NAME) $(LIB_INST_DIR)/$(LINK_NAME)
-+	cd $(LIB_INST_DIR) && ln -sf $(SO_NAME) $(LIB_INST_DIR)/$(LINK_NAME)
- 	ldconfig
- 
- clean:
+--- wmgui.desktop	(revision 0)
++++ wmgui.desktop	(revision 0)
+@@ -0,0 +1,11 @@
++[Desktop Entry]
++Encoding=UTF-8
++Version=0.9.2
++Name=WIIRemoteGUI
++Type=Application
++Comment=wiiremote gui
++Exec=wmgui
++TryExec=wmgui
++Path=
++Icon=xmoto.xpm
++Categories=Extra
