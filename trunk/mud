@@ -104,8 +104,8 @@ sub get {
     system('rm', '-rf', $base);
     print "done.\nChecking out working copy... ";
     system('svn', 'co', '-q', "file://$repo", $base);
-    print "done.\nRemoving repository... ";
-    system('rm', '-rf', $repo);
+#    print "done.\nRemoving repository... ";
+#    system('rm', '-rf', $repo);
     print "done.\n";
 
     $builder->patch();
