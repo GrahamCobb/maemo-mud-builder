@@ -29,9 +29,7 @@
          installes can perhaps ask for a username to use? -->
     <description>X-Moto is a challenging 2D motocross platform game\nX-Moto is a challenging 2D motocross platform game, where physics play an all important role in the gameplay. You need to control your bike to its limit, if you want to have a chance finishing the more difficult of the challenges.</description>
     <maintainer>Kees Jongenburger &lt;kees.jongenburger@gmail.com&gt;</maintainer>
-    <version>0.2.6</version>
-    <depends>${shlibs:Depends}, ${misc:Depends}, lua, libsdl-gfx1, libode0</depends>
-    <build-Depends>debhelper (&gt;= 4.0.0), libsdl-gfx-dev, libode0-dev</build-Depends>
+    <version>0.2.6-2</version>
     <section>user/games</section>
   </deb>
 </package>
