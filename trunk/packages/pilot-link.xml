@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+     <depends>libbluetooth2-dev</depends>
+    <url>http://downloads.pilot-link.org/pilot-link-0.12.2.tar.bz2</url>
+  </fetch>
+  <deb>
+    <!-- keesj:it workds on my machine but that is becasue I have copied and
+	 cleaned an existing .xmoto file to the user home directory, the
+         installes can perhaps ask for a username to use? -->
+	 <description>tools to communicate with a PalmOS PDA\nThe package contains many command line programs to manipulate databases stored on a PalmOS PDA. For example pilot-xfer can be used to backup, ync, and restore databases.</description>
+  </deb>
+</package>

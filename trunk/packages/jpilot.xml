@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+     <depends>pilot-link</depends>
+     <url>http://jpilot.org/jpilot-0.99.9.tar.gz</url>
+  </fetch>
+  <deb>
+	  <section>user/office</section>
+	  <depends>pilot-link</depends>
+	  <description>graphical app. to modify the contents of your Palm Pilot's DBs\nJ-Pilot is a desktop organizer application for PalmOS devices. It is meant to be an alternative to the Palm Desktop provided by Palm.</description>
+  </deb>
+</package>

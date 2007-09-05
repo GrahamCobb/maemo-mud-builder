@@ -1,0 +1,33 @@
+Index: Makefile.in
+===================================================================
+--- Makefile.in	(revision 1)
++++ Makefile.in	(working copy)
+@@ -443,7 +443,7 @@
+ # Automatically update the libtool script if it becomes out-of-date.
+ LIBTOOL_DEPS = @LIBTOOL_DEPS@
+ ACLOCAL_AMFLAGS = -I m4
+-desktopdir = $(datadir)/applications
++desktopdir = $(datadir)/applications/hildon
+ desktop_DATA = jpilot.desktop
+ all: config.h
+ 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+Index: otherconv.c
+===================================================================
+--- otherconv.c	(revision 1)
++++ otherconv.c	(working copy)
+@@ -136,13 +136,13 @@
+ 
+   /* (re)open the "to" iconv */
+   OC_FREE_ICONV(glob_topda);
+-  glob_topda = g_iconv_open(char_set_to_text(char_set), HOST_CS);
++  glob_topda = g_iconv_open("ASCII", HOST_CS);
+   if (glob_topda == (GIConv)(-1))
+      return EXIT_FAILURE;
+ 
+   /* (re)open the "from" iconv */
+   OC_FREE_ICONV(glob_frompda);
+-  glob_frompda = g_iconv_open(HOST_CS, char_set_to_text(char_set));
++  glob_frompda = g_iconv_open(HOST_CS, "ASCII"
+   if (glob_frompda == (GIConv)(-1)) {
+     OC_FREE_ICONV(glob_topda);
+      return EXIT_FAILURE;
