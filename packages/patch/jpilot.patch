@@ -27,7 +27,7 @@ Index: otherconv.c
    /* (re)open the "from" iconv */
    OC_FREE_ICONV(glob_frompda);
 -  glob_frompda = g_iconv_open(HOST_CS, char_set_to_text(char_set));
-+  glob_frompda = g_iconv_open(HOST_CS, "ASCII"
++  glob_frompda = g_iconv_open(HOST_CS, "ASCII");
    if (glob_frompda == (GIConv)(-1)) {
      OC_FREE_ICONV(glob_topda);
       return EXIT_FAILURE;
