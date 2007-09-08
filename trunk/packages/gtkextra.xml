@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+	  <url>http://kent.dl.sourceforge.net/sourceforge/scigraphica/gtk+extra-2.1.1.tar.gz</url>
+  </fetch>
+  <deb>
+    <section>user/libs</section>
+    <description>GtkExtra Widget Set.</description>
+  </deb>
+</package>

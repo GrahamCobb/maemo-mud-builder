@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+	  <url>http://heanet.dl.sourceforge.net/sourceforge/gputils/gputils-0.13.4.tar.gz</url>
+  </fetch>
+  <deb>
+    <section>user/programming</section>
+    <description>GPUTILS is a collection of tools for the Microchip  (TM) PIC microcontrollers.\nIt includes gpasm, gplink, and gplib. It's distributed under the terms of the GNU Public License. See the gnupic  page for other GNU PIC tools such as gpsim, a gputils compatible simulator.</description>
+  </deb>
+</package>
