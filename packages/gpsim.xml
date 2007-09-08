@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+	  <depends>gputils,gtkextra</depends>
+	  <url>http://dfn.dl.sourceforge.net/sourceforge/gpsim/gpsim-0.22.0.tar.gz</url>
+  </fetch>
+  <deb>
+    <section>user/programming</section>
+    <description>gpsim is a full-featured software simulator for Microchip .\ngpsim has been designed to be as accurate as possible. Accuracy includes the entire PIC - from the core to the I/O pins and including ALL of the internal peripherals. Thus it's possible to create stimuli and tie them to the I/O pins and test the PIC the same PIC the same way you would in the real world.</description>
+  </deb>
+</package>

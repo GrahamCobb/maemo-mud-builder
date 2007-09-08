@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <fetch type="tarball">
+    <depends>libsdl-ttf2.0-dev,libsdl-mixer1.2-dev,libsdl-image1.2-dev</depends>
     <url>http://prdownloads.sourceforge.net/tuxpaint/tuxpaint-0.9.16.tar.gz</url>
   </fetch>
   <deb>
