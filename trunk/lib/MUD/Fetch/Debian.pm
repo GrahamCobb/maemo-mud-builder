@@ -40,6 +40,7 @@ sub fetch {
     my $deps = $self->{package}->{data}->{fetch}->{depends} ||
                   `dpkg-checkbuilddeps 2>&1`;
     $deps =~ s/.*Unmet build dependencies: //is;
+    $deps =~ s/.*Dependency provided by Scratchbox//is;
     $deps =~ s/.*Using Scratchbox tools to satisfy builddeps//is;
     my %list = map { $_ => 0 }
                grep { /^[\w\._\-]+$/ }

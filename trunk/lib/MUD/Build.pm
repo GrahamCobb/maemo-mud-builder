@@ -88,7 +88,7 @@ sub fetch {
     $buildDir    =~ s/-src\b//;
     my $version  = $self->{data}->{version};
     print "Version = $version, buildDir = $buildDir\n";
-    $version   ||= $1 if $buildDir =~ s/-(\d[\w\-\.]+\w|\d\w*)*$//;
+    $version   ||= $1 if $buildDir =~ s/-(\d[\w\-\.\+]+\w|\d\w*)*$//;
     $version   ||= $1 if !$version and $buildDir =~ s/(\d+)$//;
     $version     = $self->{data}->{data}->{deb}->{version} || $version;
     $version   ||= 1;
@@ -229,6 +229,9 @@ sub genDebControl {
          }
          close(IN);
      }
+
+    # `debian/changelog' must not contain an empty address.
+    $maintainer = 'mud-builder-users@garage.maemo.org' if !$maintainer;
 
      my $type = $self->{package} =~ /^lib/ ? 'l' : 's';
      $type = $1 if ($self->{data}->{data}->{build}->{result} || '') =~ /^(.)/;
