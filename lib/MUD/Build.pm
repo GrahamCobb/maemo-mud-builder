@@ -247,6 +247,10 @@ sub genDebControl {
      }
      close(EXC);
 
+    # Make dh_make 0.36 work like dh_make 0.37
+    system("sed -i debian/control -e /^Standards-Version:/s/3.6.0/3.6.1/");
+    system("sed -i debian/control -e /^Section:/s/devel/libdev/");
+
      foreach my $f (<debian/*.files>) {
          my $i = $f;
          $i =~ s/\.files$/\.install/;
