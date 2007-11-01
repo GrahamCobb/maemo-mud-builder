@@ -276,7 +276,15 @@ sub patchDebControl {
     # -- Fix "BROKEN" libraries...
     #
     my $name = $self->{package};
-    $control =~ s/\Q${name}\EBROKEN/${name}1/mgi;
+    my $libname = $self->{data}->{data}->{deb}->{'library'} ||
+	"${name}1";
+    $control =~ s/\Q${name}\EBROKEN/${libname}/mgi;
+
+    # -- Fix lib-dev package name
+    #
+    my $libdevname = $self->{data}->{data}->{deb}->{'libdev'} ||
+	"${name}-dev";
+    $control =~ s/\Q${name}\E-dev/${libdevname}/mgi;
 
     # -- Fix section...
     #
@@ -311,7 +319,7 @@ sub patchDebControl {
     }
 
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
-	next if $k =~ /^(icon|prefixSection|version)$/;
+	next if $k =~ /^(icon|prefixSection|version|library|libdev)$/;
 	$control = MUD::Package->setField($control, ucfirst($k), $v);
     }
 
