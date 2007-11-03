@@ -3,7 +3,7 @@
 
 <?php
 
-$id    = preg_replace('/[^a-z0-9]+/i', '', $_GET[id]);
+$id    = preg_replace('/[^a-z0-9-]+/i', '', $_GET[id]);
 $curId = '';
 $prev  = array( );
 $next  = array( );
