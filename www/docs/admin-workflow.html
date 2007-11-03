@@ -1,0 +1,30 @@
+<p>This workflow describes how admins should merge patches which have been
+submitted to the <a href="https://garage.maemo.org/tracker/?atid=295&group_id=63&func=browse">patch tracker</a>. The
+<a href="index.php?id=workflow">user-facing workflow</a> is described
+elsewhere.</p>
+
+<ol>
+<li>Assign issue to yourself as soon as you start looking at it/reviewing it.</li>
+<li>Review/test patch. Minimum requirements are:
+  <ul>
+  <li>Not a duplicate</li>
+  <li>Clean XML</li>
+  <li>Minimum level of patching/hackery necessary</li>
+  </ul>
+</li>
+<li>Add review comments as comment to the issue, and return to submitter if
+necessary.</li>
+<li>Once suitable for merge: Update AUTHORS file.</li>
+<li>Add to Subversion and check in using following commit message
+format:
+<pre><code>#$NUM: Add $PACKAGE (contributed by $PERSON).</code></pre>
+<p>For example, &quot;#357: Add swig (contributed by Luca Ognibene)&quot;.</p>
+</li>
+<li>Add Subversion revision information as a comment to the issue:
+<pre><code>Thanks. Added in rXXX.</code></pre>
+</li>
+<li>Set issue resolution to "Accepted", closing the issue.</li>
+</ol>
+
+<p>Any questions, feel free to raise on the <a href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing list</a>.</p>
+

@@ -5,4 +5,5 @@
     <doc file="creating">Creating a new package</doc>
   </section>
   <doc file="packageformat">Package format</doc>
+  <doc file="admin-workflow">Admin merge workflow</doc>
 </docs>
