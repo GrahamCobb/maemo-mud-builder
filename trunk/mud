@@ -24,7 +24,8 @@ use vars qw(%ACTIONS %OPTS $config);
 %OPTS = ();
 GetOptions(\%OPTS, 'help',
 		   'config=s',
-	           'all');
+	           'all',
+	   	   'depend-nobuild');
 
 if ($OPTS{help} or !@ARGV or !$ACTIONS{$ARGV[0]}) {
     print <<EOM;
@@ -38,6 +39,7 @@ Options:
     -h, --help                Usage instructions
     -a, --all                 Run <action> on all packages
     -c, --config=FILE         Use FILE for configuration rather than 'config'
+    -d, --depend-nobuild      Do not build any dependencies, assume they are up to date
 
 Actions:
     build                     Build the given package(s) from upstream
