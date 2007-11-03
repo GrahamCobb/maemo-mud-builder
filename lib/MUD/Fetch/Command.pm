@@ -36,12 +36,42 @@ sub fetch {
     }
 
     my @deps = split /\s*,\s*/, ($self->{package}->{data}->{fetch}->{depends} || '');
-    foreach my $d (@deps) {
-	my $builder = new MUD::Build(package => $d, config => $self->{config});
-	$builder->build();
-        chdir $builder->{workdir};
-	system("fakeroot dpkg -i --force-depends *.deb");
-        croak "Unable to install $d [$?]\n" if $?;
+    foreach my $dep (@deps) {
+	my $build;
+	
+	# -- Build from one of MUD, existing binaries or upstream source...
+	#
+	if (-f $self->{config}->directory('PACKAGES_DIR') . "/$dep.xml") {
+	    print "[Got existing MUD package for $dep]\n";
+	    if (!$::OPTS{'depend-nobuild'}) {
+		$build = new MUD::Build( package => $dep,
+					 config => $self->{config} );
+	    }
+
+	} else {
+	    system('fakeroot', 'apt-get', '-y', 'install', $dep);
+	    next unless $?;
+	    my $dpkg = `dpkg -s $dep 2>/dev/null`;
+	    print $dpkg;
+	    if ($dpkg !~ /Status: install ok installed/) {
+		print "+++ Status not installed.\n";
+		my $newPkg = new MUD::Package( (%{ $self->{package} }));
+		$newPkg->{package} = $dep;
+		$newPkg->{data}->{fetch}->{name} = $dep;
+		$newPkg->{data}->{deb}->{prefixSection} = 0;
+		$build = new MUD::Build( package => $newPkg,
+					 config => $self->{config} );
+	    }
+	}
+
+	# -- If we built, install...
+	#
+	if ($build) {
+	    $build->build();
+	    chdir $build->{workdir};
+	    system("fakeroot dpkg -i --force-depends *.deb");
+	    croak "Unable to install $dep [$?]\n" if $?;
+	}
     }
 }
 

@@ -50,8 +50,10 @@ sub fetch {
             # -- Build from one of MUD, existing binaries or upstream source...
             #
             if (-f $self->{config}->directory('PACKAGES_DIR') . "/$dep.xml") {
-                $build = new MUD::Build( package => $dep,
-					 config  => $self->{config} );
+		if (!$::OPTS{'depend-nobuild'}) {
+		    $build = new MUD::Build( package => $dep,
+					     config  => $self->{config} );
+		}
 
             } else {
                 system('fakeroot', 'apt-get', '-y', 'install', $dep);

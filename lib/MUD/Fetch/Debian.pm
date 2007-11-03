@@ -55,8 +55,10 @@ sub fetch {
 	    #
 	    if (-f $self->{config}->directory('PACKAGES_DIR') . "/$dep.xml") {
                 print "[Got existing MUD package for $dep]\n";
-                $build = new MUD::Build( package => $dep,
-					 config => $self->{config} );
+		if (!$::OPTS{'depend-nobuild'}) {
+		    $build = new MUD::Build( package => $dep,
+					     config => $self->{config} );
+		}
 
             } else {
                 system('fakeroot', 'apt-get', '-y', 'install', $dep);
