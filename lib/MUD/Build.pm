@@ -88,7 +88,7 @@ sub fetch {
     $buildDir    =~ s/-src\b//;
     my $version  = $self->{data}->{version};
     print "Version = $version, buildDir = $buildDir\n";
-    $version   ||= $1 if $buildDir =~ s/-(\d[\w\-\.\+]+\w|\d\w*)*$//;
+    $version   ||= $1 if $buildDir =~ s/-(\d[\w\-\.\+\:]+\w|\d\w*)*$//;
     $version   ||= $1 if !$version and $buildDir =~ s/(\d+)$//;
     $version     = $self->{data}->{data}->{deb}->{version} || $version;
     $version   ||= 1;
