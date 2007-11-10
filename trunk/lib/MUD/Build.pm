@@ -217,7 +217,7 @@ sub genDebControl {
 
     #croak "TODO: Unable to generate debian control files for ".$self->{package}." yet.\n";
 
-    my $maintainer = '';
+    my $maintainer = $self->{data}->{data}->{deb}->{'maintainer'};
     if (!$maintainer and -f 'AUTHORS') {
         open(IN, "<AUTHORS");
         while(<IN>) {
@@ -231,7 +231,14 @@ sub genDebControl {
      }
 
     # `debian/changelog' must not contain an empty address.
-    $maintainer = 'mud-builder-users@garage.maemo.org' if !$maintainer;
+    $maintainer = 'Mud Build Team <mud-builder-users@garage.maemo.org>' if !$maintainer;
+
+     if ($maintainer =~ '^\s*(.*?)\s*<(.*@.*)>\s*$' ) {
+        $ENV{'DEBFULLNAME'} = $1;
+        $maintainer = $2;
+     } else {
+	$ENV{'DEBFULLNAME'} = 'Unknown' if !$ENV{'DEBFULLNAME'};
+     }
 
      my $type = $self->{package} =~ /^lib/ ? 'l' : 's';
      $type = $1 if ($self->{data}->{data}->{build}->{result} || '') =~ /^(.)/;
