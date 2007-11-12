@@ -150,6 +150,9 @@ is a need to override the defaults, that power is available.</p>
         <i>short description</i>\n<i>long description</i>
     &lt;/description&gt;
     &lt;section&gt;<i>section name</i>&lt;/section&gt;
+    &lt;library&gt;<i>library package name</i>&lt;/library&gt;
+    &lt;libdev&gt;<i>library development package name</i>&lt;/libdev&gt;
+    &lt;maintainer&gt;<i>Some Name &lt;email@address&gt;</i>&lt;/maintainer&gt;
     &#8230;
 &lt;/deb&gt;</code></pre>
 
@@ -183,3 +186,13 @@ certain sections are recommended, if possible:</p>
 <p class="post-compact">Other sections should have the second word capitalised,
 such as <code>user/Fonts</code> A selection of <a href="http://maemo.org/maemowiki/UserSections">third-party sections</a> is available in the Maemo.org wiki.</p>
 
+<p>There are two tags designed for use when creating library packages: <em>library</em> and <em>libdev</em>. 
+These can be used to specify the package names used for the library package itself and the development
+package.  
+<em>library</em> is the name to be used for the library package: it defaults to the name of the package file but
+is useful when the name has to be modified in some way (for example to append the major id number).
+<m>libdev</em> is similarly used to rename the development package: it defaults to the name of the package file
+followed by <code>-dev</code>.</p>
+
+<p>The <em>maintainer</em> tag should be used to specify the name and email address of the maintainer
+of the maemo package (which is not likely to be the maintainer of the upstream package).</p>
