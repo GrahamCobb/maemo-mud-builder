@@ -4,9 +4,11 @@ SRC_DIR=`dirname "$0"`
 SRC_DIR=`cd "$SRC_DIR"; pwd`
 BIN_DIR="$SRC_DIR/../www"
 PHP=`which php php-cgi`
+PHP="$PHP -d include_path='.:$SRC_DIR:/usr/share/php'"
+
 
 cd "$SRC_DIR"
-mkdir "$BIN_DIR"
+[ -d "$BIN_DIR" ] || mkdir "$BIN_DIR"
 
 # -- Copy all files...
 #

@@ -1,5 +1,5 @@
 <? $title = 'Documentation';
-   include("../_header.php") ?>
+   include("_header.php") ?>
 
 <?php
 
@@ -100,4 +100,4 @@ if ($id != '') {
 }
 ?>
 
-<? include("../_footer.php") ?>
+<? include("_footer.php") ?>
