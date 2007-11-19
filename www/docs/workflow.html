@@ -9,38 +9,59 @@
 <h1>mud-builder</h1>
 <h2 class="subtitle">Documentation</h2>
 
-    <div id="branding" class="docs"></div>
-    <p>This documentation is woefully lacking at the moment, for that I
-    apologise. However, it does attempt to cover enough to get you up and
-    running and a small package compiled. In the meantime, please ask any
-    questions you've got on the <a
-    href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing
-    list</a>.</p>
 
-    <p>You may also find the <a href="http://www.debian.org/doc/maint-guide/">Debian New Maintainers' Guide</a> a useful reference.</p>
+<ol id="index" class="nav">
 
-<ol id="index">
-
-  <li><a href="index.php?id=workflow">Example workflow</a></li>
+  <li class="selected"><a href="workflow.html">Example workflow</a></li>
 
   <li><span class="section">Quick Start</span><ol>
 
-    <li><a href="index.php?id=gettingstarted">Getting started</a></li>
+    <li><a href="gettingstarted.html">Getting started</a></li>
 
-    <li><a href="index.php?id=creating">Creating a new package</a></li>
+    <li><a href="creating.html">Creating a new package</a></li>
 
   </ol></li>
 
-  <li><a href="index.php?id=packageformat">Package format</a></li>
+  <li><a href="packageformat.html">Package format</a></li>
 
-  <li><a href="index.php?id=admin-workflow">Admin merge workflow</a></li>
+  <li><a href="admin-workflow.html">Admin merge workflow</a></li>
 
 </ol>
 
+<h2 id="workflow">Example workflow
+  
+    </h2><ol>
+<li>User wants (say) <a href="http://insecure.org/nmap/">nmap</a> on his 770,
+    but notes no-one has yet ported it to the 770 or armel. Even if there was
+    an armel deb available, chances are it wouldn't be in a Maemo repo or the
+    deb configured for the Application Manager.</li>
 
+<li>User downloads/installs mud to his scratchbox and adds the
+   necessary configuration to build <code>nmap</code>. Ideally, this would take
+   no more than a single file containing a single line, but obviously
+   more options are available.</li>
+
+<li>User runs <code>mud build nmap</code> (or similar) and gets an Application
+   Manager-compatible, armel deb ready for uploading to the extras
+   repo. User notices, however, that he doesn't have a Garage account
+   and doesn't think it worthwhile to create one for this one deb.</li>
+
+<li>User submits patch to the mud project, where the patch is reviewed
+   and, potentially included. Next time the mud admins run
+   <code>mud -a build</code>, an additional nmap deb is produced. This is
+   then uploaded to the contrib repo by the mud admins.</li>
+
+<li>Other users refresh their packages and now see that nmap is
+   ported.</li>
+
+<li>As the upstream nmap is updated, so too is the mud package
+   available through the contrib repo.</li>
+</ol>
+<p class="link"><a class="next" href="gettingstarted.html">Getting started
+     &gt;&gt;</a></p>
 <ul id="navigation">
-<li><a href="./index.php">Home</a></li>
-<li><a title="User and developer manuals, getting started etc." href="./docs/index.php">Documentation</a></li>
+<li><a href="/">Home</a></li>
+<li><a title="User and developer manuals, getting started etc." href="/docs/">Documentation</a></li>
 <li><a title="Available packages" href="https://garage.maemo.org/plugins/scmsvn/viewcvs.php/trunk/packages/?root=mud-builder#dirlist">Packages</a></li>
 <li><a title="Mailing lists, source code etc." href="https://garage.maemo.org/projects/mud-builder/">Garage page</a></li>
 </ul>

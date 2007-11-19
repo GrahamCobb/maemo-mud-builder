@@ -3,7 +3,7 @@
 
 <?php
 
-$id    = preg_replace('/[^a-z0-9-]+/i', '', $_GET[id]);
+$id    = preg_replace('/[^a-z0-9-]+/i', '', $argv[1]);
 $curId = '';
 $prev  = array( );
 $next  = array( );
@@ -27,7 +27,7 @@ echo "<ol id=\"index\"";
 if ($id != '') echo " class=\"nav\"";
 echo ">\n";
 
-if (!($fp = @fopen("./structure.xml", "r"))) die("Couldn't open XML.");
+if (!($fp = fopen("structure.xml", "r"))) die("Couldn't open XML.");
 if (!($xml_parser = xml_parser_create())) die("Couldn't create parser.");
 
 function startElement($parser, $name, $attrib) {
@@ -49,7 +49,7 @@ function startElement($parser, $name, $attrib) {
             } else if ($prev[done] && !$next[id]) {
                 $next[id]   = $curId;
             }
-            echo "><a href=\"index.php?id=$curId\">";
+            echo "><a href=\"$curId.html\">";
             break;
         }
     }
@@ -89,13 +89,13 @@ xml_parser_free($xml_parser);
 <? 
 if ($id != '') {
     echo "<h2 id=\"$id\">$label[$id]</h2>";
-    include("./$id.html");
+    include("./_$id.html");
 
     echo '<p class="link">';
     if ($curId = $prev[id])
-        echo "<a class=\"prev\" href=\"index.php?id=$curId\">&lt;&lt; $label[$curId]</a>";
+        echo "<a class=\"prev\" href=\"$curId.html\">&lt;&lt; $label[$curId]</a>";
     if ($curId = $next[id])
-        echo "<a class=\"next\" href=\"index.php?id=$curId\">$label[$curId] &gt;&gt;</a>";
+        echo "<a class=\"next\" href=\"$curId.html\">$label[$curId] &gt;&gt;</a>";
     echo '</p>';
 }
 ?>

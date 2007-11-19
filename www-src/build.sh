@@ -4,8 +4,7 @@ SRC_DIR=`dirname "$0"`
 SRC_DIR=`cd "$SRC_DIR"; pwd`
 BIN_DIR="$SRC_DIR/../www"
 PHP=`which php php-cgi`
-PHP="$PHP -d include_path='.:$SRC_DIR:/usr/share/php'"
-
+PHP="$PHP -q -d include_path=.:.."
 
 cd "$SRC_DIR"
 [ -d "$BIN_DIR" ] || mkdir "$BIN_DIR"
@@ -24,7 +23,9 @@ find . -type f -name '*.php' -a \! -name '_*' | while read F; do
     HTML="${F%.php}.html"
     if [ ! -f "$HTML" ]; then
         TARGET="$BIN_DIR/${F%.php}.html"
-        $PHP -q "$F" >"$TARGET"
+        DIR=`dirname "$F"`
+        FILE=`basename "$F"`
+        cd "$DIR" && $PHP "$FILE" >"$TARGET"
     fi
 done
 
@@ -36,7 +37,8 @@ if [ -d docs -a -f docs/index.php ]; then
     BASE="${F%.html}"
     ID="${BASE#./_}"
     TARGET="$BIN_DIR/docs/$ID.html"
-    $PHP -q index.php id="$ID" >"$TARGET"
+    echo $BASE $ID $TARGET
+    $PHP index.php "$ID" >"$TARGET"
   done
 fi
 

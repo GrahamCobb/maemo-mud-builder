@@ -9,38 +9,61 @@
 <h1>mud-builder</h1>
 <h2 class="subtitle">Documentation</h2>
 
-    <div id="branding" class="docs"></div>
-    <p>This documentation is woefully lacking at the moment, for that I
-    apologise. However, it does attempt to cover enough to get you up and
-    running and a small package compiled. In the meantime, please ask any
-    questions you've got on the <a
-    href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing
-    list</a>.</p>
 
-    <p>You may also find the <a href="http://www.debian.org/doc/maint-guide/">Debian New Maintainers' Guide</a> a useful reference.</p>
+<ol id="index" class="nav">
 
-<ol id="index">
-
-  <li><a href="index.php?id=workflow">Example workflow</a></li>
+  <li><a href="workflow.html">Example workflow</a></li>
 
   <li><span class="section">Quick Start</span><ol>
 
-    <li><a href="index.php?id=gettingstarted">Getting started</a></li>
+    <li><a href="gettingstarted.html">Getting started</a></li>
 
-    <li><a href="index.php?id=creating">Creating a new package</a></li>
+    <li><a href="creating.html">Creating a new package</a></li>
 
   </ol></li>
 
-  <li><a href="index.php?id=packageformat">Package format</a></li>
+  <li><a href="packageformat.html">Package format</a></li>
 
-  <li><a href="index.php?id=admin-workflow">Admin merge workflow</a></li>
+  <li class="selected"><a href="admin-workflow.html">Admin merge workflow</a></li>
 
 </ol>
 
+<h2 id="admin-workflow">Admin merge workflow
+</h2><p>This workflow describes how admins should merge patches which have been
+submitted to the <a href="https://garage.maemo.org/tracker/?atid=295&group_id=63&func=browse">patch tracker</a>. The
+<a href="index.php?id=workflow">user-facing workflow</a> is described
+elsewhere.</p>
 
+<ol>
+<li>Assign issue to yourself as soon as you start looking at it/reviewing it.</li>
+<li>Review/test patch. Minimum requirements are:
+  <ul>
+  <li>Not a duplicate</li>
+  <li>Clean XML</li>
+  <li>Minimum level of patching/hackery necessary</li>
+  </ul>
+</li>
+<li>Add review comments as comment to the issue, and return to submitter if
+necessary.</li>
+<li>Once suitable for merge: Update AUTHORS file.</li>
+<li>Add to Subversion and check in using following commit message
+format:
+<pre><code>#$NUM: Add $PACKAGE (contributed by $PERSON).</code></pre>
+<p>For example, &quot;#357: Add swig (contributed by Luca Ognibene)&quot;.</p>
+</li>
+<li>Add Subversion revision information as a comment to the issue:
+<pre><code>Thanks. Added in rXXX.</code></pre>
+</li>
+<li>Set issue resolution to "Accepted", closing the issue.</li>
+</ol>
+
+<p>Any questions, feel free to raise on the <a href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing list</a>.</p>
+
+<p class="link"><a class="prev" href="packageformat.html">&lt;&lt; Package format
+  </a></p>
 <ul id="navigation">
-<li><a href="./index.php">Home</a></li>
-<li><a title="User and developer manuals, getting started etc." href="./docs/index.php">Documentation</a></li>
+<li><a href="/">Home</a></li>
+<li><a title="User and developer manuals, getting started etc." href="/docs/">Documentation</a></li>
 <li><a title="Available packages" href="https://garage.maemo.org/plugins/scmsvn/viewcvs.php/trunk/packages/?root=mud-builder#dirlist">Packages</a></li>
 <li><a title="Mailing lists, source code etc." href="https://garage.maemo.org/projects/mud-builder/">Garage page</a></li>
 </ul>

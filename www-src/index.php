@@ -25,7 +25,7 @@ resulting deb deployed to the extras repository during the next run.</p>
 resulting debs will be under the licence of the original project.</p>
 
 <h2>Getting started</h2>
-<p>The <a href="docs/index.php">documentation</a> section is burgeoning, and
+<p>The <a href="docs/">documentation</a> section is burgeoning, and
 will guide you through installation and creating simple - and more complex -
 packages.</p>
 
@@ -36,7 +36,7 @@ people who use and develop MUD hanging out in the <a
 href="http://maemo.org/pipermail/maemo-developers/2005-May/000018.html">#maemo</a>
 IRC channel.</p>
 
-<p>The <a href="docs/index.php?id=workflow">workflow</a> is designed around
+<p>The <a href="docs/workflow.html">workflow</a> is designed around
 <em>contributions</em> of packages which people would like to see on their
 Maemo device, without the hassle of continually building, uploading and
 signing the packages. Therefore, getting involved is crucial to the survival

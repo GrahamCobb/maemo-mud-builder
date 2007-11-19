@@ -9,38 +9,66 @@
 <h1>mud-builder</h1>
 <h2 class="subtitle">Documentation</h2>
 
-    <div id="branding" class="docs"></div>
-    <p>This documentation is woefully lacking at the moment, for that I
-    apologise. However, it does attempt to cover enough to get you up and
-    running and a small package compiled. In the meantime, please ask any
-    questions you've got on the <a
-    href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing
-    list</a>.</p>
 
-    <p>You may also find the <a href="http://www.debian.org/doc/maint-guide/">Debian New Maintainers' Guide</a> a useful reference.</p>
+<ol id="index" class="nav">
 
-<ol id="index">
-
-  <li><a href="index.php?id=workflow">Example workflow</a></li>
+  <li><a href="workflow.html">Example workflow</a></li>
 
   <li><span class="section">Quick Start</span><ol>
 
-    <li><a href="index.php?id=gettingstarted">Getting started</a></li>
+    <li class="selected"><a href="gettingstarted.html">Getting started</a></li>
 
-    <li><a href="index.php?id=creating">Creating a new package</a></li>
+    <li><a href="creating.html">Creating a new package</a></li>
 
   </ol></li>
 
-  <li><a href="index.php?id=packageformat">Package format</a></li>
+  <li><a href="packageformat.html">Package format</a></li>
 
-  <li><a href="index.php?id=admin-workflow">Admin merge workflow</a></li>
+  <li><a href="admin-workflow.html">Admin merge workflow</a></li>
 
 </ol>
 
+<h2 id="gettingstarted">Getting started
+    </h2><p>In lieu of proper documentation (which is forthcoming), here's a quick start guide:</p>
 
+<ol>
+<li>Check out <a
+href="https://garage.maemo.org/scm/?group_id=63">mud-builder/trunk</a> from
+Subversion into a directory under your Scratchbox home:
+
+<pre><code>svn co https://garage.maemo.org/svn/mud-builder/trunk mud-builder</code></pre>
+</li>
+
+<li>In Scratchbox, change to the <code>mud-builder</code> directory and type:
+
+<pre><code>alias mud=$(pwd)/mud</code></pre>
+
+<span class="note">This allows you to type <code>mud</code> to invoke the system, without having to add it to your path.</span></li>
+
+<li>Switch to your SDK_ARMEL target:
+
+<pre><code>sbox-config -st SDK_ARMEL</code></pre>
+
+<span class="note">Your device architecture target may be named differently. Substitute the correct name for <code>SDK_ARMEL</code> in this case.</span></li>
+
+<li>Build the existing <code>netcat</code> package:
+
+<pre><code>mud build netcat</code></pre></li>
+
+<li>Copy the resulting <code>upload/netcat-&#8230;.deb</code> to your Maemo
+device and install with the Application Manager.</li>
+</ol>
+
+<p>This shows how easy it is to compile Maemo-compatible deb files with
+mud-builder.</p>
+<p class="link"><a class="prev" href="workflow.html">&lt;&lt; Example workflow
+  
+    </a><a class="next" href="creating.html">Creating a new package
+  
+   &gt;&gt;</a></p>
 <ul id="navigation">
-<li><a href="./index.php">Home</a></li>
-<li><a title="User and developer manuals, getting started etc." href="./docs/index.php">Documentation</a></li>
+<li><a href="/">Home</a></li>
+<li><a title="User and developer manuals, getting started etc." href="/docs/">Documentation</a></li>
 <li><a title="Available packages" href="https://garage.maemo.org/plugins/scmsvn/viewcvs.php/trunk/packages/?root=mud-builder#dirlist">Packages</a></li>
 <li><a title="Mailing lists, source code etc." href="https://garage.maemo.org/projects/mud-builder/">Garage page</a></li>
 </ul>

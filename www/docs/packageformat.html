@@ -9,38 +9,231 @@
 <h1>mud-builder</h1>
 <h2 class="subtitle">Documentation</h2>
 
-    <div id="branding" class="docs"></div>
-    <p>This documentation is woefully lacking at the moment, for that I
-    apologise. However, it does attempt to cover enough to get you up and
-    running and a small package compiled. In the meantime, please ask any
-    questions you've got on the <a
-    href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing
-    list</a>.</p>
 
-    <p>You may also find the <a href="http://www.debian.org/doc/maint-guide/">Debian New Maintainers' Guide</a> a useful reference.</p>
+<ol id="index" class="nav">
 
-<ol id="index">
-
-  <li><a href="index.php?id=workflow">Example workflow</a></li>
+  <li><a href="workflow.html">Example workflow</a></li>
 
   <li><span class="section">Quick Start</span><ol>
 
-    <li><a href="index.php?id=gettingstarted">Getting started</a></li>
+    <li><a href="gettingstarted.html">Getting started</a></li>
 
-    <li><a href="index.php?id=creating">Creating a new package</a></li>
+    <li><a href="creating.html">Creating a new package</a></li>
 
   </ol></li>
 
-  <li><a href="index.php?id=packageformat">Package format</a></li>
+  <li class="selected"><a href="packageformat.html">Package format</a></li>
 
-  <li><a href="index.php?id=admin-workflow">Admin merge workflow</a></li>
+  <li><a href="admin-workflow.html">Admin merge workflow</a></li>
 
 </ol>
 
+<h2 id="packageformat">Package format
+  </h2><p>The package file describes where to get the application's source and how to
+package it for Maemo. It is a simple <a
+href="http://www.xml.com/pub/a/98/10/guide0.html">XML</a> file in in the
+<code>packages</code> directory.</p>
 
+<p>The name of the file should correspond to the Debian guidelines: all lower
+case, with dashes, underscores, dots and numbers also permissible. The smallest
+possible file is:</p>
+
+<pre><code>&lt;package&gt;
+    &lt;fetch type=&quot;debian&quot;/&gt;
+&lt;/package&gt;</code></pre>
+
+<p>This will download the source of the Debian package named the same as the
+MUD package from the default (currently &quot;<a
+href="http://packages.debian.org/testing/">etch</a>&quot;) and build it,
+without overriding any of the defaults. Obviously, however, this is not
+suitable for all packages and so more flexibility is possible.</p>
+
+<p>The complete file is divided into three sections, only one of which is
+required, and has the following outline:</p>
+
+<pre><code>&lt;package&gt;
+    &lt;fetch type=&quot;&#8230;&quot;&gt;
+        &#8230;
+    &lt;/fetch&gt;
+    &lt;build&gt;
+      &lt;result&gt;<i>single</i>&lt;/result&gt;
+      &lt;copyright&gt;<i>gpl</i>&lt;/copyright&gt;
+      &lt;include&gt;<i>examples,man</i>&lt;/include&gt;
+      &#8230;
+    &lt;/build&gt;
+    &lt;deb&gt;
+        &lt;icon&gt;<i>http://www.example.com/logo.png</i>&lt;/icon&gt;
+        &#8230;
+    &lt;/deb&gt;
+&lt;/package&gt;</code></pre>
+
+<p>As can be seen, the three sections are:</p>
+<dl>
+<dt>fetch</dt>
+<dd>This section selects one of several plugins which instructs <code>mud-builder</code> how to download the package. Plugin-specific options, such as the location of the source, are specified here. <em>This element is mandatory.</em></dd>
+
+<dt>build</dt>
+<dd>Information on how to build the package; including its licence, whether
+single, multiple or library packages should be produced, whether any of the
+documentation stripped out by default should be included, configure flags and
+so on.</p>
+
+<dt>deb</dt>
+<dd>Information on the output package; such as description, icon, maintainer
+and son on. Many settings in this section will be automatically determined
+if possible.</dd>
+</dl>
+
+<h2 id="fetch">Fetch section</h2>
+<pre><code>&lt;fetch type=&quot;<i>plugin</i>&quot;&gt;
+    &#8230;
+&lt;/fetch&gt;</code></pre>
+
+<p>The content of this tag is entirely dependent on the plugin chosen:</p>
+
+<dl>
+<dt>debian</dt>
+<dd>The source and its build-dependencies are fetched from the <a
+href="http://www.debian.org/">Debian</a> distribution. There are literally
+thousands of packages in Debian, containing all the necessary metadata for a
+Maemo-compatible package.
+
+<span class="note">As Maemo is different to Debian, however, these builds can
+often become overcomplex, and it may be worth considering using the upstream
+source directly.</span></dd>
+
+<dt>tarball</dt>
+<dd>A URL, or filesystem path, is given to a compressed archive
+(<code>.tar.gz</code>, <code>.tgz</code>, <code>.tar.bz2</code> and
+<code>.zip</code> are supported file extensions). This is downloaded and
+unpacked in the build directory.</dd>
+
+<dt>command</dt>
+<dd>A command is given which is executed using <code>/bin/sh</code>. This
+command should unpack the source in an appropriate subdirectory. This will be
+most used for CVS or Subversion exports.</dd>
+</dl>
+
+<h3>Debian</h3>
+<p>The Debian fetcher is designed to fetch the source of one of the <a
+href="http://packages.debian.org/testing/">thousands of packages</a> packaged
+and supported by the Debian distribution. It supports the following child
+elements of the <code>fetch</code> node:</p>
+
+<ul>
+<li><code>&lt;name&gt;&#8230;&lt;/name&gt;</code> - the name of the package
+in Debian. <em>(Defaults to the name of the MUD package)</em></li>
+
+<li><code>&lt;deb-src&gt;&#8230;&lt;/deb-src&gt;</code> - the line in
+<code>sources.list</code> which is prefixed with <code>deb-src</code> to find
+the build package, and <code>deb</code> to find build dependencies. <em>(Defaults to <code>http://ftp.debian.org/ etch main</code>)</em></li>
+
+<li><code>&lt;depends&gt;&#8230;&lt;/depends&gt;</code> - overrides the
+Build Depends in <code>debian/control</code> if the package author knows better
+what packages are present/are needed for this build. For example, there's no
+need to specify <code>debhelper</code> as it is implicitly available.</li>
+</ul>
+
+<p>TBC...</p>
+
+<h3>Tarball</h3>
+<p>TBC...</p>
+
+<h3>Command</h3>
+<p>The command fetcher is very basic: it relies on a given command - or sequence
+of commands - to provide the source in the appropriate build directory. It
+supports the following child element of the <code>fetch</code> node only:</p>
+
+<ul>
+<li><code>&lt;command&gt;&#8230;&lt;/command&gt;</code> - the shell script to
+be executed to fetch the time. It is executed using <code>/bin/sh</code> and
+starts from the working directory for the package, that is
+<code>build/<var>packagename</var></code>. Ideally the source would be created
+in a directory named <code><var>packagename</var>-<var>version</var></code>.</li>
+</ul>
+
+
+<h2 id="build">Build section</h2>
+<pre><code>&lt;build&gt;
+    &lt;result&gt;<i>(single|multiple|library)</i>&lt;/result&gt;
+    &lt;copyright&gt;<i>(gpl|lgpl|artistic|bsd)</i>&lt;/copyright&gt;
+    &lt;include&gt;<i>(changelogs|docs|examples|info|man)*</i>&lt;/include&gt;
+    &lt;configure-append&gt;&#8230;&lt;/configure-append&gt;
+    &lt;env&gt;<i>
+        &lt;SOMEOPT&gt;true&lt;/SOMEOPT&gt;
+        &lt;PATH&gt;/usr/sbin:$PATH&lt;/PATH&gt;
+    </i>&lt;/env&gt;
+&lt;/build&gt;</code></pre>
+
+<p>Out of all of the sections, this is the &quot;most&quot; optional: for many
+packages <em>all</em> of the information here will be determined automatically,
+from the package licence, to whether a single, multiple or library-style
+packages should be produced. However, if the auto-detection fails, or there
+is a need to override the defaults, that power is available.</p>
+
+<p>TBC...</p>
+
+<h2 id="deb">Deb section</h2>
+<pre><code>&lt;deb prefix-section=&quot;<i>(0|1)</i>&quot;&gt;
+    &lt;icon&gt;<i>URL</i>&lt;/icon&gt;
+    &lt;version&gt;&#8230;&lt;/version&gt;
+    &lt;description&gt;
+        <i>short description</i>\n<i>long description</i>
+    &lt;/description&gt;
+    &lt;section&gt;<i>section name</i>&lt;/section&gt;
+    &lt;library&gt;<i>library package name</i>&lt;/library&gt;
+    &lt;libdev&gt;<i>library development package name</i>&lt;/libdev&gt;
+    &lt;maintainer&gt;<i>Some Name &lt;email@address&gt;</i>&lt;/maintainer&gt;
+    &#8230;
+&lt;/deb&gt;</code></pre>
+
+<p>Most of the child elements of the <code>deb</code> node correspond to fields
+within the <a
+href="http://www.debian.org/doc/debian-policy/ch-controlfields.html#s-controlfieldslist">debian/control</a>,
+allowing you to change their value without patching the file.</p>
+
+<p>The capitalised tag name is used as the field name, and the value is used as
+the content. Multi-line entries can be entered, such as the description, by entering <code>\n</code> within the text.</p>
+
+<p>The <em>description</em> should contain two parts: the synopsis at around 60
+characters, and the extended description over several lines following it. The <em>section</em> will be automatically prefixed with <code>user/</code>, if not already by <i>mud-builder</i> unless the <code>prefix-section</code> attribute is set to <code>0</code>, or a section is specified explicitly. Packages which
+end-users can install directly (rather than libraries) are prefixed like this,
+according to the <a href="http://www.maemo.org//platform/docs/howtos/howto_making_an_application_package_bora.html">Maemo packaging guide</a>. In addition,
+certain sections are recommended, if possible:</p>
+
+<ul class="compact">
+<li>user/accessories</li>
+<li>user/communication</li>
+<li>user/games</li>
+<li>user/multimedia</li>
+<li>user/office</li>
+<li>user/other</li>
+<li>user/programming</li>
+<li>user/support</li>
+<li>user/themes</li>
+<li>user/tools</li>
+</ul>
+
+<p class="post-compact">Other sections should have the second word capitalised,
+such as <code>user/Fonts</code> A selection of <a href="http://maemo.org/maemowiki/UserSections">third-party sections</a> is available in the Maemo.org wiki.</p>
+
+<p>There are two tags designed for use when creating library packages: <em>library</em> and <em>libdev</em>. 
+These can be used to specify the package names used for the library package itself and the development
+package.  
+<em>library</em> is the name to be used for the library package: it defaults to the name of the package file but
+is useful when the name has to be modified in some way (for example to append the major id number).
+<em>libdev</em> is similarly used to rename the development package: it defaults to the name of the package file
+followed by <code>-dev</code>.</p>
+
+<p>The <em>maintainer</em> tag should be used to specify the name and email address of the maintainer
+of the maemo package (which is not likely to be the maintainer of the upstream package).</p>
+<p class="link"><a class="prev" href="creating.html">&lt;&lt; Creating a new package
+  
+  </a><a class="next" href="admin-workflow.html">Admin merge workflow
+ &gt;&gt;</a></p>
 <ul id="navigation">
-<li><a href="./index.php">Home</a></li>
-<li><a title="User and developer manuals, getting started etc." href="./docs/index.php">Documentation</a></li>
+<li><a href="/">Home</a></li>
+<li><a title="User and developer manuals, getting started etc." href="/docs/">Documentation</a></li>
 <li><a title="Available packages" href="https://garage.maemo.org/plugins/scmsvn/viewcvs.php/trunk/packages/?root=mud-builder#dirlist">Packages</a></li>
 <li><a title="Mailing lists, source code etc." href="https://garage.maemo.org/projects/mud-builder/">Garage page</a></li>
 </ul>

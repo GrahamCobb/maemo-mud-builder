@@ -1,61 +1,46 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-  <title>mud-builder</title>
+  <title>mud-builder: Documentation</title>
   <link rel="stylesheet" href="./style.css" type="text/css" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
 <h1>mud-builder</h1>
+<h2 class="subtitle">Documentation</h2>
 
-<h2 class="subtitle">Maemo Unofficial Debs</h2>
+    <div id="branding" class="docs"></div>
+    <p>This documentation is woefully lacking at the moment, for that I
+    apologise. However, it does attempt to cover enough to get you up and
+    running and a small package compiled. In the meantime, please ask any
+    questions you've got on the <a
+    href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing
+    list</a>.</p>
 
-<div id="branding" class="package"></div>
+    <p>You may also find the <a href="http://www.debian.org/doc/maint-guide/">Debian New Maintainers' Guide</a> a useful reference.</p>
 
-<p>MUD is "Maemo Unofficial Debs". It's an autobuilder to make it bring together
-simple source ports, and to ensure they're available in a single repository.</p>
+<ol id="index">
 
-<p>It was inspired by conversations on <a href="http://maemo.org/pipermail/maemo-developers/2006-July/004527.html">maemo-developers</a>
-and at <a href="http://www.internettablettalk.com/forums/showthread.php?t=2340">Internet Tablet Talk</a>.
-</p>
+  <li><a href="workflow.html">Example workflow</a></li>
 
-<p>For example, <code>privoxy</code>, <code>netcat</code>, <code>vim</code>,
-<code>rsync</code> etc. are all candidates for MUD. The
-idea is that small scripts/configuration files will describe how to build
-Maemo-specific ARMEL debs which are run on developer's machines. This will
-result in one or many debs which can then be deployed on
-<a href="http://maemo.org/maemowiki/ExtrasRepository">repository.maemo.org/extras</a>. This means that each individual developer
-scratching an itch for a port will not have to find a repo to host it, and
-projects with little or no changes for Maemo from the upstream source will not
-have to apply for a Garage project: a patch will be provided to MUD and the
-resulting deb deployed to the extras repository during the next run.</p>
+  <li><span class="section">Quick Start</span><ol>
 
-<p>The source code to the autobuilder is under the Artistic Licence, but the
-resulting debs will be under the licence of the original project.</p>
+    <li><a href="gettingstarted.html">Getting started</a></li>
 
-<h2>Getting started</h2>
-<p>The <a href="docs/index.php">documentation</a> section is burgeoning, and
-will guide you through installation and creating simple - and more complex -
-packages.</p>
+    <li><a href="creating.html">Creating a new package</a></li>
 
-<p>At the moment, it's a little sparse, but feel free to ask questions on the
-<a href="https://garage.maemo.org/mailman/listinfo/mud-builder-users">mailing
-list</a> and people would be happy to help. Alternatively, there are often
-people who use and develop MUD hanging out in the <a
-href="http://maemo.org/pipermail/maemo-developers/2005-May/000018.html">#maemo</a>
-IRC channel.</p>
+  </ol></li>
 
-<p>The <a href="docs/index.php?id=workflow">workflow</a> is designed around
-<em>contributions</em> of packages which people would like to see on their
-Maemo device, without the hassle of continually building, uploading and
-signing the packages. Therefore, getting involved is crucial to the survival
-of the project in meeting its aims. Patch trackers, access to the Subversion
-version control system and other statistics can be found on the <a
-href="https://garage.maemo.org/projects/mud-builder/">Garage page</a>.</p>
+  <li><a href="packageformat.html">Package format</a></li>
+
+  <li><a href="admin-workflow.html">Admin merge workflow</a></li>
+
+</ol>
+
 
 <ul id="navigation">
-<li><a href="./index.php">Home</a></li>
-<li><a title="User and developer manuals, getting started etc." href="./docs/index.php">Documentation</a></li>
+<li><a href="/">Home</a></li>
+<li><a title="User and developer manuals, getting started etc." href="/docs/">Documentation</a></li>
 <li><a title="Available packages" href="https://garage.maemo.org/plugins/scmsvn/viewcvs.php/trunk/packages/?root=mud-builder#dirlist">Packages</a></li>
 <li><a title="Mailing lists, source code etc." href="https://garage.maemo.org/projects/mud-builder/">Garage page</a></li>
 </ul>
