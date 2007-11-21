@@ -3,12 +3,19 @@
   <fetch type="command">
     <command>
     pkg="gpe-contacts"
-    date="20070421"
+    date="20071113"
+    release="2.8+"
+    # The release should be of the form major.minor-debianversion or major.minor+.
+    # The latter form means that the "svn$date" form of package version should be used
+    majmin=${release%-*}
+    debver=${release#*-}
+    if [ "$debver" = "$release" ] ; then debver="1" ; fi
+    if [ "$majmin" = "${majmin%+}" ] ; then version="$majmin+maemo-$debver" ; else version="${majmin}maemo+svn$date-1" ; fi
+    pkgdir="$pkg-$version"
     branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
-    pkgdir="$pkg-0svn${date}maemo"
     svn export -r {${date}T0000Z} $branch/$pkg $pkgdir
     mv -f $pkgdir/debian/changelog $pkgdir/debian/changelog.tmp
-    echo "$pkg (0svn${date}maemo) unstable; urgency=low" &gt;$pkgdir/debian/changelog
+    echo "$pkg ($version) unstable; urgency=low" &gt;$pkgdir/debian/changelog
     echo &gt;&gt;$pkgdir/debian/changelog
     echo "  * MUD build using revision {$date}" &gt;&gt;$pkgdir/debian/changelog
     echo &gt;&gt;$pkgdir/debian/changelog

@@ -2,6 +2,7 @@
 <package>
   <fetch type="debian">
     <name>liblzo2-2</name>
+    <depends></depends>
   </fetch>
   <deb>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>

@@ -2,18 +2,21 @@ Index: debian/control
 ===================================================================
 --- debian/control	(revision 1)
 +++ debian/control	(working copy)
-@@ -9,9 +9,9 @@
- Architecture: any
--Depends: libeventdbBROKEN (= ${Source-Version})
-+Depends: libeventdb1 (= ${Source-Version})
- Description: <insert up to 60 chars description>
-  <insert long description, indented with spaces>
- 
--Package: libeventdbBROKEN
-+Package: libeventdb1
+@@ -15,5 +15,8 @@
  Section: libs
  Architecture: any
  Depends: ${shlibs:Depends}, ${misc:Depends}
++Provides: libeventdb1
++Conflicts: libeventdb1
++Replaces: libeventdb1
+ Description: <insert up to 60 chars description>
+  <insert long description, indented with spaces>
+Index: debian/libeventdb2.install
+===================================================================
+--- debian/libeventdb2.install	(revision 0)
++++ debian/libeventdb2.install	(revision 0)
+@@ -0,0 +1 @@
++usr/lib/lib*.so.*
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
@@ -61,14 +64,20 @@ Index: debian/rules
  	dh_installdeb
  	dh_shlibdeps
  	dh_gencontrol
+Index: debian/libeventdb2.dirs
+===================================================================
+--- debian/libeventdb2.dirs	(revision 0)
++++ debian/libeventdb2.dirs	(revision 0)
+@@ -0,0 +1 @@
++usr/lib
 Index: configure.ac
 ===================================================================
 --- configure.ac	(revision 1)
 +++ configure.ac	(working copy)
-@@ -13,7 +13,7 @@
- PKG_CHECK_MODULES(EVENTDB, gobject-2.0 glib-2.0 sqlite)
+@@ -15,7 +15,7 @@
+ AC_SUBST(EVENTDB_LIBS)
  
- #gtk-doc for documentation, currently unused
+ #gtk-doc for documentation
 -GTK_DOC_CHECK(1.2)
 +#GTK_DOC_CHECK(1.2)
  

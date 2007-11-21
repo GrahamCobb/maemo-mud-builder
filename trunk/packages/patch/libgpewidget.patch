@@ -2,14 +2,13 @@ Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
 +++ debian/rules	(working copy)
-@@ -30,6 +30,10 @@
+@@ -30,6 +30,9 @@
  configure-stamp:
  	dh_testdir
  	# Add here commands to configure the package.
 +	intltoolize --copy --automake --force
-+	echo Work round scratchbox bug with aclocal search ordering
-+	ACLOCAL="`which aclocal` -I /usr/share/aclocal"  autoreconf -f -i -s
-+	./configure --enable-hildon --disable-cairo --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
++	autoreconf -f -i -s
++	./configure --enable-hildon --disable-cairo --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --sysconfdir=/etc
  
  	touch configure-stamp
  

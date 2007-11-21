@@ -2,18 +2,21 @@ Index: debian/control
 ===================================================================
 --- debian/control	(revision 1)
 +++ debian/control	(working copy)
-@@ -9,9 +9,9 @@
- Architecture: any
--Depends: libhandoffBROKEN (= ${Source-Version})
-+Depends: libhandoff1 (= ${Source-Version})
- Description: <insert up to 60 chars description>
-  <insert long description, indented with spaces>
- 
--Package: libhandoffBROKEN
-+Package: libhandoff1
+@@ -15,5 +15,8 @@
  Section: libs
  Architecture: any
  Depends: ${shlibs:Depends}, ${misc:Depends}
++Provides: libhandoff1
++Conflicts: libhandoff1
++Replaces: libhandoff1
+ Description: <insert up to 60 chars description>
+  <insert long description, indented with spaces>
+Index: debian/libhandoff0.install
+===================================================================
+--- debian/libhandoff0.install	(revision 0)
++++ debian/libhandoff0.install	(revision 0)
+@@ -0,0 +1 @@
++usr/lib/lib*.so.*
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
@@ -61,6 +64,12 @@ Index: debian/rules
  	dh_installdeb
  	dh_shlibdeps
  	dh_gencontrol
+Index: debian/libhandoff0.dirs
+===================================================================
+--- debian/libhandoff0.dirs	(revision 0)
++++ debian/libhandoff0.dirs	(revision 0)
+@@ -0,0 +1 @@
++usr/lib
 Index: configure.ac
 ===================================================================
 --- configure.ac	(revision 1)

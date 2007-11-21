@@ -1,96 +1,146 @@
-Index: debian/libsoup2.2-dev.install
+Index: debian/control
 ===================================================================
---- debian/libsoup2.2-dev.install	(revision 0)
-+++ debian/libsoup2.2-dev.install	(revision 0)
-@@ -0,0 +1,5 @@
-+usr/include/*
-+usr/lib/lib*.a
-+usr/lib/lib*.so
-+usr/lib/pkgconfig/*
-+/usr/lib/*.la
-Index: debian/libsoup2.2.dirs
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -10,7 +10,7 @@
+ Package: libsoup2.2-dev
+ Section: devel
+ Architecture: any
+-Depends: ${misc:Depends}, libsoup2.2-8 (= ${binary:Version}), libglib2.0-dev, libgnutls-dev (>= 1.4.0), libxml2-dev, zlib1g-dev
++Depends: ${misc:Depends}, libsoup2.2-8 (= ${Source-Version}), libglib2.0-dev, libgnutls-dev (>= 1.4.0), libxml2-dev, zlib1g-dev
+ Conflicts: libgnutls11-dev
+ Suggests: libsoup2.2-doc
+ Description: an HTTP library implementation in C -- Development files
+@@ -39,6 +39,9 @@
+ Section: libs
+ Architecture: any
+ Depends: ${misc:Depends}, ${shlibs:Depends}
++Provides: libsoup2.2
++Conflicts: libsoup2.2
++Replaces: libsoup2.2
+ Description: an HTTP library implementation in C -- Shared library
+  It was originally part of a SOAP (Simple Object Access Protocol)
+  implementation called Soup, but the SOAP and non-SOAP parts have now been
+@@ -61,29 +64,3 @@
+  .
+  This package contains the shared library.
+ 
+-Package: libsoup2.2-doc
+-Section: devel
+-Architecture: all
+-Depends:  ${misc:Depends}
+-Suggests: libsoup2.2-dev
+-Description: an HTTP library implementation in C -- API Reference
+- It was originally part of a SOAP (Simple Object Access Protocol)
+- implementation called Soup, but the SOAP and non-SOAP parts have now been
+- split into separate packages.
+- .
+- libsoup uses the Glib main loop and is designed to work well with GTK
+- applications. This enables GNOME applications to access HTTP servers
+- on the network in a completely asynchronous fashion, very similar to
+- the Gtk+ programming model (a synchronous operation mode is also
+- supported for those who want it).
+- .
+- Features:
+-  * Both asynchronous (GMainLoop and callback-based) and synchronous APIs
+-  * Automatically caches connections
+-  * SSL Support using GnuTLS
+-  * Proxy support, including authentication and SSL tunneling
+-  * Client support for Digest, NTLM, and Basic authentication
+-  * Server support for Digest and Basic authentication
+-  * Basic client-side SOAP and XML-RPC support
+- .
+- This package contains the documentation.
+Index: debian/control.in
 ===================================================================
---- debian/libsoup2.2.dirs	(revision 0)
-+++ debian/libsoup2.2.dirs	(revision 0)
-@@ -0,0 +1 @@
-+usr/lib
-Index: debian/libsoup2.2.install
-===================================================================
---- debian/libsoup2.2.install	(revision 0)
-+++ debian/libsoup2.2.install	(revision 0)
-@@ -0,0 +1 @@
-+usr/lib/lib*.so.*
+--- debian/control.in	(revision 1)
++++ debian/control.in	(working copy)
+@@ -10,7 +10,7 @@
+ Package: libsoup2.2-dev
+ Section: devel
+ Architecture: any
+-Depends: ${misc:Depends}, libsoup2.2-8 (= ${binary:Version}), libglib2.0-dev, libgnutls-dev (>= 1.4.0), libxml2-dev, zlib1g-dev
++Depends: ${misc:Depends}, libsoup2.2-8 (= ${Source-Version}), libglib2.0-dev, libgnutls-dev (>= 1.4.0), libxml2-dev, zlib1g-dev
+ Conflicts: libgnutls11-dev
+ Suggests: libsoup2.2-doc
+ Description: an HTTP library implementation in C -- Development files
+@@ -39,6 +39,9 @@
+ Section: libs
+ Architecture: any
+ Depends: ${misc:Depends}, ${shlibs:Depends}
++Provides: libsoup2.2
++Conflicts: libsoup2.2
++Replaces: libsoup2.2
+ Description: an HTTP library implementation in C -- Shared library
+  It was originally part of a SOAP (Simple Object Access Protocol)
+  implementation called Soup, but the SOAP and non-SOAP parts have now been
+@@ -61,29 +64,3 @@
+  .
+  This package contains the shared library.
+ 
+-Package: libsoup2.2-doc
+-Section: devel
+-Architecture: all
+-Depends:  ${misc:Depends}
+-Suggests: libsoup2.2-dev
+-Description: an HTTP library implementation in C -- API Reference
+- It was originally part of a SOAP (Simple Object Access Protocol)
+- implementation called Soup, but the SOAP and non-SOAP parts have now been
+- split into separate packages.
+- .
+- libsoup uses the Glib main loop and is designed to work well with GTK
+- applications. This enables GNOME applications to access HTTP servers
+- on the network in a completely asynchronous fashion, very similar to
+- the Gtk+ programming model (a synchronous operation mode is also
+- supported for those who want it).
+- .
+- Features:
+-  * Both asynchronous (GMainLoop and callback-based) and synchronous APIs
+-  * Automatically caches connections
+-  * SSL Support using GnuTLS
+-  * Proxy support, including authentication and SSL tunneling
+-  * Client support for Digest, NTLM, and Basic authentication
+-  * Server support for Digest and Basic authentication
+-  * Basic client-side SOAP and XML-RPC support
+- .
+- This package contains the documentation.
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
 +++ debian/rules	(working copy)
-@@ -33,6 +33,7 @@
- configure-stamp:
- 	dh_testdir
- 	# Add here commands to configure the package.
-+	REQUIRED_AUTOMAKE_VERSION=1.5 ./autogen.sh --enable-hildon --disable-cairo --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
+@@ -21,5 +21,5 @@
  
- 	touch configure-stamp
+ DEB_SHLIBDEPS_INCLUDE_libsoup2.2-dev := debian/libsoup2.2-${SOUP_SOVERSION}/usr/lib
+ DEB_DH_MAKESHLIBS_ARGS_ALL := -V'$(SHLIBS)'
+-DEB_CONFIGURE_EXTRA_FLAGS += --enable-gtk-doc
++DEB_CONFIGURE_EXTRA_FLAGS += --disable-gtk-doc
  
-@@ -74,10 +75,10 @@
- binary-arch: build install
- 	dh_testdir
- 	dh_testroot
--	dh_installchangelogs ChangeLog
--	dh_installdocs
--	dh_installexamples
--#	dh_install
-+#	dh_installchangelogs ChangeLog
-+#	dh_installdocs
-+#	dh_installexamples
-+	dh_install --sourcedir=debian/tmp
- #	dh_installmenu
- #	dh_installdebconf	
- #	dh_installlogrotate
-@@ -87,14 +88,14 @@
- #	dh_installinit
- #	dh_installcron
- #	dh_installinfo
--	dh_installman
-+#	dh_installman
- 	dh_link
- 	dh_strip
- 	dh_compress
- 	dh_fixperms
- #	dh_perl
- #	dh_python
--#	dh_makeshlibs
-+	dh_makeshlibs
- 	dh_installdeb
- 	dh_shlibdeps
- 	dh_gencontrol
-Index: debian/libsoup2.2-dev.dirs
+Index: Makefile.in
 ===================================================================
---- debian/libsoup2.2-dev.dirs	(revision 0)
-+++ debian/libsoup2.2-dev.dirs	(revision 0)
-@@ -0,0 +1,2 @@
-+usr/lib
-+usr/include
-Index: configure.in
-===================================================================
---- configure.in	(revision 1)
-+++ configure.in	(working copy)
-@@ -159,7 +159,7 @@
- dnl ***************
- dnl *** gtk-doc ***
- dnl ***************
--GTK_DOC_CHECK([1.0])
-+dnl ** Disabled for MUD ** GTK_DOC_CHECK([1.0])
- 
- 
- dnl *************************************
-@@ -275,6 +275,4 @@
- 	libsoup/Makefile
- 	tests/Makefile
- 	tests/httpd.conf
--	docs/Makefile
--	docs/reference/Makefile
- 	])
+--- Makefile.in	(revision 1)
++++ Makefile.in	(working copy)
+@@ -212,9 +212,9 @@
+ sysconfdir = @sysconfdir@
+ target_alias = @target_alias@
+ AUTOMAKE_OPTIONS = 1.6
+-SUBDIRS = libsoup tests docs
+-EXTRA_DIST = libsoup.pc.in gtk-doc.make libsoup-zip.in
+-DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
++SUBDIRS = libsoup 
++EXTRA_DIST = libsoup.pc.in libsoup-zip.in
++DISTCHECK_CONFIGURE_FLAGS = --disable-gtk-doc
+ pkgconfigdir = $(libdir)/pkgconfig
+ all: config.h
+ 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+@@ -420,7 +420,7 @@
+ distdir: $(DISTFILES)
+ 	$(am__remove_distdir)
+ 	mkdir $(distdir)
+-	$(mkdir_p) $(distdir)/. $(distdir)/tests
++	$(mkdir_p) $(distdir)/. 
+ 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
+ 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
+ 	list='$(DISTFILES)'; for file in $$list; do \
 Index: Makefile.am
 ===================================================================
 --- Makefile.am	(revision 1)
@@ -100,12 +150,13 @@ Index: Makefile.am
  AUTOMAKE_OPTIONS = 1.6
  
 -SUBDIRS = libsoup tests docs
-+SUBDIRS = libsoup tests 
++SUBDIRS = libsoup 
  
- EXTRA_DIST = libsoup.pc.in gtk-doc.make libsoup-zip.in
+-EXTRA_DIST = libsoup.pc.in gtk-doc.make libsoup-zip.in
++EXTRA_DIST = libsoup.pc.in libsoup-zip.in
  
 -DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
-+#DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
++DISTCHECK_CONFIGURE_FLAGS = --disable-gtk-doc
  
  pkgconfigdir = $(libdir)/pkgconfig
  
