@@ -25,6 +25,7 @@ find . -type f -name '*.php' -a \! -name '_*' | while read F; do
         TARGET="$BIN_DIR/${F%.php}.html"
         DIR=`dirname "$F"`
         FILE=`basename "$F"`
+        echo "$FILE -> $TARGET from $DIR"
         cd "$DIR" && $PHP "$FILE" >"$TARGET"
     fi
 done
