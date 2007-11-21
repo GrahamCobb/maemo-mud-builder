@@ -1,0 +1,107 @@
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -6,21 +6,6 @@
+ Build-Depends: debhelper (>> 5.0.0), docbook-utils, tetex-bin, docbook-to-man, jade, texinfo (>= 4.6-1), cdbs, texi2html (>= 1.76-1), libgpg-error-dev, autotools-dev
+ Standards-Version: 3.7.2
+ 
+-Package: libgcrypt11-doc
+-Section: doc
+-Architecture: all
+-Suggests: libgcrypt11-dev
+-Conflicts: libgcrypt7-doc, libgcrypt-doc
+-Replaces: libgcrypt7-doc, libgcrypt-doc
+-Description: LGPL Crypto library - documentation
+- libgcrypt contains cryptographic functions.  Many important free
+- ciphers, hash algorithms and public key signing algorithms have been
+- implemented:
+- arcfour, blowfish, cast5, DSA, des, 3DES, elgamal, MD5, rijndael,
+- RMD160, RSA, SHA1, twofish, tiger.
+- .
+- This package contains developer documentation.
+-
+ Package: libgcrypt11-dev
+ Section: libdevel
+ Architecture: any
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -7,16 +7,16 @@
+ include /usr/share/cdbs/1/rules/simple-patchsys.mk
+ 
+ DEB_CONFIGURE_EXTRA_FLAGS := --enable-noexecstack --enable-ld-version-script
+-DEB_MAKE_CHECK_TARGET = check
+-ifeq ($(DEB_BUILD_ARCH),arm)
+-DEB_MAKE_CHECK_TARGET = check TESTS="prime register ac basic tsexp keygen benchmark random t-mpi-bit"
+-endif
+-ifeq ($(DEB_BUILD_ARCH),sparc)
+-DEB_MAKE_CHECK_TARGET = check TESTS="prime register ac basic tsexp keygen benchmark random t-mpi-bit"
+-endif
+-ifeq ($(DEB_BUILD_ARCH),s390)
+-DEB_MAKE_CHECK_TARGET = check TESTS="prime register ac basic tsexp keygen benchmark random t-mpi-bit"
+-endif
++#DEB_MAKE_CHECK_TARGET = check
++#ifeq ($(DEB_BUILD_ARCH),arm)
++#DEB_MAKE_CHECK_TARGET = check TESTS="prime register ac basic tsexp keygen benchmark random t-mpi-bit"
++#endif
++#ifeq ($(DEB_BUILD_ARCH),sparc)
++#DEB_MAKE_CHECK_TARGET = check TESTS="prime register ac basic tsexp keygen benchmark random t-mpi-bit"
++#endif
++#ifeq ($(DEB_BUILD_ARCH),s390)
++#DEB_MAKE_CHECK_TARGET = check TESTS="prime register ac basic tsexp keygen benchmark random t-mpi-bit"
++#endif
+ DEB_DH_STRIP_ARGS = --dbg-package=libgcrypt11-dbg
+ DEB_DH_MAKESHLIBS_ARGS := -V 'libgcrypt11 (>=1.2.2)'
+ 
+@@ -31,20 +31,20 @@
+ 	-rm -rf autom4te.cache
+ 	-rm -f tests/stamp-tests
+ 
+-common-configure-impl:: $(DEB_BUILDDIR)/doc/stamp-vti
+-$(DEB_BUILDDIR)/doc/stamp-vti:
+-	cd $(DEB_SRCDIR)/doc && $(MAKE) stamp-vti
++#common-configure-impl:: $(DEB_BUILDDIR)/doc/stamp-vti
++#$(DEB_BUILDDIR)/doc/stamp-vti:
++#	cd $(DEB_SRCDIR)/doc && $(MAKE) stamp-vti
+ 
+-build/libgcrypt11-doc:: $(DEB_BUILDDIR)/config.status
+-	cd $(DEB_SRCDIR)/doc && $(MAKE) gcrypt.ps
+-	cd $(DEB_SRCDIR)/doc && texi2html -split=chapter gcrypt.texi
++#build/libgcrypt11-doc:: $(DEB_BUILDDIR)/config.status
++#	cd $(DEB_SRCDIR)/doc && $(MAKE) gcrypt.ps
++#	cd $(DEB_SRCDIR)/doc && texi2html -split=chapter gcrypt.texi
+ 
+-common-post-build-arch:: $(DEB_BUILDDIR)/stamp-tests
+-$(DEB_BUILDDIR)/stamp-tests:
+-	cd $(DEB_SRCDIR)/tests && $(MAKE)
++#common-post-build-arch:: $(DEB_BUILDDIR)/stamp-tests
++#$(DEB_BUILDDIR)/stamp-tests:
++#	cd $(DEB_SRCDIR)/tests && $(MAKE)
+ 
+-ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+-	$(DEB_BUILDDIR)/tests/register
+-	$(DEB_BUILDDIR)/tests/tsexp
+-	$(DEB_BUILDDIR)/tests/prime
+-endif
++#ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
++#	$(DEB_BUILDDIR)/tests/register
++#	$(DEB_BUILDDIR)/tests/tsexp
++#	$(DEB_BUILDDIR)/tests/prime
++#endif
+Index: Makefile.am
+===================================================================
+--- Makefile.am	(revision 1)
++++ Makefile.am	(working copy)
+@@ -20,8 +20,8 @@
+ ACLOCAL_AMFLAGS = -I m4
+ AUTOMAKE_OPTIONS = dist-bzip2
+ 
+-DIST_SUBDIRS = m4 mpi cipher src doc tests w32-dll
+-SUBDIRS = m4 mpi cipher src doc tests
++DIST_SUBDIRS = m4 mpi cipher src w32-dll
++SUBDIRS = m4 mpi cipher src 
+ EXTRA_DIST = BUGS autogen.sh README.apichanges README.SVN
+ DISTCLEANFILES = 
+ 

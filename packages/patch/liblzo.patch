@@ -1,0 +1,13 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -7,7 +7,7 @@
+ DEB_DH_INSTALL_SOURCEDIR = debian/tmp
+ DEB_INSTALL_CHANGELOGS_ALL = NEWS
+ DEB_INSTALL_DOCS_ALL =
+-DEB_MAKE_CHECK_TARGET = check test
++#DEB_MAKE_CHECK_TARGET = check test
+ 
+ common-install-impl::
+ 	mkdir -p $(DEB_DESTDIR)/usr/share/lzo/minilzo
