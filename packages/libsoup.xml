@@ -1,24 +1,13 @@
 <?xml version="1.0"?>
 <package>
-  <fetch type="command">
-    <depends>gnome-common</depends>
-    <command>
-    # Libsoup after 20070317 is dependent on glib 2.12, which we don't have
-    # So we limit the date to 20070317
-    maxdate="20070317"
-    date="20070421"
-    if [ $date -gt $maxdate ] ; then date=$maxdate ; fi
-    pkg="libsoup-0svn${date}maemo"
-    svn export -r {${date}T0000Z} http://svn.gnome.org/svn/libsoup/trunk $pkg
-    cd $pkg
-    </command>
+  <fetch type="debian">
+    <name>libsoup2.2-8</name>
+    <depends>libgnutls13</depends>
   </fetch>
   <build>
   </build>
   <deb>
-    <library>libsoup2.2</library>
-    <libdev>libsoup2.2-dev</libdev>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
-    <description>libmimedir from OE packaged with mud</description>
+    <description>libsoup from Debian packaged with mud</description>
   </deb>
 </package>

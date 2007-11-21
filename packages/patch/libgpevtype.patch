@@ -1,3 +1,30 @@
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -8,17 +8,20 @@
+ Package: libgpevtype-dev
+ Section: libdev
+ Architecture: any
+-Depends: libgpevtype0 (= ${Source-Version}), libgtk2.0-dev, libmimedir-gnome-dev
++Depends: libgpevtype1 (= ${Source-Version}), libgtk2.0-dev, libmimedir-gnome-dev
+ Description: GPE library to convert PIM data from/to mimedir data (development files).
+  Libmimedir provides GPE access to PIM data in mimedir (VCard/VCal/VTodo) format
+  and supports exporting GPE PIM data to mimedir files. This package 
+  contains the files which are necessary to compile applications using this
+  library.
+ 
+-Package: libgpevtype0
++Package: libgpevtype1
+ Section: libs
+ Architecture: any
+ Depends: ${shlibs:Depends}, ${misc:Depends}
++Provides: libgpevtype0
++Conflicts: libgpevtype0
++Replaces: libgpevtype0
+ Description: GPE library to convert PIM data from/to mimedir data (development files).
+  Libmimedir provides GPE access to PIM data in mimedir (VCard/VCal/VTodo) format
+  and supports exporting GPE PIM data to mimedir files.
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
@@ -50,6 +77,12 @@ Index: debian/rules
  	dh_installdeb
  	dh_shlibdeps
  	dh_gencontrol
+Index: debian/libgpevtype1.files
+===================================================================
+--- debian/libgpevtype1.files	(revision 0)
++++ debian/libgpevtype1.files	(revision 0)
+@@ -0,0 +1 @@
++usr/lib/lib*.so.*
 Index: configure.ac
 ===================================================================
 --- configure.ac	(revision 1)
