@@ -27,6 +27,7 @@ find . -type f -name '*.php' -a \! -name '_*' | while read F; do
         FILE=`basename "$F"`
         echo "$FILE -> $TARGET from $DIR"
         cd "$DIR" && $PHP "$FILE" >"$TARGET"
+        cd "$SRC_DIR"
     fi
 done
 
