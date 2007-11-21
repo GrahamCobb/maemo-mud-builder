@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="command">
+    <command>
+    pkg="starling"
+    date="20071113"
+    release="2.8+"
+    # The release should be of the form major.minor-debianversion or major.minor+.
+    # The latter form means that the "svn$date" form of package version should be used
+    majmin=${release%-*}
+    debver=${release#*-}
+    if [ "$debver" = "$release" ] ; then debver="1" ; fi
+    if [ "$majmin" = "${majmin%+}" ] ; then version="$majmin+maemo-$debver" ; else version="${majmin}maemo+svn$date-1" ; fi
+    pkgdir="$pkg-$version"
+    branch="svn://projects.linuxtogo.org/svn/gpe/trunk/extra"
+    svn export -r {${date}T0000Z} $branch/$pkg $pkgdir
+    mv -f $pkgdir/debian/changelog $pkgdir/debian/changelog.tmp
+    echo "$pkg ($version) unstable; urgency=low" &gt;$pkgdir/debian/changelog
+    echo &gt;&gt;$pkgdir/debian/changelog
+    echo "  * MUD build using revision {$date}" &gt;&gt;$pkgdir/debian/changelog
+    echo &gt;&gt;$pkgdir/debian/changelog
+    echo " -- Graham Cobb &lt;g+770@cobb.uk.net&gt;  $(date --rfc-2822)" &gt;&gt;$pkgdir/debian/changelog
+    cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
+    rm -f $pkgdir/debian/changelog.tmp
+    cd $pkgdir
+    source ./autogen.sh
+    echo "Autogen done"
+    </command>
+    <depends>libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons</depends>
+  </fetch>
+  <build>
+  </build>
+  <deb>
+    <section>user/pim</section>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+    <description>gpe packaged with mud</description>
+  </deb>
+</package>

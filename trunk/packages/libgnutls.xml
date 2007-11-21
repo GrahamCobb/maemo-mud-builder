@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian">
+    <name>libgnutls13</name>
+    <depends>liblzo libgcrypt11 libtasn1-3</depends>
+  </fetch>
+  <build>
+  </build>
+  <deb>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+    <description>libgnutls from Debian packaged with mud</description>
+  </deb>
+</package>
