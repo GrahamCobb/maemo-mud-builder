@@ -14,7 +14,7 @@ use Data::Dumper;
 @ISA     = qw(MUD::Fetch::Base);
 $VERSION = '0.10';
 
-our $repo = 'http://ftp.debian.org/ etch main';
+our $repo = 'http://ftp.debian.org/ testing main';
 
 sub fetch {
     my $self = shift;
