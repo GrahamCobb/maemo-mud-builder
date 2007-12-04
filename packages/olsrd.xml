@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+          <url>http://www.olsr.org/releases/0.5/olsrd-0.5.4.tar.gz</url>
+  </fetch>
+  <deb>
+          <section>user/communication</section>
+          <description>
+The olsr.org OLSR daemon is an implementation of the Optimized Link State Routing protocol. OLSR is a routing protocol for mobile ad-hoc networks. The protocol is pro-active, table driven and utilizes a technique called multipoint relaying for message flooding. olsrd also implements a popular optional link quality extension. Currently the implementation compiles on GNU/Linux, Windows, OS X, FreeBSD, OpenBSD and NetBSD systems.
+Olsrd is ment to be a well structured and well coded implementation that should be easy to maintain, expand and port to other platforms. The implementation is RFC3626 compliant with respect to both core and auxiliary functioning.
+Olsrd supports use of loadable plugins. These can be used to to handle and generate custom packettypes to be carried by OLSRs MPR flooding scheme or for any other desired functioning.
+
+          </description>
+  </deb>
+</package>

@@ -1,0 +1,20 @@
+--- Makefile            2007-10-20 20:57:59.000000000 +0930
++++ Makefile.patch      2007-12-02 04:06:13.000000000 +0930
+@@ -57,7 +57,7 @@
+ CFGDEPS =      $(wildcard $(CFGDIR)/*.[ch]) $(CFGDIR)/oparse.y $(CFGDIR)/oscan.lex
+ TAG_SRCS =     $(SRCS) $(HDRS) $(wildcard $(CFGDIR)/*.[ch] $(SWITCHDIR)/*.[ch])
+
+-default_target: cfgparser $(EXENAME)
++default_target: libs
+
+ $(EXENAME):    $(OBJS) $(CFGOBJS) src/builddata.o
+                $(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
+@@ -97,7 +97,7 @@
+                $(MAKECMD) -C $(CFGDIR) uberclean
+                $(MAKECMD) -C $(SWITCHDIR) clean
+
+-install: install_olsrd
++install: libs_install install_libs
+
+ install_bin:
+                mkdir -p $(SBINDIR)

@@ -11,3 +11,6 @@ ode, libsdl-gfx, ruby, screen, irssi, lua, libsdl-svg
 
 nasm
         Jeff Buchbinder <jeff@freemedsoftware.org>
+
+olsrd, olsdr-plugins
+	Adam p <rip@users.garage.maemo.org>
