@@ -6,7 +6,7 @@
 Maintainer
 	Andrew Flegg <andrew@bleb.org>
 
-ode, libsdl-gfx, ruby, screen, irssi, lua, libsdl-svg
+ode, libsdl-gfx, ruby, screen, irssi, lua, libsdl-svg , xmoto
         Kees Jongenburger <kees.jongenburger@gmail.com>
 
 nasm
@@ -14,3 +14,5 @@ nasm
 
 olsrd, olsdr-plugins
 	Adam p <rip@users.garage.maemo.org>
+cron
+	John Blook <johnx@users.garage.maemo.org>

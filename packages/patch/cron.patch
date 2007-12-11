@@ -1,0 +1,94 @@
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -4,11 +4,11 @@
+ Maintainer: Javier Fernandez-Sanguino Pen~a <jfs@computer.org>
+ Uploaders: Steve Greenland <stevegr@debian.org>
+ Standards-Version: 3.6.1
+-Build-Depends: debhelper, libpam0g-dev, libselinux1-dev [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]
++Build-Depends: debhelper [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]
+ 
+ Package: cron
+ Architecture: any
+-Depends: ${shlibs:Depends}, debianutils (>=1.7), adduser, lsb-base (>= 3.0-10)
++Depends: ${shlibs:Depends}, debianutils (>=1.7), lsb-base (>= 3.0-10)
+ Recommends: exim4 | postfix | mail-transport-agent
+ Suggests: anacron (>=2.0-1), logrotate, lockfile-progs, checksecurity
+ Conflicts: suidmanager (<< 0.50), lockfile-progs (<< 0.1.7)
+Index: debian/postinst
+===================================================================
+--- debian/postinst	(revision 1)
++++ debian/postinst	(working copy)
+@@ -36,7 +36,7 @@
+ done)
+ 
+ # Add group for crontabs
+-getent group crontab > /dev/null 2>&1 || addgroup --system crontab
++getent group crontab > /dev/null 2>&1 || groupadd crontab
+ 
+ # Fixup crontab binary, directory and files for new group 'crontab'.
+ 
+@@ -45,12 +45,6 @@
+     chmod g+s /usr/bin/crontab
+     chgrp crontab $crondir/crontabs
+     chmod 1730 $crondir/crontabs
+-    if dpkg --compare-versions "$2" lt "3.0pl1-81" ; then
+-        cd $crondir/crontabs
+-        set +e
+-        ls -1 |  xargs -r -n 1 --replace=xxx  chown 'xxx:crontab' 'xxx'
+-        set -e
+-    fi
+ fi
+ 
+ if [ -x /etc/init.d/cron ]; then
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -21,9 +21,9 @@
+ # Set system type (Linux, HURD, etc.)
+ DEB_HOST_ARCH_OS = $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+ ifeq ($(DEB_HOST_ARCH_OS), linux)
+-  PAM_DEFS = -DUSE_PAM
+-  PAM_LIBS = -lpam
+-  SELINUX = yes
++  PAM_DEFS = 
++  PAM_LIBS = 
++  SELINUX = no
+ else
+   PAM_DEFS = 
+   PAM_LIBS =
+@@ -71,7 +71,7 @@
+ 	cp debian/cron-se.overrides b-cron-se/cron-se
+ 	cd b-cron-se
+ 	# Add here commands to compile the package.
+-	SELINUX_DEFS="-DWITH_SELINUX" SELINUX_LIBS=-lselinux $(MAKE) -C b-cron-se -f ../Makefile OPTIM="$(DEB_OPTIM)" DEBUG_DEFS="$(DEB_DEBUG_DEFS)" VPATH=.. INCLUDE=-I..
++	$(MAKE) -C b-cron-se -f ../Makefile OPTIM="$(DEB_OPTIM)" DEBUG_DEFS="$(DEB_DEBUG_DEFS)" VPATH=.. INCLUDE=-I..
+ 	touch $@
+ 
+ clean:
+@@ -93,9 +93,9 @@
+ 	dh_clean -k
+ 	dh_installdirs
+ 	dh_install
+-
++#
+ 	dh_installdocs FEATURES THANKS README debian/README.anacron
+-	dh_installexamples debian/examples/*
++#	dh_installexamples debian/examples/*
+ #	dh_installmenu
+ 	dh_installpam
+ 	dh_installinit --noscripts
+@@ -111,9 +111,9 @@
+                        debian/cron/etc/cron.daily/standard
+ 	install -m 755 debian/standard.monthly \
+                        debian/cron/etc/cron.monthly/standard
+-	dh_installman crontab.1 crontab.5 cron.8
++#	dh_installman crontab.1 crontab.5 cron.8
+ #	dh_undocumented
+-	dh_installchangelogs CHANGES
++#	dh_installchangelogs CHANGES
+ 	dh_installdebconf
+ 	dh_strip
+ 	dh_compress
