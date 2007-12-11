@@ -1,0 +1,12 @@
+<package>
+	<fetch type="debian">
+		<name>cron</name>
+		<depends>lsb-base</depends>
+	</fetch>
+	<deb> 
+		<description>
+			Cron let's you run commands at scheduled times.
+		</description>
+		<section>user/tools</section>
+	</deb>
+</package>
