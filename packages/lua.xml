@@ -2,7 +2,6 @@
 <package>
   <fetch type="tarball">
     <url>http://www.lua.org/ftp/lua-5.1.1.tar.gz</url>
-    <depends>libreadline4, libreadline4-dev</depends>
   </fetch>
   <deb>
     <icon>http://www.lua.org/favicon.ico</icon>
