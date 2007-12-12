@@ -2,9 +2,10 @@
 <package>
   <fetch type="tarball">
     <url>http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.16.tar.gz</url>
+    <depends>libsdl1.2-dev</depends>
   </fetch>
   <build>
-    <configure-append>--disable-mmx</configure-append>
+    <configure-append>--disable-mmx  --host=arm-linux</configure-append>
   </build>
   <deb>
     <icon>http://www.ferzkopp.net/joomla/images/favicon.ico</icon>

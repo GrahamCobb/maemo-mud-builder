@@ -21,7 +21,7 @@
    <url>http://belnet.dl.sourceforge.net/sourceforge/xmoto/xmoto-0.2.6-src.tar.gz</url>
   </fetch>
   <build>
-    <configure-append>--with-renderer-openGl=0 --with-renderer-sdlGfx=1 --disable-nls</configure-append>
+    <configure-append>--with-renderer-openGl=0 --with-renderer-sdlGfx=1 --disable-nls --host=arm-linux</configure-append>
   </build>
   <deb>
     <!-- keesj:it workds on my machine but that is becasue I have copied and
