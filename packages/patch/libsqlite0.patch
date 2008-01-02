@@ -9,7 +9,7 @@ Index: debian/control
  Priority: optional
 -Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.hu>
 +Maintainer: Graham Cobb <g+770@cobb.uk.net>
- Build-Depends: cdbs (>= 0.4.15), debhelper (>= 4.1.16), autoconf (>= 2.59), libtool (>= 1.5.2), automake1.9, autotools-dev, libreadline5-dev, tcl8.4-dev
+ Build-Depends: cdbs (>= 0.4.15), debhelper (>= 4.2.0), autoconf (>= 2.59), libtool (>= 1.5.2), automake1.9, autotools-dev, libreadline5-dev, tcl8.4-dev
 -Standards-Version: 3.7.2
 +Standards-Version: 3.6.0
  
@@ -55,7 +55,7 @@ Index: debian/control
 -Section: libdevel
 +Section: user/libdevel
  Architecture: any
- Depends: libsqlite0 (= ${Source-Version}), libc6-dev
+ Depends: libsqlite0 (= ${binary:Version}), libc6-dev
  Description: SQLite development files
 @@ -52,16 +43,3 @@
   .
