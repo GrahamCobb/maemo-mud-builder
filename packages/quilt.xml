@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian">
+    <depends></depends>
+  </fetch>
+</package>

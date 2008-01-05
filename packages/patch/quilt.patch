@@ -1,0 +1,45 @@
+Index: debian/quilt.install
+===================================================================
+--- debian/quilt.install	(revision 1)
++++ debian/quilt.install	(working copy)
+@@ -8,7 +8,3 @@
+ ../quilt.debbuild.mk usr/share/quilt
+ ../quilt.make        usr/share/quilt
+ ../patchsys-quilt.mk /usr/share/cdbs/1/rules/
+-
+-../../doc/quilt.html usr/share/doc/quilt
+-../../doc/quilt.txt usr/share/doc/quilt
+-../../quilt.quiltrc usr/share/doc/quilt
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -12,7 +12,8 @@
+ 
+ # installing under debian/tmp...
+ DEB_MAKE_ENVVARS := BUILD_ROOT=$(CURDIR)/debian/tmp LC_ALL=C
+-DEB_MAKE_CHECK_TARGET = check
++#DEB_MAKE_CHECK_TARGET = check
++DEB_BUILD_OPTIONS += nocheck
+ 
+ # ... and moving it to the right dir using dh_install
+ DEB_DH_INSTALL_SOURCEDIR := debian/tmp
+@@ -21,12 +22,12 @@
+ DEB_CONFIGURE_EXTRA_FLAGS := --with-mta=/usr/sbin/sendmail
+ 
+ # distribute a text version of the doc
+-common-build-indep::
+-	mkdir doc/tmp || true
+-	cd doc/tmp; LC_ALL=C hevea ../main.tex ; LC_ALL=C hevea ../main.tex; LC_ALL=C hevea ../main.tex
+-	cp doc/tmp/main.html doc/quilt.html 
+-	LC_ALL=C perl -e '$$/ = undef; $$f=<>; $$f =~ s|<A[^>]*?HREF="[^"]*#[^"]*">(.*?)</A>|$$1|msg; print $$f;' < doc/tmp/main.html > doc/tmp/tmp.html
+-	LC_ALL=C lynx doc/tmp/tmp.html -dump > doc/quilt.txt
++#common-build-indep::
++#	mkdir doc/tmp || true
++#	cd doc/tmp; LC_ALL=C hevea ../main.tex ; LC_ALL=C hevea ../main.tex; LC_ALL=C hevea ../main.tex
++#	cp doc/tmp/main.html doc/quilt.html 
++#	LC_ALL=C perl -e '$$/ = undef; $$f=<>; $$f =~ s|<A[^>]*?HREF="[^"]*#[^"]*">(.*?)</A>|$$1|msg; print $$f;' < doc/tmp/main.html > doc/tmp/tmp.html
++#	LC_ALL=C lynx doc/tmp/tmp.html -dump > doc/quilt.txt
+ 
+ # sendmail is in /usr/sbin, not in user path, so add a link here (See #410890)
+ common-build-indep::
