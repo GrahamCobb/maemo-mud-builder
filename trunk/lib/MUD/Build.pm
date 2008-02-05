@@ -258,6 +258,24 @@ sub genDebControl {
     system("sed -i debian/control -e /^Standards-Version:/s/3.6.0/3.6.1/");
     system("sed -i debian/control -e /^Section:/s/devel/libdev/");
 
+    # Make dh_make 0.37 work like dh_make 0.38
+    # include 'usr/share/pkgconfig/*' in debian/lib...-dev.install
+    my $libdevinstall = "debian/".$self->{package}."-dev.install";
+    if ($type == 'l' and -f $libdevinstall) {
+	# print "Checking $libdevinstall\n";
+    	open(IN, "<$libdevinstall") or croak "Unable to read $libdevinstall: $!\n";
+	my (@contents) = <IN>;
+    	close(IN);
+	if ( grep m#^usr/share/pkgconfig/\*$#, @contents ) {
+	    # print "usr/share/pkgconfig/* already included\n";
+	} else {
+	    print "Adding usr/share/pkgconfig/* to $libdevinstall\n";
+            open(OUT, ">>$libdevinstall") or croak "Unable to append to $libdevinstall: $!\n";
+	    print OUT "usr/share/pkgconfig/*\n";
+	    close OUT;
+	}
+    }
+
      foreach my $f (<debian/*.files>) {
          my $i = $f;
          $i =~ s/\.files$/\.install/;
