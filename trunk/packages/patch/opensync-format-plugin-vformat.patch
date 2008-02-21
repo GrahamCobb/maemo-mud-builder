@@ -1,0 +1,46 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -24,7 +24,7 @@
+ configure-stamp:
+ 	dh_testdir
+ 	# Add here commands to configure the package.
+-
++	cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_MODULE_PATH=source/cmake/Modules/ source
+ 	touch configure-stamp
+ 
+ 
+@@ -34,7 +34,7 @@
+ 	dh_testdir
+ 
+ 	# Add here commands to compile the package.
+-	$(MAKE)
++	$(MAKE) VERBOSE=1
+ 	#docbook-to-man debian/opensync-format-plugin-vformat.sgml > opensync-format-plugin-vformat.1
+ 
+ 	touch $@
+@@ -67,10 +67,10 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installchangelogs 
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs 
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -81,7 +81,7 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress

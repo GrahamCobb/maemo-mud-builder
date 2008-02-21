@@ -1,0 +1,93 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -33,7 +33,7 @@
+ configure-stamp:
+ 	dh_testdir
+ 	# Add here commands to configure the package.
+-
++	cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_MODULE_PATH=source/cmake/Modules/ source
+ 	touch configure-stamp
+ 
+ 
+@@ -42,7 +42,7 @@
+ 	dh_testdir
+ 
+ 	# Add here commands to compile the package.
+-	$(MAKE)
++	$(MAKE) VERBOSE=1
+ 
+ 	touch $@
+ 
+@@ -74,10 +74,10 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installchangelogs 
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs 
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -87,14 +87,14 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
+ 	dh_fixperms
+ #	dh_perl
+ #	dh_python
+-#	dh_makeshlibs
++	dh_makeshlibs -V
+ 	dh_installdeb
+ 	dh_shlibdeps
+ 	dh_gencontrol
+Index: debian/libopensync-dev.dirs
+===================================================================
+--- debian/libopensync-dev.dirs	(revision 1)
++++ debian/libopensync-dev.dirs	(working copy)
+@@ -1,2 +1,5 @@
+ usr/lib
+ usr/include
++usr/bin
++usr/share
++
+Index: debian/libopensync-dev.install
+===================================================================
+--- debian/libopensync-dev.install	(revision 1)
++++ debian/libopensync-dev.install	(working copy)
+@@ -4,3 +4,6 @@
+ usr/lib/pkgconfig/*
+ usr/lib/*.la
+ usr/share/pkgconfig/*
++usr/bin/*
++usr/share/opensync-1.0/cmake
++
+Index: debian/libopensync1.dirs
+===================================================================
+--- debian/libopensync1.dirs	(revision 1)
++++ debian/libopensync1.dirs	(working copy)
+@@ -1 +1,2 @@
+ usr/lib
++usr/libexec
+Index: debian/libopensync1.install
+===================================================================
+--- debian/libopensync1.install	(revision 1)
++++ debian/libopensync1.install	(working copy)
+@@ -1 +1,6 @@
+ usr/lib/lib*.so.*
++usr/lib/opensync-1.0/osplugin
++usr/lib/opensync-1.0/formats
++usr/share/opensync-1.0/capabilities
++usr/share/opensync-1.0/descriptions
++usr/share/opensync-1.0/schemas

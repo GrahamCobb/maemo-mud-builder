@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="command">
+    <command>
+    pkg="opensync-plugin-syncml"
+    date="20080204"
+    release="0.36+"
+    # The release should be of the form major.minor-debianversion or major.minor+.
+    # The latter form means that the "svn$date" form of package version should be used
+    majmin=${release%-*}
+    debver=${release#*-}
+    if [ "$debver" = "$release" ] ; then debver="1" ; fi
+    if [ "$majmin" = "${majmin%+}" ] ; then version="$majmin+maemo-$debver" ; else version="${majmin}maemo+svn$date-1" ; fi
+    pkgdir="$pkg-$version"
+    branch="http://svn.opensync.org"
+    svn export -r {${date}T0000Z} $branch/plugins/syncml $pkgdir/source
+    </command>
+    <depends>libopensync, libsyncml</depends>
+  </fetch>
+  <build>
+  </build>
+  <deb>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+    <description>opensync packaged with mud</description>
+    <build-Depends>debhelper (&gt;= 5), cmake, libopensync-dev</build-Depends>
+    <depends>${shlibs:Depends}, opensync-format-plugin-vformat</depends>
+  </deb>
+</package>

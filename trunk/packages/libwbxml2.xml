@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>http://prdownloads.sourceforge.net/wbxmllib/wbxml2-0.9.2.tar.gz</url>
+  </fetch>
+  <build>
+  </build>
+  <deb prefix-section="0">
+    <library>libwbxml2-0</library>
+    <libdev>libwbxml2-dev</libdev>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+    <description>WBXML library development file\n The WBXML Library (aka libwbxml) contains a library and its associated\n tools to Parse, Encode and Handle WBXML documents.  The WBXML format\n is a binary representation of XML, defined by the Wap Forum, and used\n to reduce bandwidth in mobile communications.</description>
+  </deb>
+</package>

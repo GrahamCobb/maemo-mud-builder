@@ -1,0 +1,81 @@
+Index: source/src/gpe-sync
+===================================================================
+--- source/src/gpe-sync	(revision 1)
++++ source/src/gpe-sync	(working copy)
+@@ -29,20 +29,17 @@
+ 
+ 	In this case, the <handheld_ip> and <handheld_port> tags can be used.
+ 
+-  Either customise the <ssh> configuration shown below or remove it and uncomment
+-  one of the other sections.  Each section is configured to show the default values
+-  used if the tags are not specified. 
+   -->
++  <!--
+   <ssh>
+     <handheld_ip>127.0.0.1</handheld_ip>
+     <handheld_user>gpeuser</handheld_user>
+     <command>gpesyncd --remote</command>
+   </ssh>
+-  <!--
++  -->
+   <local>
+-    <command>gpesyncd --remote</command>
++	  <!-- <command>gpesyncd --remote</command> -->
+   </local>
+-  -->
+   <!--
+   <remote>
+     <handheld_ip>127.0.0.1</handheld_ip>
+@@ -64,4 +61,4 @@
+   and calendar names are case-sensitive.
+   -->
+   <!-- <calendar>Some Calendar</calendar> -->
+-</config>
+\ No newline at end of file
++</config>
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -24,7 +24,7 @@
+ configure-stamp:
+ 	dh_testdir
+ 	# Add here commands to configure the package.
+-
++	cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_MODULE_PATH=source/cmake/Modules/ source
+ 	touch configure-stamp
+ 
+ 
+@@ -34,7 +34,7 @@
+ 	dh_testdir
+ 
+ 	# Add here commands to compile the package.
+-	$(MAKE)
++	$(MAKE) VERBOSE=1
+ 	#docbook-to-man debian/opensync-plugin-gpe.sgml > opensync-plugin-gpe.1
+ 
+ 	touch $@
+@@ -67,10 +67,10 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installchangelogs 
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs 
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -81,7 +81,7 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
