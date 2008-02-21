@@ -1,0 +1,100 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -33,7 +33,13 @@
+ configure-stamp:
+ 	dh_testdir
+ 	# Add here commands to configure the package.
+-
++	libtoolize
++	aclocal
++	autoheader
++	#  automake --foreign --add-missing --copy
++	automake --add-missing
++	autoconf
++	./configure --prefix=/usr
+ 	touch configure-stamp
+ 
+ 
+@@ -74,10 +80,10 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installchangelogs ChangeLog
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs ChangeLog
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -87,14 +93,14 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
+ 	dh_fixperms
+ #	dh_perl
+ #	dh_python
+-#	dh_makeshlibs
++	dh_makeshlibs -V
+ 	dh_installdeb
+ 	dh_shlibdeps
+ 	dh_gencontrol
+Index: debian/libwbxml2-0.dirs
+===================================================================
+--- debian/libwbxml2-0.dirs	(revision 0)
++++ debian/libwbxml2-0.dirs	(revision 0)
+@@ -0,0 +1 @@
++usr/lib
+Index: debian/libwbxml2-0.install
+===================================================================
+--- debian/libwbxml2-0.install	(revision 0)
++++ debian/libwbxml2-0.install	(revision 0)
+@@ -0,0 +1 @@
++usr/lib/lib*.so.*
+Index: Makefile.am
+===================================================================
+--- Makefile.am	(revision 1)
++++ Makefile.am	(working copy)
+@@ -8,26 +8,6 @@
+ pkgconfigdir=$(libdir)/pkgconfig
+ pkgconfig_DATA = libwbxml2.pc
+ 
+-wbxmldocdir = ${prefix}/share/doc/wbxml2-${VERSION}
+-wbxmldoc_DATA = \
+-	AUTHORS\
+-	bootstrap\
+-	BUGS\
+-	ChangeLog\
+-	COPYING\
+-	GNU-LGPL\
+-	INSTALL\
+-	NEWS\
+-	README\
+-	References\
+-	THANKS\
+-	TODO\
+-	doxygen.h
+-
+-install-data-local:
+-	$(mkinstalldirs) $(DESTDIR)$(wbxmldocdir)/manual
+-	cp -Rp doc/* $(DESTDIR)$(wbxmldocdir)/manual
+-
+ dist-bz2: distdir
+ 	sed -e "s/tar.gz/tar.bz2/g" $(distdir)/wbxml2.spec > $(distdir)/wbxml2.spec.aux
+ 	mv $(distdir)/wbxml2.spec.aux $(distdir)/wbxml2.spec
+@@ -37,4 +17,4 @@
+ 	$(am__remove_distdir)
+ 
+ # include wbxml.spec to allow `rpmbuild -ta`
+-EXTRA_DIST = wbxml2.spec $(wbxmldoc_DATA) doc win32
++EXTRA_DIST = wbxml2.spec win32
