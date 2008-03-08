@@ -11,7 +11,7 @@
     if [ "$debver" = "$release" ] ; then debver=${release#*+} ; fi
     if [ "$debver" = "" ] ; then debver="1" ; fi
     majmin=${release%-*} ; version="$majmin+maemo-$debver"
-    if [ "$majmin" = "$release" ] ; then majmin=${release%+*} ; version="${majmin}maemo+svn$date-$debver" ; fi
+    if [ "$majmin" = "$release" ] ; then majmin=${release%+*} ; version="${majmin}+maemo+svn$date-$debver" ; fi
     pkgdir="$pkg-$version"
     branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
     svn export -r {${date}T0000Z} $branch/$pkg $pkgdir
