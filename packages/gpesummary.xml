@@ -3,14 +3,15 @@
   <fetch type="command">
     <command>
     pkg="gpesummary"
-    date="20071113"
-    release="2.8+"
-    # The release should be of the form major.minor-debianversion or major.minor+.
+    date="20080114"
+    release="2.8+2"
+    # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
-    majmin=${release%-*}
     debver=${release#*-}
-    if [ "$debver" = "$release" ] ; then debver="1" ; fi
-    if [ "$majmin" = "${majmin%+}" ] ; then version="$majmin+maemo-$debver" ; else version="${majmin}maemo+svn$date-1" ; fi
+    if [ "$debver" = "$release" ] ; then debver=${release#*+} ; fi
+    if [ "$debver" = "" ] ; then debver="1" ; fi
+    majmin=${release%-*} ; version="$majmin+maemo-$debver"
+    if [ "$majmin" = "$release" ] ; then majmin=${release%+*} ; version="${majmin}maemo+svn$date-$debver" ; fi
     pkgdir="$pkg-$version"
     branch="svn://projects.linuxtogo.org/svn/gpe/trunk/extra"
     svn export -r {${date}T0000Z} $branch/gpe-summary $pkgdir
@@ -34,6 +35,6 @@
   <deb>
     <section>user/pim</section>
     <maintainer>Christoph Würstle &lt;n800@axique.de&gt;</maintainer>
-    <description>gpe summary packaged with mud</description>
+    <description>GPE home page applet\nPart of the GPE PIM suite, this applet summarises\ninformation from the GPE PIM applications for display\non the home page.\nPackaged with MUD</description>
   </deb>
 </package>
