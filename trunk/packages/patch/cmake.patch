@@ -1,0 +1,33 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -71,7 +71,7 @@
+ 	#cp Docs/cmake-syntax.vim debian/cmake/usr/share/vim/addons/syntax/cmake.vim
+ 	#cp Docs/cmake-mode.el debian/cmake/usr/share/emacs/site-lisp/
+ 	cp Docs/cmake-mode.el debian/cmake.emacsen-startup
+-	Build/bin/ccmake --help-man > debian/ccmake.1
++	#Build/bin/ccmake --help-man > debian/ccmake.1
+ 	Build/bin/cmake  --help-man > debian/cmake.1
+ 	#Build/bin/cpack --help-man > debian/cpack.1
+ 	Build/bin/ctest  --help-man > debian/ctest.1
+@@ -83,14 +83,14 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installdocs
+-	dh_installexamples
++#	dh_installdocs
++#	dh_installexamples
+ 	dh_installmenu
+ 	dh_installemacsen
+ 	dh_installcron
+-	dh_installman
+-	dh_installinfo
+-	dh_installchangelogs ChangeLog.txt ChangeLog.manual
++#	dh_installman
++#	dh_installinfo
++#	dh_installchangelogs ChangeLog.txt ChangeLog.manual
+ 	dh_link
+ 	dh_strip
+ 	dh_compress -XCMake.pdf
