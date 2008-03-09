@@ -313,9 +313,8 @@ sub patchDebControl {
 
     # -- Fix section...
     #
-    my $userSection = $self->{data}->{data}->{deb}->{'prefix-section'} ||
-                     ($self->{package} =~ /^lib/);
-    $userSection = 1 unless defined($userSection);
+    my $userSection = defined ($self->{data}->{data}->{deb}->{'prefix-section'}) 
+        ? $self->{data}->{data}->{deb}->{'prefix-section'} : $self->{package} !~ /^lib/;
     if ($userSection) {
        $control =~ s/^(Section:)\s*(user\/)*(.*)$/$1 user\/$3/mig;
     }
