@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian">
+    <!-- Note we don't build the curses interface: ccmake -->
+    <depends>quilt</depends>
+  </fetch>
+</package>
