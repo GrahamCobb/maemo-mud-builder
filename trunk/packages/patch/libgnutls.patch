@@ -2,67 +2,89 @@ Index: debian/control
 ===================================================================
 --- debian/control	(revision 1)
 +++ debian/control	(working copy)
-@@ -81,17 +81,6 @@
-  This package contains a commandline interface to the GNU TLS library,
-  which can be used to set up secure connections from e.g. shell scripts.
+@@ -27,6 +27,28 @@
+  .
+  This package contains the runtime libraries.
  
--Package: gnutls-doc
--Priority: optional
--Architecture: all
--Section: doc
--Depends: ${misc:Depends}
--Description: the GNU TLS library - documentation and examples
-- gnutls is a portable library which implements the Transport Layer
-- Security (TLS) 1.0 and Secure Sockets Layer (SSL) 3.0 protocols.
-- .
-- This package contains all the gnutls documentation.
--
- Package: libgnutlsxx13
- Priority: optional
++Package: libgnutls-dev
++Priority: optional
++Section: libdevel
++Architecture: any
++Provides: gnutls-dev
++Depends: libgnutls13 (= ${binary:Version}), libgcrypt11-dev (>= 1.2.3), libc6-dev | libc-dev, zlib1g-dev, libtasn1-3-dev (>= 0.3.4), libopencdk10-dev (>= 0.6.5)
++Suggests: gnutls-doc, gnutls-bin, guile-gnutls
++Conflicts: libgnutls11-dev, gnutls-dev (<< 0.4.0-0), gnutls0.4-dev
++Replaces: libgnutls11-dev, gnutls-dev (<< 0.4.0-0), gnutls0.4-dev
++Description: the GNU TLS library - development files
++ gnutls is a portable library which implements the Transport Layer
++ Security (TLS) 1.0 and Secure Sockets Layer (SSL) 3.0 protocols.
++ .
++ Currently gnutls implements:
++  - the TLS 1.0 and SSL 3.0 protocols, without any US-export
++    controlled algorithms
++  - X509 Public Key Infrastructure (with several limitations).
++  - SRP for TLS authentication.
++  - TLS Extension mechanism
++ .
++ This package contains the gnutls development files.
++
+ Package: libgnutls13-dbg
+ Priority: extra
  Architecture: any
+Index: debian/libgnutls-dev.install
+===================================================================
+--- debian/libgnutls-dev.install	(revision 0)
++++ debian/libgnutls-dev.install	(revision 0)
+@@ -0,0 +1,10 @@
++debian/tmp/usr/include/* usr/include
++debian/tmp/usr/lib/libgnutls*.so usr/lib
++debian/tmp/usr/lib/libgnutls*.a usr/lib
++debian/tmp/usr/lib/libgnutls.la usr/lib
++debian/tmp/usr/lib/libgnutls-*.la usr/lib
++debian/tmp/usr/share/aclocal/* usr/share/aclocal
++debian/tmp/usr/bin/libgnutls*config usr/bin
++debian/tmp/usr/lib/pkgconfig/gnutls.pc usr/lib/pkgconfig
++debian/tmp/usr/lib/pkgconfig/gnutls-extra.pc usr/lib/pkgconfig
++
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
 +++ debian/rules	(working copy)
-@@ -9,8 +9,8 @@
- include /usr/share/cdbs/1/class/autotools.mk
+@@ -10,7 +10,7 @@
  include /usr/share/cdbs/1/rules/simple-patchsys.mk
  
--DEB_CONFIGURE_EXTRA_FLAGS = --with-mcrypt=no --enable-ld-version-script
+ DEB_CONFIGURE_EXTRA_FLAGS = --with-mcrypt=no --enable-ld-version-script --disable-guile --disable-static --disable-gtk-doc
 -DEB_MAKE_CHECK_TARGET = check
-+DEB_CONFIGURE_EXTRA_FLAGS = --with-mcrypt=no --enable-ld-version-script --disable-gtk-doc
-+#DEB_MAKE_CHECK_TARGET = check
++DEB_MAKE_CHECK_TARGET = 
  DEB_DH_STRIP_ARGS = --dbg-package=libgnutls13-dbg
- DEB_DH_MAKESHLIBS_ARGS_libgnutls13 := -V 'libgnutls13 (>=1.6.3-0)'
- DEB_COMPRESS_EXCLUDE := gnutls.pdf
+ DEB_DH_MAKESHLIBS_ARGS_libgnutls13 := -V 'libgnutls13 (>=2.0.4-0)'
+ 
 Index: Makefile.in
 ===================================================================
 --- Makefile.in	(revision 1)
 +++ Makefile.in	(working copy)
-@@ -349,8 +349,8 @@
+@@ -514,9 +514,8 @@
  target_vendor = @target_vendor@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
 -DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
--SUBDIRS = gl lgl includes lib libextra src doc tests po
+-SUBDIRS = lgl gl includes lib libextra src $(am__append_1) doc tests \
+-	po
 +DISTCHECK_CONFIGURE_FLAGS = --disable-gtk-doc
-+SUBDIRS = gl lgl includes lib libextra src
- EXTRA_DIST = mkinstalldirs
++SUBDIRS = lgl gl includes lib libextra src $(am__append_1) 
  ACLOCAL_AMFLAGS = -I m4 -I gl/m4 -I lgl/m4
  tag = $(PACKAGE)_`echo $(VERSION) | sed 's/\./_/g'`
+ all: config.h
 Index: Makefile.am
 ===================================================================
 --- Makefile.am	(revision 1)
 +++ Makefile.am	(working copy)
-@@ -19,9 +19,9 @@
+@@ -20,7 +20,7 @@
  # along with this file; if not, write to the Free Software Foundation,
  # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  
 -DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 +DISTCHECK_CONFIGURE_FLAGS = --disable-gtk-doc
  
--SUBDIRS = gl lgl includes lib libextra src doc tests po
-+SUBDIRS = gl lgl includes lib libextra src
- 
- EXTRA_DIST = mkinstalldirs
+ SUBDIRS = lgl gl includes lib libextra src
  

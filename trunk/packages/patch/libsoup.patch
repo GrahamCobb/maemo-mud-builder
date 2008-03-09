@@ -2,33 +2,14 @@ Index: debian/control
 ===================================================================
 --- debian/control	(revision 1)
 +++ debian/control	(working copy)
-@@ -10,7 +10,7 @@
- Package: libsoup2.2-dev
- Section: devel
- Architecture: any
--Depends: ${misc:Depends}, libsoup2.2-8 (= ${binary:Version}), libglib2.0-dev, libgnutls-dev (>= 1.4.0), libxml2-dev, zlib1g-dev
-+Depends: ${misc:Depends}, libsoup2.2-8 (= ${Source-Version}), libglib2.0-dev, libgnutls-dev (>= 1.4.0), libxml2-dev, zlib1g-dev
- Conflicts: libgnutls11-dev
- Suggests: libsoup2.2-doc
- Description: an HTTP library implementation in C -- Development files
-@@ -39,6 +39,9 @@
- Section: libs
- Architecture: any
- Depends: ${misc:Depends}, ${shlibs:Depends}
-+Provides: libsoup2.2
-+Conflicts: libsoup2.2
-+Replaces: libsoup2.2
- Description: an HTTP library implementation in C -- Shared library
-  It was originally part of a SOAP (Simple Object Access Protocol)
-  implementation called Soup, but the SOAP and non-SOAP parts have now been
-@@ -61,29 +64,3 @@
+@@ -73,30 +73,4 @@
   .
   This package contains the shared library.
  
 -Package: libsoup2.2-doc
 -Section: devel
 -Architecture: all
--Depends:  ${misc:Depends}
+-Depends: ${misc:Depends}
 -Suggests: libsoup2.2-dev
 -Description: an HTTP library implementation in C -- API Reference
 - It was originally part of a SOAP (Simple Object Access Protocol)
@@ -51,37 +32,19 @@ Index: debian/control
 -  * Basic client-side SOAP and XML-RPC support
 - .
 - This package contains the documentation.
+ 
 Index: debian/control.in
 ===================================================================
 --- debian/control.in	(revision 1)
 +++ debian/control.in	(working copy)
-@@ -10,7 +10,7 @@
- Package: libsoup2.2-dev
- Section: devel
- Architecture: any
--Depends: ${misc:Depends}, libsoup2.2-8 (= ${binary:Version}), libglib2.0-dev, libgnutls-dev (>= 1.4.0), libxml2-dev, zlib1g-dev
-+Depends: ${misc:Depends}, libsoup2.2-8 (= ${Source-Version}), libglib2.0-dev, libgnutls-dev (>= 1.4.0), libxml2-dev, zlib1g-dev
- Conflicts: libgnutls11-dev
- Suggests: libsoup2.2-doc
- Description: an HTTP library implementation in C -- Development files
-@@ -39,6 +39,9 @@
- Section: libs
- Architecture: any
- Depends: ${misc:Depends}, ${shlibs:Depends}
-+Provides: libsoup2.2
-+Conflicts: libsoup2.2
-+Replaces: libsoup2.2
- Description: an HTTP library implementation in C -- Shared library
-  It was originally part of a SOAP (Simple Object Access Protocol)
-  implementation called Soup, but the SOAP and non-SOAP parts have now been
-@@ -61,29 +64,3 @@
+@@ -73,30 +73,4 @@
   .
   This package contains the shared library.
  
 -Package: libsoup2.2-doc
 -Section: devel
 -Architecture: all
--Depends:  ${misc:Depends}
+-Depends: ${misc:Depends}
 -Suggests: libsoup2.2-dev
 -Description: an HTTP library implementation in C -- API Reference
 - It was originally part of a SOAP (Simple Object Access Protocol)
@@ -104,59 +67,17 @@ Index: debian/control.in
 -  * Basic client-side SOAP and XML-RPC support
 - .
 - This package contains the documentation.
+ 
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
 +++ debian/rules	(working copy)
-@@ -21,5 +21,5 @@
+@@ -17,7 +17,7 @@
  
- DEB_SHLIBDEPS_INCLUDE_libsoup2.2-dev := debian/libsoup2.2-${SOUP_SOVERSION}/usr/lib
- DEB_DH_MAKESHLIBS_ARGS_ALL := -V'$(SHLIBS)'
+ DEB_SHLIBDEPS_INCLUDE_libsoup2.2-dev += debian/libsoup2.2-${SOUP_SOVERSION}/usr/lib
+ DEB_DH_MAKESHLIBS_ARGS_ALL += -V'$(SHLIBS)'
 -DEB_CONFIGURE_EXTRA_FLAGS += --enable-gtk-doc
 +DEB_CONFIGURE_EXTRA_FLAGS += --disable-gtk-doc
  
-Index: Makefile.in
-===================================================================
---- Makefile.in	(revision 1)
-+++ Makefile.in	(working copy)
-@@ -212,9 +212,9 @@
- sysconfdir = @sysconfdir@
- target_alias = @target_alias@
- AUTOMAKE_OPTIONS = 1.6
--SUBDIRS = libsoup tests docs
--EXTRA_DIST = libsoup.pc.in gtk-doc.make libsoup-zip.in
--DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
-+SUBDIRS = libsoup 
-+EXTRA_DIST = libsoup.pc.in libsoup-zip.in
-+DISTCHECK_CONFIGURE_FLAGS = --disable-gtk-doc
- pkgconfigdir = $(libdir)/pkgconfig
- all: config.h
- 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
-@@ -420,7 +420,7 @@
- distdir: $(DISTFILES)
- 	$(am__remove_distdir)
- 	mkdir $(distdir)
--	$(mkdir_p) $(distdir)/. $(distdir)/tests
-+	$(mkdir_p) $(distdir)/. 
- 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
- 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
- 	list='$(DISTFILES)'; for file in $$list; do \
-Index: Makefile.am
-===================================================================
---- Makefile.am	(revision 1)
-+++ Makefile.am	(working copy)
-@@ -1,11 +1,11 @@
- ## Process this file with automake to produce Makefile.in
- AUTOMAKE_OPTIONS = 1.6
- 
--SUBDIRS = libsoup tests docs
-+SUBDIRS = libsoup 
- 
--EXTRA_DIST = libsoup.pc.in gtk-doc.make libsoup-zip.in
-+EXTRA_DIST = libsoup.pc.in libsoup-zip.in
- 
--DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
-+DISTCHECK_CONFIGURE_FLAGS = --disable-gtk-doc
- 
- pkgconfigdir = $(libdir)/pkgconfig
- 
+ install/libsoup2.2-doc::
+ 	# rename the devhelp files to match the parent directory as otherwise

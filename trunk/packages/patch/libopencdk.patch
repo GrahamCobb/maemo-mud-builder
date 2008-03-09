@@ -1,0 +1,55 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -6,7 +6,7 @@
+ include /usr/share/cdbs/1/rules/simple-patchsys.mk
+ 
+ DEB_CONFIGURE_EXTRA_FLAGS = --enable-ld-version-script
+-DEB_MAKE_CHECK_TARGET = check
++DEB_MAKE_CHECK_TARGET = 
+ DEB_DH_STRIP_ARGS = --dbg-package=libopencdk10-dbg
+ DEB_DH_MAKESHLIBS_ARGS_libopencdk10 := -V 'libopencdk10 (>=0.6.5)'
+ 
+@@ -34,6 +34,3 @@
+ 
+ 	dh_clean
+ 
+-common-build-arch common-build-indep:: doc/opencdk-api.html
+-doc/opencdk-api.html:
+-	$(MAKE) -C doc opencdk-api.html
+Index: debian/libopencdk10-dev.docs
+===================================================================
+--- debian/libopencdk10-dev.docs	(revision 1)
++++ debian/libopencdk10-dev.docs	(working copy)
+@@ -3,4 +3,3 @@
+ AUTHORS
+ THANKS
+ TODO
+-doc/opencdk-api.html
+Index: Makefile.in
+===================================================================
+--- Makefile.in	(revision 1)
++++ Makefile.in	(working copy)
+@@ -213,7 +213,7 @@
+ target_alias = @target_alias@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+-SUBDIRS = src doc tests
++SUBDIRS = src 
+ ACLOCAL_AMFLAGS = -I m4
+ AUTOMAKE_OPTIONS = dist-bzip2
+ EXTRA_DIST = autogen.sh
+Index: Makefile.am
+===================================================================
+--- Makefile.am	(revision 1)
++++ Makefile.am	(working copy)
+@@ -18,7 +18,7 @@
+ # along with OpenCDK; if not, write to the Free Software Foundation,
+ # Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ 
+-SUBDIRS = src doc tests
++SUBDIRS = src 
+ 
+ ACLOCAL_AMFLAGS = -I m4
+ 

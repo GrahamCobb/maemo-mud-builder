@@ -2,12 +2,11 @@
 <package>
   <fetch type="debian">
     <name>libgnutls13</name>
-    <depends>liblzo libgcrypt11 libtasn1-3</depends>
+    <depends>liblzo-dev libgcrypt11-dev libtasn1-3 libopencdk</depends>
   </fetch>
   <build>
   </build>
-  <deb>
+  <deb prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
-    <description>libgnutls from Debian packaged with mud</description>
   </deb>
 </package>
