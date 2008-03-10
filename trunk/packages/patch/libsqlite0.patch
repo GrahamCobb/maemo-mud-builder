@@ -2,25 +2,7 @@ Index: debian/control
 ===================================================================
 --- debian/control	(revision 1)
 +++ debian/control	(working copy)
-@@ -1,12 +1,13 @@
- Source: sqlite
--Section: devel
-+Section: user/devel
- Priority: optional
--Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.hu>
-+Maintainer: Graham Cobb <g+770@cobb.uk.net>
- Build-Depends: cdbs (>= 0.4.15), debhelper (>= 4.2.0), autoconf (>= 2.59), libtool (>= 1.5.2), automake1.9, autotools-dev, libreadline5-dev, tcl8.4-dev
--Standards-Version: 3.7.2
-+Standards-Version: 3.6.0
- 
- Package: sqlite
--Section: misc
-+Uploaders: MUD Project <mud-builder-team@garage.maemo.org>
-+Section: user/misc
- Architecture: any
- Depends: ${shlibs:Depends}
- Suggests: sqlite-doc
-@@ -15,20 +16,9 @@
+@@ -15,18 +15,6 @@
   Programs that link with the SQLite library can have SQL database 
   access without running a separate RDBMS process.
  
@@ -37,30 +19,13 @@ Index: debian/control
 - the SQLite homepage.
 -
  Package: libsqlite0
--Section: libs
-+Uploaders: MUD Project <mud-builder-team@garage.maemo.org>
-+Section: user/libs
+ Section: libs
  Architecture: any
- Pre-Depends: ${misc:Depends}
- Depends: ${shlibs:Depends}
-@@ -38,11 +28,12 @@
+@@ -51,17 +39,3 @@
   access without running a separate RDBMS process.
- 
- Package: libsqlite0-dev
-+Uploaders: MUD Project <mud-builder-team@garage.maemo.org>
- Provides: libsqlite-dev
- Conflicts: libsqlite-dev
- Replaces: libsqlite-dev (<< 2.7.0)
- Suggests: sqlite-doc
--Section: libdevel
-+Section: user/libdevel
- Architecture: any
- Depends: libsqlite0 (= ${binary:Version}), libc6-dev
- Description: SQLite development files
-@@ -52,16 +43,3 @@
   .
   This package contains the development files (headers, static libraries)
- 
+-
 -Package: libsqlite-tcl
 -Conflicts: libsqlite0-tcl
 -Replaces: libsqlite0-tcl
