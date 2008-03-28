@@ -171,7 +171,7 @@ sub compile {
     $self->patchDebControl();
 
     # Use -i to ignore .svn directories(among others)
-    system("dpkg-buildpackage -d -rfakeroot -i | tee ../log"); 
+    system("dpkg-buildpackage -d -rfakeroot -i -sa | tee ../log"); 
 }
 
 sub clean {
