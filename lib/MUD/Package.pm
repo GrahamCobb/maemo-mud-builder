@@ -37,6 +37,22 @@ sub load {
     my $file = $self->{config}->directory('PACKAGES_DIR') . "/$name.xml";
     croak("Unknown package '$name': can't find [$file]") unless -f $file;
 
+    # FIXME: Should do heuristics to work out default sdk name
+    my $sdk = "chinook";
+
+    $sdk = $::OPTS{sdk} if $::OPTS{sdk};
+
+    my $xsl = "$self->{config}->{base}/XSL/SDK.xsl";
+    $xsl = $::OPTS{xsl} if $::OPTS{xsl};
+    croak("Missing XSLT file: $xsl") unless -f $xsl;
+
+    my $holdTerminator = $/;
+    undef $/;
+    open(XMLFILE,"xsltproc --stringparam sdk $sdk $xsl $file |") or croak("Unable to perform XSL Transformation on [$file]: $!\nHave you installed xsltproc?");
+    $file = <XMLFILE>;
+    close(XMLFILE);
+    $/ = $holdTerminator;
+
     $self->{data} = XMLin($file) or croak("Unable to parse configuration for '$name': error in [$file]?");
     $self->{name} = $name;
 

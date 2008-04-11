@@ -25,7 +25,9 @@ use vars qw(%ACTIONS %OPTS $config);
 GetOptions(\%OPTS, 'help',
 		   'config=s',
 	           'all',
-	   	   'depend-nobuild');
+	   	   'depend-nobuild',
+	           'sdk=s',
+	           'xsl=s');
 
 if ($OPTS{help} or !@ARGV or !$ACTIONS{$ARGV[0]}) {
     print <<EOM;
@@ -40,6 +42,8 @@ Options:
     -a, --all                 Run <action> on all packages
     -c, --config=FILE         Use FILE for configuration rather than 'config'
     -d, --depend-nobuild      Do not build any dependencies, assume they are up to date
+    -s, --sdk=CODENAME        Use CODENAME as the SDK name when processing packages
+    -x, --xsl=FILE            Use FILE as XSL Transformation for package files
 
 Actions:
     build                     Build the given package(s) from upstream
