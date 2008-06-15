@@ -2,7 +2,7 @@ Index: source/src/gpe-sync
 ===================================================================
 --- source/src/gpe-sync	(revision 1)
 +++ source/src/gpe-sync	(working copy)
-@@ -29,20 +29,17 @@
+@@ -34,24 +34,17 @@
  
  	In this case, the <handheld_ip> and <handheld_port> tags can be used.
  
@@ -10,29 +10,27 @@ Index: source/src/gpe-sync
 -  one of the other sections.  Each section is configured to show the default values
 -  used if the tags are not specified. 
    -->
-+  <!--
-   <ssh>
+-  <ssh>
++  <!-- <ssh>
      <handheld_ip>127.0.0.1</handheld_ip>
      <handheld_user>gpeuser</handheld_user>
-     <command>gpesyncd --remote</command>
-   </ssh>
+-  </ssh>
 -  <!--
-+  -->
++  </ssh> -->
    <local>
--    <command>gpesyncd --remote</command>
-+	  <!-- <command>gpesyncd --remote</command> -->
    </local>
 -  -->
-   <!--
-   <remote>
+-  <!--
+-  <remote>
++  <!-- <remote>
      <handheld_ip>127.0.0.1</handheld_ip>
-@@ -64,4 +61,4 @@
-   and calendar names are case-sensitive.
-   -->
-   <!-- <calendar>Some Calendar</calendar> -->
--</config>
-\ No newline at end of file
-+</config>
+     <handheld_port>6446</handheld_port>
+-  </remote>
+-  -->
++  </remote> -->
+ 
+   <!--
+   The <calendar> tag can be used to specify which GPE calendar
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)

@@ -1,3 +1,89 @@
+Index: cmake/modules/FindUsb.cmake
+===================================================================
+--- cmake/modules/FindUsb.cmake	(revision 0)
++++ cmake/modules/FindUsb.cmake	(revision 0)
+@@ -0,0 +1,57 @@
++# - Try to find Usb
++# Find BlueZ headers, libraries and the answer to all questions.
++#
++#  USB_FOUND               True if Usb libraries got found
++#  USB_INCLUDE_DIRS         Location of Usb headers 
++#  USB_LIBRARIES           List of libaries to use Usb
++#
++# Copyright (c) 2007 Daniel Gollub <dgollub@suse.de>
++# Copyright (c) 2007 Bjoern Ricks  <b.ricks@fh-osnabrueck.de>
++#
++#  Redistribution and use is allowed according to the terms of the New
++#  BSD license.
++#  For details see the accompanying COPYING-CMAKE-SCRIPTS file.
++#
++
++INCLUDE( FindPkgConfig )
++
++# Take care about bluez.pc settings
++IF ( Usb_FIND_REQUIRED )
++	SET( _pkgconfig_REQUIRED "REQUIRED" )
++ELSE( Usb_FIND_REQUIRED )
++	SET( _pkgconfig_REQUIRED "" )	
++ENDIF ( Usb_FIND_REQUIRED )
++
++IF ( USB_MIN_VERSION )
++	PKG_SEARCH_MODULE( USB ${_pkgconfig_REQUIRED} libusb>=${USB_MIN_VERSION} )
++ELSE ( USB_MIN_VERSION )
++	PKG_SEARCH_MODULE( USB ${_pkgconfig_REQUIRED} libusb )
++ENDIF ( USB_MIN_VERSION )
++
++# Look for Usb include dir and libraries
++IF( NOT USB_FOUND AND NOT PKG_CONFIG_FOUND )
++
++	FIND_PATH( USB_INCLUDE_DIRS usb/usb.h )
++	FIND_LIBRARY( USB_LIBRARIES usb )
++
++	# Report results
++	IF ( USB_LIBRARIES AND USB_INCLUDE_DIRS )	
++		SET( USB_FOUND 1 )
++		IF ( NOT Usb_FIND_QUIETLY )
++			MESSAGE( STATUS "Found Usb: ${USB_LIBRARIES}" )
++		ENDIF ( NOT Usb_FIND_QUIETLY )
++	ELSE ( USB_LIBRARIES AND USB_INCLUDE_DIRS )	
++		IF ( Usb_FIND_REQUIRED )
++			MESSAGE( SEND_ERROR "Could NOT find USB" )
++		ELSE ( Usb_FIND_REQUIRED )
++			IF ( NOT Usb_FIND_QUIETLY )
++				MESSAGE( STATUS "Could NOT find USB" )	
++			ENDIF ( NOT Usb_FIND_QUIETLY )
++		ENDIF ( Usb_FIND_REQUIRED )
++	ENDIF ( USB_LIBRARIES AND USB_INCLUDE_DIRS )
++
++ENDIF( NOT USB_FOUND AND NOT PKG_CONFIG_FOUND  )
++
++# Hide advanced variables from CMake GUIs
++MARK_AS_ADVANCED( USB_LIBRARIES USB_INCLUDE_DIRS )
++
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1)
++++ debian/control	(working copy)
+@@ -18,3 +18,11 @@
+ Depends: ${shlibs:Depends}, ${misc:Depends}
+ Description: <insert up to 60 chars description>
+  <insert long description, indented with spaces>
++
++Package: libsyncml-utils
++Section: utils
++Architecture: any
++Depends: libsyncmlBROKEN (= ${Source-Version})
++Description: <insert up to 60 chars description>
++ <insert long description, indented with spaces>
++
+Index: debian/libsyncml-utils.install
+===================================================================
+--- debian/libsyncml-utils.install	(revision 0)
++++ debian/libsyncml-utils.install	(revision 0)
+@@ -0,0 +1,2 @@
++usr/bin/*
++usr/share/man/man1/*
+\ No newline at end of file
 Index: debian/libsyncml0.install
 ===================================================================
 --- debian/libsyncml0.install	(revision 0)
@@ -76,12 +162,52 @@ Index: debian/rules
  	dh_installdeb
  	dh_shlibdeps
  	dh_gencontrol
+Index: debian/libsyncml-utils.dirs
+===================================================================
+--- debian/libsyncml-utils.dirs	(revision 0)
++++ debian/libsyncml-utils.dirs	(revision 0)
+@@ -0,0 +1,2 @@
++usr/bin
++usr/share/man/man1
 Index: debian/libsyncml0.dirs
 ===================================================================
 --- debian/libsyncml0.dirs	(revision 0)
 +++ debian/libsyncml0.dirs	(revision 0)
 @@ -0,0 +1 @@
 +usr/lib
+Index: libsyncml/CMakeLists.txt
+===================================================================
+--- libsyncml/CMakeLists.txt	(revision 1)
++++ libsyncml/CMakeLists.txt	(working copy)
+@@ -1,6 +1,6 @@
+ LINK_DIRECTORIES( ${GLIB2_LIBRARY_DIRS} ${LIBXML2_LIBRARY_DIRS} ${OPENOBEX_LIBRARY_DIRS} ${LIBWBXML2_LIBRARY_DIRS} ${LIBSOUP2_LIBRARY_DIRS} ${BLUEZ_LIBRARY_DIRS} )
+ 
+-INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${GLIB2_INCLUDE_DIRS} ${LIBXML2_INCLUDE_DIR} ${OPENOBEX_INCLUDE_DIRS} ${LIBWBXML2_INCLUDE_DIRS}  ${LIBSOUP2_INCLUDE_DIRS} ${BLUEZ_INCLUDE_DIRS} )
++INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${GLIB2_INCLUDE_DIRS} ${LIBXML2_INCLUDE_DIR} ${OPENOBEX_INCLUDE_DIRS} ${LIBWBXML2_INCLUDE_DIRS}  ${LIBSOUP2_INCLUDE_DIRS} ${BLUEZ_INCLUDE_DIRS} ${USB_INCLUDE_DIRS} )
+ 
+ SET( libsyncml_LIB_SRCS
+ 	sml_base64.c
+@@ -34,7 +34,7 @@
+ SET( LIBSYNCML_SOVERSION 1 )
+ SET_TARGET_PROPERTIES( syncml PROPERTIES SOVERSION ${LIBSYNCML_SOVERSION} )
+ SET_TARGET_PROPERTIES( syncml PROPERTIES VERSION ${LIBSYNCML_VERSION}.${LIBSYNCML_SOVERSION} )
+-TARGET_LINK_LIBRARIES( syncml ${GLIB2_LIBRARIES} ${GTHREAD2_LIBRARIES} ${LIBXML2_LIBRARIES} ${BLUEZ_LIBRARIES} ${LIBWBXML2_LIBRARIES} ${LIBSOUP2_LIBRARIES} ${OPENOBEX_LIBRARIES} )
++TARGET_LINK_LIBRARIES( syncml ${GLIB2_LIBRARIES} ${GTHREAD2_LIBRARIES} ${LIBXML2_LIBRARIES} ${BLUEZ_LIBRARIES} ${LIBWBXML2_LIBRARIES} ${LIBSOUP2_LIBRARIES} libopenobex.a ${USB_LIBRARIES} )
+ 
+ INSTALL( TARGETS syncml DESTINATION ${LIBSYNCML_LIBRARIES_DIR} )
+ 
+Index: CMakeLists.txt
+===================================================================
+--- CMakeLists.txt	(revision 1)
++++ CMakeLists.txt	(working copy)
+@@ -75,6 +75,7 @@
+ 
+ IF(OPENOBEX_FOUND)
+ 	OPTION( ENABLE_OBEX "enable obex transports" ON )
++	FIND_PACKAGE( Usb REQUIRED )
+ 	IF(BLUEZ_FOUND)
+ 		OPTION( ENABLE_BLUETOOTH "enable obex over bluetooth transports" ON )
+ 	ELSE(BLUEZ_FOUND)
 Index: build-cmake
 ===================================================================
 --- build-cmake	(revision 0)
@@ -133,9 +259,3 @@ Index: build-cmake
 +  exit 1
 +fi
 \ No newline at end of file
-
-Property changes on: build-cmake
-___________________________________________________________________
-Name: svn:executable
-   + *
-

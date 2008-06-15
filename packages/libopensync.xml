@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="libopensync"
-    date="20080204"
+    date="20080615"
     release="0.36+"
     # The release should be of the form major.minor-debianversion or major.minor+.
     # The latter form means that the "svn$date" form of package version should be used
