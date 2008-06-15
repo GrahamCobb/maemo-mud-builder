@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="command">
+    <command>
+    pkg="sisusbvga-2.6.21"
+    date="20080615"
+    release="0.2+"
+    # The release should be of the form major.minor-debianversion or major.minor+debianversion.
+    # The latter form means that the "svn$date" form of package version should be used
+    debver=${release#*-}
+    if [ "$debver" = "$release" ] ; then debver=${release#*+} ; fi
+    if [ "$debver" = "" ] ; then debver="1" ; fi
+    majmin=${release%-*} ; version="$majmin+maemo-$debver"
+    if [ "$majmin" = "$release" ] ; then majmin=${release%+*} ; version="${majmin}+maemo+svn$date-$debver" ; fi
+    pkgdir="$pkg-$version"
+    branch="https://garage.maemo.org/svn/xsisusb/trunk/sisusbvga"
+    svn export -r {${date}T0000Z} $branch $pkgdir
+    mv -f $pkgdir/debian/changelog $pkgdir/debian/changelog.tmp
+    echo "$pkg ($version) unstable; urgency=low" &gt;$pkgdir/debian/changelog
+    echo &gt;&gt;$pkgdir/debian/changelog
+    echo "  * MUD build using revision {$date}" &gt;&gt;$pkgdir/debian/changelog
+    echo &gt;&gt;$pkgdir/debian/changelog
+    echo " -- Graham Cobb &lt;g+770@cobb.uk.net&gt;  $(date --rfc-2822)" &gt;&gt;$pkgdir/debian/changelog
+    cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
+    rm -f $pkgdir/debian/changelog.tmp
+    </command>
+  </fetch>
+  <build>
+  </build>
+  <deb prefix-section="0">
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+  </deb>
+</package>
