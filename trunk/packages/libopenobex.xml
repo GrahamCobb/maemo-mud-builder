@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>http://downloads.sourceforge.net/openobex/openobex-1.3.tar.gz</url>
+    <depends>libbluetooth2-dev, libusb-dev</depends>
+  </fetch>
+  <build>
+  </build>
+  <deb>
+    <library>libopenobex1</library>
+    <libdev>libopenobex1-dev</libdev>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+    <description>OBEX protocol library\nThe Object Exchange protocol can best be described as binary HTTP.\nOBEX is optimised for ad-hoc wireless links and can be used to exchange\nall kind of objects like files, pictures, calendar entries (vCal)\nand business cards (vCard).\n.\nOBEX is builtin in devices like PDA's like the Palm Pilot, and mobile\nphones like the Ericsson R320, Siemens S25, Siemens S45, Siemens ME45,\nNokia NM207 and Nokia 9110 Communicator.</description>
+    <!--<depends>libbluetooth2, libusb0</depends>-->
+  </deb>
+</package>

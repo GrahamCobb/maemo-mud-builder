@@ -1,0 +1,18 @@
+Index: debian/libopenobex1-dev.dirs
+===================================================================
+--- debian/libopenobex1-dev.dirs	(revision 0)
++++ debian/libopenobex1-dev.dirs	(revision 0)
+@@ -0,0 +1,2 @@
++usr/lib
++usr/include
+Index: debian/libopenobex1-dev.install
+===================================================================
+--- debian/libopenobex1-dev.install	(revision 0)
++++ debian/libopenobex1-dev.install	(revision 0)
+@@ -0,0 +1,6 @@
++usr/include/*
++usr/lib/lib*.a
++usr/lib/lib*.so
++usr/lib/pkgconfig/*
++usr/lib/*.la
++usr/share/pkgconfig/*
