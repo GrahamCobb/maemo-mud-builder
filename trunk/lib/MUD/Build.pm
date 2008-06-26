@@ -52,7 +52,7 @@ sub _init {
 sub build {
     my $self = shift;
 
-# Don't build more than once in the same command
+    # Don't build more than once in the same command
     print "***Already built $self->{package}***\n" if %::built->{$self->{package}};
     return if %::built->{$self->{package}}++;
 
@@ -171,7 +171,8 @@ sub compile {
     $self->patchDebControl();
 
     # Use -i to ignore .svn directories(among others)
-    system("dpkg-buildpackage -d -rfakeroot -i -sa | tee ../log"); 
+    my $dpkgBuildpackage = 'dpkg-buildpackage -d -rfakeroot -i -sa';
+    system("($dpkgBuildpackage && $dpkgBuildpackage -S) | tee ../log"); 
 }
 
 sub clean {
@@ -198,13 +199,12 @@ sub addDebs {
     my ($ref, $dir, $pattern) = @_;
 
     print "Finding debs for [$pattern] in [$dir]\n";
-    my @results = `find '$dir' -type f -name '$pattern.deb' -o -name '$pattern.changes' -o -name '$pattern.dsc' -o -name '$pattern.tar.gz' -o -name '$pattern.diff.gz'`;
+    my @results = `find '$dir' -type f -name '$pattern.deb' -o -name '${pattern}_source.changes' -o -name '$pattern.dsc' -o -name '$pattern.tar.gz' -o -name '$pattern.diff.gz'`;
     my @add     = ();
     foreach my $d (@results) {
         chomp($d);
         next if $ref->{$d}++ or $d !~ /\.deb$/;
-        my @deps = MUD::Package->parseField('Depends',
-					    scalar(`dpkg --info '$d'`));
+        my @deps = MUD::Package->parseField('Depends', scalar(`dpkg --info '$d'`));
         foreach my $p (@deps) {
             $self->addDebs($ref, $self->{config}->directory('BUILD_DIR'),
                                  "${p}_*") unless $ref->{$p};
@@ -215,14 +215,12 @@ sub addDebs {
 sub genDebControl {
     my $self = shift;
 
-    #croak "TODO: Unable to generate debian control files for ".$self->{package}." yet.\n";
-
     my $maintainer = $self->{data}->{data}->{deb}->{'maintainer'};
     if (!$maintainer and -f 'AUTHORS') {
         open(IN, "<AUTHORS");
         while(<IN>) {
             s/\t/        /;
-	    next unless /[\s<:]\s*([^\s\<]+?\@[^\s>]+)/;
+	    next unless m/[\s<:]\s*([^\s\<]+?\@[^\s>]+)/;
 	    $maintainer = $1;
             $maintainer =~ s/\.$//;
 	    last;
@@ -231,56 +229,52 @@ sub genDebControl {
      }
 
     # `debian/changelog' must not contain an empty address.
-    $maintainer = 'Mud Build Team <mud-builder-users@garage.maemo.org>' if !$maintainer;
+    $maintainer = 'MUD Build Team <mud-builder-users@garage.maemo.org>' if !$maintainer;
 
-     if ($maintainer =~ '^\s*(.*?)\s*<(.*@.*)>\s*$' ) {
+    if ($maintainer =~ '^\s*(.*?)\s*<(.*@.*)>\s*$' ) {
         $ENV{'DEBFULLNAME'} = $1;
         $maintainer = $2;
-     } else {
-	$ENV{'DEBFULLNAME'} = 'Unknown' if !$ENV{'DEBFULLNAME'};
-     }
+    } else {
+        $ENV{'DEBFULLNAME'} = 'Unknown' if !$ENV{'DEBFULLNAME'};
+    }
 
-     my $type = $self->{package} =~ /^lib/ ? 'l' : 's';
-     $type = $1 if ($self->{data}->{data}->{build}->{result} || '') =~ /^(.)/;
-     my @args = ('dh_make', #'-c', 'unknown',
-                            '-e', $maintainer, 
-                            "-$type",
-                            '-n', '-p', $self->{package});
-     croak("Cannot fork: $!") unless defined(my $pid = open(EXC, "|-"));
-     exec(@args) unless $pid;
-     while(<EXC>) {
-         print;
-         print EXC "\n" if /Hit <enter>/;
-     }
-     close(EXC);
-
-    # Make dh_make 0.36 work like dh_make 0.37
-    system("sed -i debian/control -e /^Standards-Version:/s/3.6.0/3.6.1/");
-    system("sed -i debian/control -e /^Section:/s/devel/libdev/");
+    my $type = $self->{package} =~ /^lib/ ? 'l' : 's';
+    $type = $1 if ($self->{data}->{data}->{build}->{result} || '') =~ /^(.)/;
+    my @args = ('dh_make', #'-c', 'unknown',
+                           '-e', $maintainer, 
+                           "-$type",
+                           '-n', '-p', $self->{package});
+    croak("Cannot fork: $!") unless defined(my $pid = open(EXC, "|-"));
+    exec(@args) unless $pid;
+    while(<EXC>) {
+        print;
+        print EXC "\n" if /Hit <enter>/;
+    }
+    close(EXC);
 
     # Make dh_make 0.37 work like dh_make 0.38
     # include 'usr/share/pkgconfig/*' in debian/lib...-dev.install
     my $libdevinstall = "debian/".$self->{package}."-dev.install";
     if ($type == 'l' and -f $libdevinstall) {
-	# print "Checking $libdevinstall\n";
+      # print "Checking $libdevinstall\n";
     	open(IN, "<$libdevinstall") or croak "Unable to read $libdevinstall: $!\n";
-	my (@contents) = <IN>;
+      my (@contents) = <IN>;
     	close(IN);
-	if ( grep m#^usr/share/pkgconfig/\*$#, @contents ) {
-	    # print "usr/share/pkgconfig/* already included\n";
-	} else {
-	    print "Adding usr/share/pkgconfig/* to $libdevinstall\n";
-            open(OUT, ">>$libdevinstall") or croak "Unable to append to $libdevinstall: $!\n";
-	    print OUT "usr/share/pkgconfig/*\n";
-	    close OUT;
-	}
+      if ( grep m#^usr/share/pkgconfig/\*$#, @contents ) {
+        # print "usr/share/pkgconfig/* already included\n";
+      } else {
+        print "Adding usr/share/pkgconfig/* to $libdevinstall\n";
+        open(OUT, ">>$libdevinstall") or croak "Unable to append to $libdevinstall: $!\n";
+        print OUT "usr/share/pkgconfig/*\n";
+        close OUT;
+      }
     }
 
-     foreach my $f (<debian/*.files>) {
-         my $i = $f;
-         $i =~ s/\.files$/\.install/;
-         rename $f, $i;
-     }
+    foreach my $f (<debian/*.files>) {
+        my $i = $f;
+        $i =~ s/\.files$/\.install/;
+        rename $f, $i;
+    }
 }
 
 
@@ -295,29 +289,27 @@ sub patchDebControl {
 
     # -- Fix standards version and uploaders...
     #
-    $control = MUD::Package->setField($control, 'Standards-Version', '3.6.0');
+    $control =~ s/^(Section:.*)devel/$1libdev/;
+    $control = MUD::Package->setField($control, 'Standards-Version', '3.6.1');
     $control = MUD::Package->setField($control, 'Uploaders', 'MUD Project <mud-builder-team@garage.maemo.org>');
 
     # -- Fix "BROKEN" libraries...
     #
     my $name = $self->{package};
-    my $libname = $self->{data}->{data}->{deb}->{'library'} ||
-	"${name}1";
+    my $libname = $self->{data}->{data}->{deb}->{'library'} || "${name}1";
     $control =~ s/\Q${name}\EBROKEN/${libname}/mgi;
 
     # -- Fix lib-dev package name
     #
-    my $libdevname = $self->{data}->{data}->{deb}->{'libdev'} ||
-	"${name}-dev";
+    my $libdevname = $self->{data}->{data}->{deb}->{'libdev'} || "${name}-dev";
     $control =~ s/\Q${name}\E-dev/${libdevname}/mgi;
 
     # -- Fix section...
     #
     my $userSection = defined ($self->{data}->{data}->{deb}->{'prefix-section'}) 
         ? $self->{data}->{data}->{deb}->{'prefix-section'} : $self->{package} !~ /^lib/;
-    if ($userSection) {
-       $control =~ s/^(Section:)\s*(user\/)*(.*)$/$1 user\/$3/mig;
-    }
+        
+    $control =~ s/^(Section:)\s*(user\/)*(.*)$/$1 user\/$3/mig if $userSection;
 
     # -- Fix dependencies...
     #
@@ -335,16 +327,16 @@ sub patchDebControl {
         system('convert', $iconFile, '-resize', '26x26', $iconFile);
         my $iconData = `uuencode -m icon <$iconFile`;
         $iconData =~ s/^begin-base64 \d{3,4} icon[\s\r\n]+//m;
-	$iconData =~ s/^/  /mg;
-	if ($iconData) {
+        $iconData =~ s/^/  /mg;
+        if ($iconData) {
             chomp($iconData);
             $control =~ s/^Package: .*$/$&\nXB-Maemo-Icon-26:$iconData/mg;
         }
     }
 
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
-	next if $k =~ /^(icon|prefixSection|version|library|libdev)$/;
-	$control = MUD::Package->setField($control, ucfirst($k), $v);
+        next if $k =~ /^(icon|prefixSection|version|library|libdev)$/;
+        $control = MUD::Package->setField($control, ucfirst($k), $v);
     }
 
     if ($control ne $origControl) {

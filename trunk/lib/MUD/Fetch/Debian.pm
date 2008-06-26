@@ -137,6 +137,7 @@ sub apt {
 
     my @args = ('apt-get', '-y',
                            '-o', 'Dir::Etc::SourceList='.$self->{sources}, 
+                           '-o', 'APT::Cache-Limit=10000000',
                            @_);
     my $data = '';
     unshift @args, 'fakeroot' if -e '/scratchbox/tools/bin/fakeroot';

@@ -38,7 +38,7 @@ sub load {
     croak("Unknown package '$name': can't find [$file]") unless -f $file;
 
     # FIXME: Should do heuristics to work out default sdk name
-    my $sdk = "chinook";
+    my $sdk = "diablo";
 
     $sdk = $::OPTS{sdk} if $::OPTS{sdk};
 
