@@ -47,46 +47,45 @@ sub fetch {
                split /[\s\r\n]+/, $deps;
 
     if (keys(%list)) {
-	warn "Need extra deps: ".join(", ", keys(%list))."\n";
+        warn "Need extra deps: ".join(", ", keys(%list))."\n";
         foreach my $dep (keys %list) {
             my $build;
             
-	    # -- Build from one of MUD, existing binaries or upstream source...
-	    #
-	    if (-f $self->{config}->directory('PACKAGES_DIR') . "/$dep.xml") {
-                print "[Got existing MUD package for $dep]\n";
-		if (!$::OPTS{'depend-nobuild'}) {
-		    $build = new MUD::Build( package => $dep,
-					     config => $self->{config} );
-		}
+            # -- Build from one of MUD, existing binaries or upstream source...
+            #
+            if (-f $self->{config}->directory('PACKAGES_DIR') . "/$dep.xml") {
+              print "[Got existing MUD package for $dep]\n";
+              $build = new MUD::Build( package => $dep,
+                                        config => $self->{config} ) unless $::OPTS{'depend-nobuild'};
 
             } else {
                 system('fakeroot', 'apt-get', '-y', 'install', $dep);
-		next unless $?;
-    	        my $dpkg = `dpkg -s $dep 2>/dev/null`;
+                next unless $?;
+                my $dpkg = `dpkg -s $dep 2>/dev/null`;
                 print $dpkg;
                 if ($dpkg !~ /Status: install ok installed/) {
-		    print "+++ Status not installed.\n";
+                    print "+++ Status not installed.\n";
                     my $newPkg = new MUD::Package( (%{ $self->{package} }));
                     $newPkg->{package} = $dep;
-	            $newPkg->{data}->{fetch}->{name} = $dep;
-	    	    $newPkg->{data}->{deb}->{prefixSection} = 0;
+                    $newPkg->{data}->{fetch}->{name} = $dep;
+                    $newPkg->{data}->{deb}->{prefixSection} = 0;
                     $build = new MUD::Build( package => $newPkg,
-                                             config => $self->{config} );
-               }
+                                              config => $self->{config} );
+                }
             }
 
-	    # -- If we built, install...
-	    #
-	    if ($build) {
+            # -- If we built, install...
+            #
+            if ($build) {
                 $build->build();
                 chdir $build->{workdir};
                 system("fakeroot dpkg -i --force-depends *.deb");
-		croak "Unable to install $dep [$?]\n" if $?;
-		$list{$dep} = $build;
+                croak "Unable to install $dep [$?]\n" if $?;
+                $list{$dep} = $build;
             }
         }
-	$self->{deps} = \%list;
+        
+      	$self->{deps} = \%list;
     }
 }
 
@@ -137,7 +136,7 @@ sub apt {
 
     my @args = ('apt-get', '-y',
                            '-o', 'Dir::Etc::SourceList='.$self->{sources}, 
-                           '-o', 'APT::Cache-Limit=10000000',
+                           '-o', 'APT::Cache-Limit=20000000',
                            @_);
     my $data = '';
     unshift @args, 'fakeroot' if -e '/scratchbox/tools/bin/fakeroot';
@@ -146,8 +145,8 @@ sub apt {
     croak("Cannot fork: $!") unless defined(my $pid = open(EXC, "-|"));
     exec(@args) unless $pid;
     while(my $line = <EXC>) {
-	$data .= $line;
-	print $line;
+        $data .= $line;
+        print $line;
     }
     close(EXC);
 

@@ -6,6 +6,8 @@
 package MUD::Build;
 
 use strict;
+use utf8;
+use locale;
 use vars qw(@ISA $VERSION @PREVENT_INSTALL); 
 use Carp;
 use File::Basename;
@@ -220,10 +222,11 @@ sub genDebControl {
         open(IN, "<AUTHORS");
         while(<IN>) {
             s/\t/        /;
-	    next unless m/[\s<:]\s*([^\s\<]+?\@[^\s>]+)/;
-	    $maintainer = $1;
+            next unless m/((?:[^!-\/:-@\[-`]| )+\s*<?\s*[^\s\<]+?\@[^\s>]+\s*>?)/ or
+                         m/[\s<:]\s*([^\s\<]+?\@[^\s>]+)/;
+            $maintainer = $1;
             $maintainer =~ s/\.$//;
-	    last;
+            last;
          }
          close(IN);
      }
@@ -231,19 +234,22 @@ sub genDebControl {
     # `debian/changelog' must not contain an empty address.
     $maintainer = 'MUD Build Team <mud-builder-users@garage.maemo.org>' if !$maintainer;
 
-    if ($maintainer =~ '^\s*(.*?)\s*<(.*@.*)>\s*$' ) {
+    print "maintainer = [$maintainer]\n";
+    if ($maintainer =~ /^\s*(.*?)\s*<\s*(.*@.*?)\s*>/ ) {
         $ENV{'DEBFULLNAME'} = $1;
         $maintainer = $2;
-    } else {
-        $ENV{'DEBFULLNAME'} = 'Unknown' if !$ENV{'DEBFULLNAME'};
     }
-
+    $ENV{'DEBFULLNAME'} ||= 'Unknown';
+    
     my $type = $self->{package} =~ /^lib/ ? 'l' : 's';
     $type = $1 if ($self->{data}->{data}->{build}->{result} || '') =~ /^(.)/;
-    my @args = ('dh_make', #'-c', 'unknown',
+    my @args = ('dh_make', 
                            '-e', $maintainer, 
                            "-$type",
                            '-n', '-p', $self->{package});
+    my $licence = $self->{data}->{data}->{build}->{'copyright'};
+    push @args, '-c', $licence if $licence;
+                           
     croak("Cannot fork: $!") unless defined(my $pid = open(EXC, "|-"));
     exec(@args) unless $pid;
     while(<EXC>) {
@@ -335,7 +341,7 @@ sub patchDebControl {
     }
 
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
-        next if $k =~ /^(icon|prefixSection|version|library|libdev)$/;
+        next if $k =~ /^(icon|prefix-section|version|library|libdev)$/;
         $control = MUD::Package->setField($control, ucfirst($k), $v);
     }
 
