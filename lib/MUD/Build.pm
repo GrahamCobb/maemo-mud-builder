@@ -88,7 +88,7 @@ sub fetch {
     my $buildDir = basename($self->{data}->{build} || '.');
     my $origBDir = $buildDir;
     $buildDir    =~ s/-src\b//;
-    my $version  = $self->{data}->{version};
+    my $version  = $self->{data}->{version} || $self->{data}->{data}->{deb}->{version};
     print "Version = $version, buildDir = $buildDir\n";
     $version   ||= $1 if $buildDir =~ s/-(\d[\w\-\.\+\:]+\w|\d\w*)*$//;
     $version   ||= $1 if !$version and $buildDir =~ s/(\d+)$//;
@@ -96,10 +96,14 @@ sub fetch {
     $version   ||= 1;
     print "Version = $version, buildDir = $buildDir\n";
     $buildDir    = $self->{package} unless $buildDir =~ /^[a-z0-9\-\+]+$/;
-    $buildDir   .= "-$version";
+
+    my $versionForBuild = $version;
+    $versionForBuild =~ s/-[^-]+$//g;
+    $buildDir   .= "-$versionForBuild";
     print "Build dir = $buildDir\n";
     rename $origBDir, $buildDir if $origBDir ne $buildDir;
 
+    $self->{data}->{version} = $version;
     $self->{data}->{build} = File::Spec->rel2abs($buildDir, $self->{workdir});
     print "Set build dir to [".$self->{data}->{build}."]\n";
     system('ln', '-snf', $self->{data}->{build}, $self->{workdir}.'/.build');
@@ -174,7 +178,33 @@ sub compile {
 
     # Use -i to ignore .svn directories(among others)
     my $dpkgBuildpackage = 'dpkg-buildpackage -d -rfakeroot -i -sa';
-    system("($dpkgBuildpackage && $dpkgBuildpackage -S) | tee ../log"); 
+    
+    # First build: build binaries and get build-deps
+    system("dpkg-depcheck -b $dpkgBuildpackage | tee ../log");
+    
+    # Modify debian/control with calculated build-depends if not explicitly set
+    unless ($self->{data}->{data}->{deb}->{'build-depends'}) {
+      my @buildDeps = ();
+      if (open(LOG, "<../log")) {
+          my $inNeeded = 0;
+          while (<LOG>) {
+              $inNeeded ||= /^Packages needed:$/;
+              next unless $inNeeded and /^  ([^\s\r\n]+)$/;
+              push @buildDeps, $1;
+          }
+          close(LOG);
+      }
+
+      if (@buildDeps) {
+          print "Adding calculated build-deps of [".join(', ', @buildDeps)."]\n";
+          my $control = $self->readDebControl();
+          $control = MUD::Package->setField($control, "Build-Depends", join(', ', @buildDeps));
+          $self->writeDebControl($control);
+      }
+    }
+    
+    # Now build source package for upload
+    system("$dpkgBuildpackage -S | tee -a ../log"); 
 }
 
 sub clean {
@@ -222,7 +252,7 @@ sub genDebControl {
         open(IN, "<AUTHORS");
         while(<IN>) {
             s/\t/        /;
-            next unless m/((?:[^!-\/:-@\[-`]| )+\s*<?\s*[^\s\<]+?\@[^\s>]+\s*>?)/ or
+            next unless m/((?:[^a-z][^!-\/:-@\[-`]+ )+\s*<?\s*[^\s\<]+?\@[^\s>]+\s*>?)/ or
                          m/[\s<:]\s*([^\s\<]+?\@[^\s>]+)/;
             $maintainer = $1;
             $maintainer =~ s/\.$//;
@@ -283,14 +313,33 @@ sub genDebControl {
     }
 }
 
-
-sub patchDebControl {
+sub readDebControl {
     my $self = shift;
-
     my $control = '';
     open(IN, "<debian/control") or croak "Unable to read control: $!\n";
     while(<IN>) { $control .= $_; }
     close(IN);
+    
+    return $control;
+}
+
+
+sub writeDebControl {
+    my $self = shift;
+    my ($control) = @_;
+      
+    print $control;
+    rename "debian/control", "debian/control.mud";
+    open(OUT, ">debian/control") or croak "Unable to write control: $!\n";
+    print OUT $control;
+    close(OUT) or croak "Unable to close control: $!\n";
+}
+
+
+sub patchDebControl {
+    my $self = shift;
+
+    my $control = $self->readDebControl();
     my $origControl = $control;
 
     # -- Fix standards version and uploaders...
@@ -341,17 +390,17 @@ sub patchDebControl {
     }
 
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
-        next if $k =~ /^(icon|prefix-section|version|library|libdev)$/;
-        $control = MUD::Package->setField($control, ucfirst($k), $v);
+        next if $k =~ /^(icon|prefix-section|library|libdev)$/;
+        $control = MUD::Package->setField($control, $k, $v);
     }
 
-    if ($control ne $origControl) {
-        print $control;
-        rename "debian/control", "debian/control.mud";
-        open(OUT, ">debian/control") or croak "Unable to write control: $!\n";
-        print OUT $control;
-        close(OUT) or croak "Unable to close control: $!\n";
-    }
+    $self->writeDebControl($control) if $control ne $origControl;
+    
+    # -- Modify changelog to contain this build...
+    #
+    system('debchange', '-v', $self->{data}->{version},
+                        '-p', '--noquery',
+                        'Build using mud-builder by '.($ENV{USER} || 'unknown'));
 
     # -- Patch other miscellaneous problems...
     #

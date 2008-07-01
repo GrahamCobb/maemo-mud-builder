@@ -92,6 +92,10 @@ sub parseField {
 sub setField {
     my $self = shift;
     my ($data, $field, $value) = @_;
+    
+    # Capitalise field name
+    $field = ucfirst($field);
+    $field =~ s/\b([a-z])/uc($1)/egx;
 
     # Auto-escape the first line break in Description
     $value =~ s/\n/\\n/ if $field eq 'Description' and $value !~ /\\n/;
@@ -108,7 +112,7 @@ sub setField {
     $value =~ s/(\\n)+ */\n/g;
     
     my $wrapped = wrap("", "  ", "$field: $value");
-    $wrapped =~ s/\n(\s*)\n/\n$1.\n/g;
+    $wrapped =~ s/\n(\s*).?\s*\n/\n$1.\n/g;
     
     # Put the field in the correct paragraph
     my $paragraph = $field eq 'Uploaders' ? 'Source' : 'Package';
