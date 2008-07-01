@@ -180,12 +180,12 @@ sub compile {
     my $dpkgBuildpackage = 'dpkg-buildpackage -d -rfakeroot -i -sa';
     
     # First build: build binaries and get build-deps
-    system("dpkg-depcheck -b $dpkgBuildpackage | tee ../log");
+    system("dpkg-depcheck -m -o ../build.deps $dpkgBuildpackage | tee ../log");
     
     # Modify debian/control with calculated build-depends if not explicitly set
     unless ($self->{data}->{data}->{deb}->{'build-depends'}) {
       my @buildDeps = ();
-      if (open(LOG, "<../log")) {
+      if (open(LOG, "<../build.deps")) {
           my $inNeeded = 0;
           while (<LOG>) {
               $inNeeded ||= /^Packages needed:$/;
@@ -202,7 +202,7 @@ sub compile {
           $self->writeDebControl($control);
       }
     }
-    
+
     # Now build source package for upload
     system("$dpkgBuildpackage -S | tee -a ../log"); 
 }
