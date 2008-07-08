@@ -59,7 +59,7 @@ sub fetch {
                                         config => $self->{config} ) unless $::OPTS{'depend-nobuild'};
 
             } else {
-                system('fakeroot', 'apt-get', '-y', 'install', $dep);
+                system('fakeroot', 'apt-get', '-y', '--force-yes', 'install', $dep);
                 next unless $?;
                 my $dpkg = `dpkg -s $dep 2>/dev/null`;
                 print $dpkg;
