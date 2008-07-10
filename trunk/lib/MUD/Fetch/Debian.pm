@@ -59,7 +59,7 @@ sub fetch {
                                         config => $self->{config} ) unless $::OPTS{'depend-nobuild'};
 
             } else {
-                system('fakeroot', 'apt-get', '-y', '--force-yes', 'install', $dep);
+                $self->apt('install', $dep);
                 next unless $?;
                 my $dpkg = `dpkg -s $dep 2>/dev/null`;
                 print $dpkg;
@@ -137,6 +137,7 @@ sub apt {
     my @args = ('apt-get', '-y',
                            '-o', 'Dir::Etc::SourceList='.$self->{sources}, 
                            '-o', 'APT::Cache-Limit=20000000',
+                           '-o', 'APT::Get::AllowUnauthenticated=1',
                            @_);
     my $data = '';
     unshift @args, 'fakeroot' if -e '/scratchbox/tools/bin/fakeroot';
