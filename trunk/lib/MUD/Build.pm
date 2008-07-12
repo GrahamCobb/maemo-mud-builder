@@ -1,7 +1,22 @@
-#
-# MUD::Build                                (c) Andrew Flegg 2007
-# ~~~~~~~~~~                                Relased under the Artistic Licence
-#                                           http://mud-builder.garage.maemo.org/
+
+=head1 NAME
+
+MUD::Build - Build packages suitable for upload
+
+=head1 SYNOPSIS
+
+This class is primarily responsible for controlling the build process
+used by C<mud>.
+
+    use MUD::Build;
+    my $mud = MUD::Build->new( package => 'vim' );
+    $mud->build();
+
+=head1 DESCRIPTION
+
+=over 12
+
+=cut
 
 package MUD::Build;
 
@@ -22,6 +37,21 @@ use Data::Dumper;
 $VERSION = '0.10';
 @PREVENT_INSTALL = qw(changelogs docs examples info man);
 
+
+=item new( OPTS )
+
+Create a new instance. OPTS is a hash containing name/value pairs:
+
+=over 10
+
+=item package
+
+Name of the package. This is required.
+
+=back
+
+=cut
+
 sub new {
     my $that = shift;
     $that = ref($that) || $that;
@@ -30,6 +60,13 @@ sub new {
     $self->_init();
     return $self;
 }
+
+
+=item _init
+
+Initialise a new instance.
+
+=cut
 
 sub _init {
     my $self = shift;
@@ -51,6 +88,14 @@ sub _init {
     $self->{data}->{build} = $buildDir if -d $buildDir;
 }
 
+
+=item build
+
+Build the configured package and place the deb files ready for upload
+in the C<uploads/> directory.
+
+=cut 
+
 sub build {
     my $self = shift;
 
@@ -63,6 +108,13 @@ sub build {
     $self->patch();
     $self->compile();
 }
+
+
+=item fetch
+
+Download the source for the package and unpack it in the build directory.
+
+=cut
 
 sub fetch {
     my $self = shift;
@@ -116,7 +168,14 @@ sub fetch {
         $self->genDebControl();
     }
 }
- 
+
+
+=item patch
+
+Apply any patches for the given package and modify Debian control structures
+to apply to the Maemo SDK. 
+
+=cut
 
 sub patch {
     my $self = shift;
@@ -167,6 +226,13 @@ sub patch {
     }
 }
 
+
+=item compile
+
+Build the unpacked, and potentially patched, source.
+
+=cut
+
 sub compile {
     my $self = shift;
 
@@ -207,12 +273,27 @@ sub compile {
     system("$dpkgBuildpackage -S | tee -a ../log"); 
 }
 
+
+=item clean
+
+Remove the build directory and any temporary files used therein.
+
+=cut
+
 sub clean {
     my $self = shift;
 
     $self->{fetch}->clean() if $self->{fetch};
     system('rm', '-rf', $self->{workdir});
 }
+
+
+=item copy
+
+Copy output files - including debs, tarballs, dsc and changes files - to
+the upload directory.
+
+=cut
 
 sub copy {
     my $self = shift;
@@ -398,6 +479,7 @@ sub patchDebControl {
     
     # -- Modify changelog to contain this build...
     #
+    # debchange doesn't do anything if the version is already there except moan
     system('debchange', '-v', $self->{data}->{version},
                         '-p', '--noquery',
                         'Build using mud-builder by '.($ENV{USER} || 'unknown'));
@@ -406,3 +488,14 @@ sub patchDebControl {
     #
     system('echo 4 >debian/compat');
 }
+
+=back
+
+=head1 COPYRIGHT
+
+(c) Andrew Flegg 2007 - 2008. Released under the Artistic Licence:
+L<http://www.opensource.org/licenses/artistic-license-2.0.php>
+
+=head1 SEE ALSO
+
+L<http://mud-builder.garage.maemo.org/>

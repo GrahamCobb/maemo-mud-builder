@@ -61,6 +61,9 @@ sub load {
     $file = <XMLFILE>;
     close(XMLFILE);
     $/ = $holdTerminator;
+    
+    # Lower case all the tags for normalisation
+    $file =~ s!(</?[\w-]+)!lc($1)!egx;
 
     $self->{data} = XMLin($file) or croak("Unable to parse configuration for '$name': error in [$file]?");
     $self->{name} = $name;

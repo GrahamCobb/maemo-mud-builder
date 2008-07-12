@@ -1,8 +1,14 @@
 #!/usr/bin/perl
-#
-# Main MUD-Builder script                 (c) Andrew Flegg 2007
-#                                         Released under the Artistic Licence
-#                                         http://mud-builder.garage.maemo.org/
+
+=head1 NAME
+
+mud-builder - Easily create Maemo packages
+
+=head1 DESCRIPTION
+
+=over 12
+
+=cut
 
 use strict;
 use warnings;
@@ -86,10 +92,17 @@ if ($action eq "build") {
 	clean($n);
     }
 }
-
     
 exit;
 
+
+=item get($)
+
+Get a package and unpack its source ready for editing. This can be
+called with C<mud get I<package>>. The source code is expanded at
+C<build/I<package>/.build>.
+
+=cut
 
 sub get {
     my ($pkg) = @_;
@@ -122,6 +135,17 @@ sub get {
     print "\n\n--- $pkg can now be compiled and tested in:\n       $builder->{data}->{build}\n";
 }
 
+
+=item compile($)
+
+Compile the given package which has been expanded to a working copy
+with L</get($)>. This can be called with C<mud compile I<package>>.
+
+C<mud get I<package>> && C<mud compile I<package>> will result in the
+same output as C<mud build I<package>>.
+
+=cut
+
 sub compile {
     my ($pkg) = @_;
 
@@ -132,6 +156,17 @@ sub compile {
     $builder->copy();
 }
 
+
+=item diff($)
+
+Generate a patch for I<package> from the base position to the current state
+of the build directory. Subversion commands such as C<svn add> can be used to
+add new files to the patchset.
+
+In future versions of C<mud>, this may be removed and L<quilt> used
+instead. 
+
+=cut
 
 sub diff {
     my ($pkg) = @_;
@@ -159,6 +194,14 @@ sub diff {
 }
  
 
+=item clean($)
+
+Remove the expanded build directory for I<package>. The directory will
+have been created with L</get($)>. If the directory does not exist,
+no action is taken.
+
+=cut
+
 sub clean {
     my ($pkg) = @_;
 
@@ -166,6 +209,14 @@ sub clean {
     $builder->clean();
 }
 
+
+=item build($)
+
+Build the package specified. Output will be put in the C<upload/> directory
+ready for uploading to the autobuilder, or installation locally for
+testing.
+
+=cut
 
 sub build {
     my ($pkg) = @_;
@@ -177,9 +228,28 @@ sub build {
 #    $builder->clean();
 }
 
+
+=item show($)
+
+Show the information used to build the package given. This is sourced from
+the XML file describing the package.
+
+=cut
+
 sub show {
     my ($pkg) = @_;
 
     my $data = new MUD::Package(config => $config)->load( $pkg);
     print Dumper($data);
 }
+
+=back
+
+=head1 COPYRIGHT
+
+(c) Andrew Flegg 2007 - 2008. Released under the Artistic Licence:
+L<http://www.opensource.org/licenses/artistic-license-2.0.php>
+
+=head1 SEE ALSO
+
+L<http://mud-builder.garage.maemo.org/>
