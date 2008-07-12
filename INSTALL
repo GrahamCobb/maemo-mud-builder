@@ -1,1 +1,5 @@
 Don't install, just run in-place for now.
+
+The following packages are required: xsltproc, devscripts.
+
+In future, gnupg will be required for `mud upload'

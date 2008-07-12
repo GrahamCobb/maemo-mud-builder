@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <package>
+  <!--
+    - Icons used in vim package, (c) Matthew Webb 2004:
+    -              http://www.cs.princeton.edu/~mtwebb/vim_icon/vim_icons.html
+    -->
   <fetch type="tarball">
     <url>ftp://ftp.vim.org/pub/vim/unix/vim-7.0.tar.bz2</url>
   </fetch>
