@@ -26,14 +26,14 @@ use Data::Dumper;
 
 use vars qw(%ACTIONS %OPTS $config);
 
-%ACTIONS = map { $_ => 1 } qw( build get compile clean diff show );
+%ACTIONS = map { $_ => 1 } qw( build get compile clean diff show source );
 %OPTS = ();
 GetOptions(\%OPTS, 'help',
-		   'config=s',
-	           'all',
-	   	   'depend-nobuild',
-	           'sdk=s',
-	           'xsl=s');
+                   'config=s',
+                   'all',
+                   'depend-nobuild',
+                   'sdk=s',
+                   'xsl=s');
 
 if ($OPTS{help} or !@ARGV or !$ACTIONS{$ARGV[0]}) {
     print <<EOM;
@@ -44,21 +44,24 @@ Syntax:
     mud [<options>] <action> [<package> ...]
 
 Options:
-    -h, --help                Usage instructions
-    -a, --all                 Run <action> on all packages
-    -c, --config=FILE         Use FILE for configuration rather than 'config'
-    -d, --depend-nobuild      Do not build any dependencies, assume they are up to date
-    -s, --sdk=CODENAME        Use CODENAME as the SDK name when processing packages
-    -x, --xsl=FILE            Use FILE as XSL Transformation for package files
+    -h, --help                Usage instructions.
+    -a, --all                 Run <action> on all packages.
+    -c, --config=FILE         Use FILE for configuration rather than 'config'.
+    -d, --depend-nobuild      Do not build any dependencies, assume they are
+                              up to date.
+    -s, --sdk=CODENAME        Use CODENAME as the SDK name when processing
+                              packages.
+    -x, --xsl=FILE            Use FILE as XSL Transformation for package files.
 
 Actions:
-    build                     Build the given package(s) from upstream
-    show                      Show information on the given package(s)
+    build                     Build the given package(s) for upload.
+    show                      Show information on the given package(s).
 
-    get                       Fetch and unpack the source in <build_dir>
-    compile                   Build from previously downloaded source
-    diff                      Save a diff from upstream to current source
-    clean                     Remove downloaded source
+    get                       Fetch and unpack the source in <build_dir>.
+    compile                   Build from previously downloaded source.
+    source                    Build source packages for upload.
+    diff                      Save a diff from upstream to current source.
+    clean                     Remove downloaded source.
 
 Please contact <andrew\@bleb.org> with any bugs or comments.
 EOM
@@ -87,9 +90,9 @@ foreach my $n (@pkgs) {
 }
 
 if ($action eq "build") {
-# Clean packages which were built
+    # Clean packages which were built
     foreach my $n (@pkgs) {
-	clean($n);
+        clean($n);
     }
 }
     
@@ -224,9 +227,28 @@ sub build {
     print "+++ Trying to build package [$pkg]\n";
     my $builder = new MUD::Build( package => $pkg, config => $config);
     $builder->build();
+    $builder->source();
     $builder->copy();
 #    $builder->clean();
 }
+
+
+=item source($)
+
+Build the given package as a source tarball ready to upload to the
+autobuilder.
+
+=cut
+
+sub source {
+    my ($pkg) = @_;
+
+    my $builder = new MUD::Build( package => $pkg, config => $config);
+    croak "No available source, use <get>\n" unless $builder->{data}->{build};
+
+    $builder->source();
+    $builder->copy();
+}    
 
 
 =item show($)
