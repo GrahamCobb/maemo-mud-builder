@@ -23,7 +23,7 @@ package MUD::Build;
 use strict;
 use utf8;
 use locale;
-use vars qw(@ISA $VERSION @PREVENT_INSTALL); 
+use vars qw(@ISA $VERSION @PREVENT_INSTALL $DPKG_BUILDPACKAGE); 
 use Carp;
 use File::Basename;
 use File::Path;
@@ -36,6 +36,9 @@ use Data::Dumper;
 @ISA     = qw();
 $VERSION = '0.10';
 @PREVENT_INSTALL = qw(changelogs docs examples info man);
+
+# Use -i to ignore .svn directories(among others)
+$DPKG_BUILDPACKAGE = 'dpkg-buildpackage -d -rfakeroot -i -sa';
 
 
 =item new( OPTS )
@@ -107,6 +110,7 @@ sub build {
     $self->fetch();
     $self->patch();
     $self->compile();
+    $self->source();
 }
 
 
@@ -229,7 +233,7 @@ sub patch {
 
 =item compile
 
-Build the unpacked, and potentially patched, source.
+Build the unpacked, and potentially patched, binaries.
 
 =cut
 
@@ -241,12 +245,9 @@ sub compile {
     # -- Tweak for Maemo compatibility...
     #
     $self->patchDebControl();
-
-    # Use -i to ignore .svn directories(among others)
-    my $dpkgBuildpackage = 'dpkg-buildpackage -d -rfakeroot -i -sa';
     
     # First build: build binaries and get build-deps
-    system("dpkg-depcheck -m -o ../build.deps $dpkgBuildpackage | tee ../log");
+    system("dpkg-depcheck -m -o ../build.deps $DPKG_BUILDPACKAGE | tee ../log");
     
     # Modify debian/control with calculated build-depends if not explicitly set
     unless ($self->{data}->{data}->{deb}->{'build-depends'}) {
@@ -268,9 +269,27 @@ sub compile {
           $self->writeDebControl($control);
       }
     }
+}
+
+
+=item source
+
+Build the unpacked, and potentially patched, source packages ready
+for upload to the autobuilder.
+
+At the moment, no check is made that a compile step is done previously,
+however this is seriously recommended to ensure that the auto-calculation
+of C<Build-Depends> is done correctly.
+
+=cut
+
+sub source {
+    my $self = shift;
+
+    chdir $self->{data}->{build} || croak "Build dir not set.\n";
 
     # Now build source package for upload
-    system("$dpkgBuildpackage -S | tee -a ../log"); 
+    system("$DPKG_BUILDPACKAGE -S | tee -a ../log"); 
 }
 
 
