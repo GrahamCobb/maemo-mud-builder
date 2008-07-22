@@ -47,9 +47,7 @@ sub load {
     croak("Unknown package '$name': can't find [$file]") unless -f $file;
 
     # FIXME: Should do heuristics to work out default sdk name
-    my $sdk = "diablo";
-
-    $sdk = $::OPTS{sdk} if $::OPTS{sdk};
+    my $sdk = $::OPTS{sdk} || 'diablo';
 
     my $xsl = "$self->{config}->{base}/XSL/SDK.xsl";
     $xsl = $::OPTS{xsl} if $::OPTS{xsl};
@@ -67,6 +65,7 @@ sub load {
 
     $self->{data} = XMLin($file) or croak("Unable to parse configuration for '$name': error in [$file]?");
     $self->{name} = $name;
+    $self->{sdk}  = $sdk;
 
     if ($self->{data}->{build}->{env}) {
         while(my ($k, $v) = each %{ $self->{data}->{build}->{env} }) {

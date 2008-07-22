@@ -81,7 +81,7 @@ sub _init {
         $name = $self->{package} = $name->{package};
     } else {
         $self->{data} = new MUD::Package(config => $self->{config});
- 	$self->{data}->load($name);
+        $self->{data}->load($name);
     }
     $self->{workdir} = $self->{config}->directory('BUILD_DIR')."/$name";
 
@@ -247,16 +247,19 @@ sub compile {
     $self->patchDebControl();
     
     # First build: build binaries and get build-deps
-    system("dpkg-depcheck -m -o ../build.deps $DPKG_BUILDPACKAGE | tee ../log");
+    my $dpkg_depcheck = 'dpkg-depcheck -m -o ../build.deps';
+    $dpkg_depcheck ='' if $self->{data}->{sdk} =~ /(bora|chinook)/;
+    
+    system("$dpkg_depcheck $DPKG_BUILDPACKAGE | tee ../log");
     
     # Modify debian/control with calculated build-depends if not explicitly set
-    unless ($self->{data}->{data}->{deb}->{'build-depends'}) {
+    unless (!$dpkg_depcheck || $self->{data}->{data}->{deb}->{'build-depends'}) {
       my @buildDeps = ();
       if (open(LOG, "<../build.deps")) {
           my $inNeeded = 0;
           while (<LOG>) {
               $inNeeded ||= /^Packages needed:$/;
-              next unless $inNeeded and /^  ([^\s\r\n]+)$/;
+              next unless $inNeeded and m/^  ([^\s\r\n]+)$/;
               push @buildDeps, $1;
           }
           close(LOG);
@@ -470,12 +473,12 @@ sub patchDebControl {
     #
     $control =~ s/\${perl:Depends}//g;
 
-    # -- Icon...
+    # -- Icon(s)...
     #
     my $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{package};
     if (! -f $iconFile and ($self->{data}->{data}->{deb}->{icon} || '') =~ /^https?:.*?\.(\w+)(\?.*)?$/) {
         $iconFile = $self->{workdir}.'/'.$self->{package}.".$1";
-	system('wget', '-O', $iconFile, $self->{data}->{data}->{deb}->{icon});
+        system('wget', '-O', $iconFile, $self->{data}->{data}->{deb}->{icon});
     }
 
     if (-f $iconFile and $control !~ /^XB-Maemo-Icon-26:/im) {
@@ -488,7 +491,9 @@ sub patchDebControl {
             $control =~ s/^Package: .*$/$&\nXB-Maemo-Icon-26:$iconData/mg;
         }
     }
-
+    
+    # -- Other control fields...
+    #
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
         next if $k =~ /^(icon|prefix-section|library|libdev)$/;
         $control = MUD::Package->setField($control, $k, $v);
