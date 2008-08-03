@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package>
+    <fetch type="debian">
+        <name>tar</name>
+    </fetch>
+    <deb>
+        <package>gnutar</package>
+        <section>user/tools</section>
+        <priority>optional</priority>
+    </deb>
+</package>
