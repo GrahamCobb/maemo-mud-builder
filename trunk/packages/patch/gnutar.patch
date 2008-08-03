@@ -1,0 +1,557 @@
+Index: debian/links
+===================================================================
+--- debian/links	(revision 0)
++++ debian/links	(revision 0)
+@@ -0,0 +1,3 @@
++usr/share/icons/hicolor/26x26/mimetypes/application-x-tar.png usr/share/icons/hicolor/26x26/mimetypes/application-x-gtar.png
++usr/share/icons/hicolor/48x48/mimetypes/application-x-tar.png usr/share/icons/hicolor/48x48/mimetypes/application-x-gtar.png
++usr/share/icons/hicolor/64x64/mimetypes/application-x-tar.png usr/share/icons/hicolor/64x64/mimetypes/application-x-gtar.png
+Index: debian/postinst
+===================================================================
+--- debian/postinst	(revision 1)
++++ debian/postinst	(working copy)
+@@ -3,12 +3,17 @@
+ 
+ case "$1" in
+     configure|abort-deconfigure|abort-remove)
+-	update-alternatives --install /usr/sbin/rmt rmt /usr/sbin/rmt-tar 50 \
+-		--slave /usr/share/man/man8/rmt.8.gz rmt.8.gz \
+-			/usr/share/man/man8/rmt-tar.8.gz 
+-    ;;
++        # alternativize the stock tar (busybox)
++        if test -L /bin/tar -a -x /bin/busybox; then
++            update-alternatives --install /bin/tar tar /bin/busybox 25
++        fi
++
++        update-alternatives --install /bin/tar tar /bin/gtar 50
++        update-mime-database /usr/share/mime
++        gtk-update-icon-cache -f -t /usr/share/icons/hicolor
++        ;;
+     upgrade)
+-    ;;
++        ;;
+ esac
+ 
+ #DEBHELPER#
+Index: debian/postrm
+===================================================================
+--- debian/postrm	(revision 0)
++++ debian/postrm	(revision 0)
+@@ -0,0 +1,11 @@
++#!/bin/sh
++set -e
++
++case "$1" in
++    remove)
++        update-mime-database /usr/share/mime
++        gtk-update-icon-cache -f -t /usr/share/icons/hicolor
++        ;;
++esac
++
++#DEBHELPER#
+Index: debian/tar.xml
+===================================================================
+--- debian/tar.xml	(revision 0)
++++ debian/tar.xml	(revision 0)
+@@ -0,0 +1,31 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
++  <mime-type type="application/x-tar">
++    <comment>Tar archive</comment>
++    <comment xml:lang="az">Tar arxivi</comment>
++    <comment xml:lang="bg">Архив — tar</comment>
++    <comment xml:lang="ca">arxiu tar</comment>
++    <comment xml:lang="cs">Archiv tar</comment>
++    <comment xml:lang="cy">Archif tar</comment>
++    <comment xml:lang="es">archivador Tar</comment>
++    <comment xml:lang="eu">Tar artxiboa</comment>
++    <comment xml:lang="fi">Tar-arkisto</comment>
++    <comment xml:lang="fr">archive tar</comment>
++    <comment xml:lang="hu">Tar archívum</comment>
++    <comment xml:lang="it">Archivio tar</comment>
++    <comment xml:lang="ko">Tar 묶음파일</comment>
++    <comment xml:lang="lt">Tar archyvas</comment>
++    <comment xml:lang="nb">Tar-arkiv</comment>
++    <comment xml:lang="nl">Tar-archief</comment>
++    <comment xml:lang="ru">Архив tar</comment>
++    <comment xml:lang="sv">Tar-arkiv</comment>
++    <comment xml:lang="vi">Kho nén tar</comment>
++    <alias type="application/x-gtar"/>
++    <magic priority="50">
++      <match value="ustar\0" type="string" offset="257"/>
++      <match value="ustar\040\040\0" type="string" offset="257"/>
++    </magic>
++    <glob pattern="*.tar"/>
++    <glob pattern="*.gtar"/>
++  </mime-type>
++</mime-info>
+Index: debian/prerm
+===================================================================
+--- debian/prerm	(revision 1)
++++ debian/prerm	(working copy)
+@@ -3,16 +3,13 @@
+ 
+ case "$1" in
+     remove|deconfigure)
+-	update-alternatives --remove rmt /usr/sbin/rmt-tar
+-	if test -L /sbin/rmt && test /sbin/rmt -ef /usr/sbin/rmt; then
+-		rm -f /sbin/rmt
+-	fi
+-    ;;
++        update-alternatives --remove tar /bin/gtar
++        ;;
+     upgrade|failed-upgrade)
+-    ;;
++        ;;
+     *)
+-	echo "prerm called with unknown argument \`$1'" >&2
+-	exit 1
++        echo "prerm called with unknown argument \`$1'" >&2
++        exit 1
+     ;;
+ esac
+ 
+Index: debian/changelog
+===================================================================
+--- debian/changelog	(revision 1)
++++ debian/changelog	(working copy)
+@@ -1,3 +1,14 @@
++tar (1.19-3maemo1) diablo; urgency=low
++
++  * Removed docs from distribution
++  * Renamed tar to gtar to avoid conflicts with the built-in tar/busybox
++  * Postinst hooks to properly update-alternatives
++  * Added MIME types and icons.
++  * Removed rmt as there's little chance somebody will ever use N8xx
++    as a tape backup server.
++
++ -- Andrew Zabolotny <zap@homelink.ru>  Sat,  2 Aug 2008 20:38:20 +0400
++
+ tar (1.19-3) unstable; urgency=low
+ 
+   * upstream patch to remove error message when updating a non-existing archive
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -5,12 +5,23 @@
+ ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+ CONFARGS = --host=$(DEB_HOST_GNU_TYPE)
+ endif
++ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
++    NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
++    MAKEFLAGS += -j$(NUMJOBS)
++endif
++ifneq (,$(findstring thumb,$(DEB_BUILD_OPTIONS)))
++    CFLAGS += -mthumb
++endif
+ 
++# Comment out to execute regression tests
++# (tests 9 10 11 13 15 16 17 61 will fail with qemu)
++__NO_TESTS_PLEASE__=1
++
+ configure: configure-stamp
+ configure-stamp:
+ 	dh_testdir
+ 
+-	RSH="/usr/bin/rsh" CFLAGS="-O2 -g -Wall" \
++	RSH="/usr/bin/rsh" CFLAGS="-O2 -g -Wall $(CFLAGS)" \
+ 		./configure --prefix=/usr --libexecdir=/usr/sbin $(CONFARGS)
+ 
+ 	touch configure-stamp
+@@ -19,11 +30,13 @@
+ build-stamp:
+ 	dh_testdir
+ 
+-	RSH="/usr/bin/rsh" CFLAGS="-O2 -g -Wall -fno-gnu89-inline" $(MAKE)
++	RSH="/usr/bin/rsh" CFLAGS="-O2 -g -Wall -fno-gnu89-inline $(CFLAGS)" $(MAKE)
++ifndef __NO_TESTS_PLEASE__
+ ifeq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
+ 	(cd tests ; $(MAKE) clean)
+ 	$(MAKE) check
+ endif
++endif
+ 
+ 	touch build-stamp
+ 
+@@ -47,10 +60,12 @@
+ 	dh_clean -k
+ 	dh_installdirs
+ 
+-	make install bindir=`pwd`/debian/tar/bin prefix=`pwd`/debian/tar/usr \
+-		libexecdir=`pwd`/debian/tar/usr/sbin 
+-	install -m 755 debian/rmt.sh debian/tar/etc/rmt
+-	mv debian/tar/usr/sbin/rmt debian/tar/usr/sbin/rmt-tar
++	make install bindir=`pwd`/debian/gnutar/bin prefix=`pwd`/debian/gnutar/usr \
++		libexecdir=`pwd`/debian/gnutar/usr/sbin 
++	rm -rf debian/gnutar/usr/sbin debian/gnutar/etc
++	uudecode debian/tar-26.b64 -o debian/gnutar/usr/share/icons/hicolor/26x26/mimetypes/application-x-tar.png
++	uudecode debian/tar-48.b64 -o debian/gnutar/usr/share/icons/hicolor/48x48/mimetypes/application-x-tar.png
++	uudecode debian/tar-64.b64 -o debian/gnutar/usr/share/icons/hicolor/64x64/mimetypes/application-x-tar.png
+ 
+ # Build architecture-independent files here.
+ binary-indep: build install
+@@ -59,21 +74,7 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installdocs
+-	mv -f debian/tar/usr/share/doc/tar/ChangeLog \
+-		debian/tar/usr/share/doc/tar/changelog
+-	mv -f debian/tar/usr/share/doc/tar/ChangeLog.1 \
+-		debian/tar/usr/share/doc/tar/changelog.1
+-	dh_installexamples
+-	dh_installmenu
+-	dh_installcron
+-	dh_installman debian/tar.1 debian/rmt.8
+-	mv debian/tar/usr/share/man/man8/rmt.8 \
+-	   debian/tar/usr/share/man/man8/rmt-tar.8
+-	dh_installinfo
+-	rm -f debian/tar/usr/share/info/dir*
+-	dh_installmime
+-	dh_installchangelogs #CHANGELOGS#
++	mv debian/gnutar/bin/tar debian/gnutar/bin/gtar
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
+Index: debian/dirs
+===================================================================
+--- debian/dirs	(revision 1)
++++ debian/dirs	(working copy)
+@@ -1,2 +1,3 @@
+-etc
+-usr/share/man/man8
++usr/share/icons/hicolor/26x26/mimetypes
++usr/share/icons/hicolor/48x48/mimetypes
++usr/share/icons/hicolor/64x64/mimetypes
+Index: debian/tar-26.b64
+===================================================================
+--- debian/tar-26.b64	(revision 0)
++++ debian/tar-26.b64	(revision 0)
+@@ -0,0 +1,45 @@
++begin-base64 644 tar26.png
++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
++PnRx+V4SAAAAAElFTkSuQmCC
++====
+Index: debian/install
+===================================================================
+--- debian/install	(revision 0)
++++ debian/install	(revision 0)
+@@ -0,0 +1 @@
++debian/tar.xml usr/share/mime/packages
+Index: debian/tar-64.b64
+===================================================================
+--- debian/tar-64.b64	(revision 0)
++++ debian/tar-64.b64	(revision 0)
+@@ -0,0 +1,142 @@
++begin-base64 644 tar64.png
++iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QAAAAA
++AAD5Q7t/AAAACXBIWXMAAABIAAAASABGyWs+AAAX6UlEQVR42uV7eZAc133e
++93uvr5md2fsC9sJisRdOAlgCIkESlCmSIijGFCWFlMIwsBzRsmmIIquklFKV
++lF2SikWVYsWiUrEdu1IpVcmSlbDMIiPzgGyJBC9BAEggALHAAlhgsdh7Znfu
++vt7LH+/1zGAJkATBo5x0Vdf09PTxft/7ft/v6B7g//OFf4z3ZgBMAARAfFyD
++oI/pnoZeCYDUAAQAwv/XAag2PFql/k1qAAJ8hIz4qFyAAbC08QwV+pt6W1Yd
++x5YB888aANKGR74e0d/avn173WOPPbZhZGQk9uKLLxaEENBGkwYhGtuHyoYP
++C4CyoajMqAHAbGxsjH3nO9/pf/TRRz97zTXX3LNp06Ytu3btQrFYTB89etRb
++do1qID4URnwYGsBRoXpkhMEYMx988MHW+++/f0dPT8/1juM0M8ZsIjLCMMxn
++MpkTBw4c+OXjjz9++MCBAzlcLIofmj58kAAwbThHhe4cgHnjjTfWfv3rX9+0
++cePGG5LJZDcRGQDAObeJiAshfCLiQRAU5ufn39i7d+8/ffe73z01NzdXqjJa
++LgPiA2HEBwHA8rAGbbjR3d0df/TRR/t27tx5fXNz8wDn3AEAIiIArAoAj4gY
++AEZEzPO81MTExGs//elP9z3xxBNTYRj6VUZHa6DXjxWA5WGNATAMw7Aefvjh
++jrvuumtrZ2fnetu2k9ExRMQ0AMQ5jxERqwIg+p1JKVEoFCZHR0df+tGPfvTb
++Z555Jo2KW0QgCAA+rsIt3i8Ay/28LHK33XZbw549ezavXbt2B+fcllKKyODI
++uCoAHA2AH7GC1BKBYQgh/KWlpbH9+/f/+nvf+96xI0eO5HFpffDxPtziSgFY
++7udlFvT399fs2bOn76abbtrR3Nw8yBgzisXivAagbFi1oREAYRh6y8BZfjwP
++gqA4Ozt7+Lnnnnvp8ccfH19cXHTxAejDew2D5RmumnUOwEomk7GvfvWrnXv2
++7Nm2ZcuW7Q0NDasiWnuelxNChFItQkophRAi+q5nWgohotmTAISUUgAonwMg
++ZIwZyWSyY3h4eOiOO+6osW0788Ybb7jq57flD9G1PhAAuDY8ojwHYBKRfeed
++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
++SUVORK5CYII=
++====
+Index: debian/tar-48.b64
+===================================================================
+--- debian/tar-48.b64	(revision 0)
++++ debian/tar-48.b64	(revision 0)
+@@ -0,0 +1,123 @@
++begin-base64 644 tar48.png
++iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c
++6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0
++SU1FB9gIAgs5AkQftN8AABS2SURBVGjetVp5jF3Vef9959ztrfPe7DOeGWMb
++e2xsDBjjhaUmwYBIG1BCAgjaklCQWFJB1lZtFCWFtIlI1TolRC0qUUQWFlGV
++JAURmhAHME4MGNs4ZrFnbI9nH78389a7nfP1j3OfbYgrlSS90pv73l3O/X7f
++8vuWO8DvttlSSs+yLA9ACoAFwP3qV7+6eXR09MHZ2dmnd+7ceSeAbgACgJtc
++lwLgAZD4A23vdyEBwJJSCqUUaa0BgAEUH3vssU1btmy5NJ/PL7UsK5tOp7PX
++X399rr+/P9i+fXsVQNxahIgEAEru/b02eh/XSSGEpbVuPZgBpO67774VV111
++1SU9PT3nu65bBMBCCJuIbK21qtVqh0ZGRl741re+tePJJ5+cAKAASCkllFIq
+++a3+PwFIIYTleZ5oNBpIHubcdNNNA5/4xCcuWLJkyfp0Ot0nhCCtdSSEcKSU
++rtY6IiIhhPCUUv7CwsKbe/bs2X7XXXftnpmZKScKkEII1saUMQD9hwQgAFiZ
++TEbm83kxOTnJAMQVV1zRddttt509PDx8Xltb26CU0mFm1XINIYQthPCYOWZm
++RURCSukQkR2GYXVubm7vjh07XrjzzjvfYuaaEEIMDg5ibGxMaa0VEcXMzL8P
++AJHEhsxms6JWq7WOZ7Zt27Zqy5YtFxeLxaXMrBLBmYhk8iEisqSUbgKgda4F
++zgVg+b4/Oz4+vuuZZ57Zce+99x4BEOZyOaG15nq9rk6xBr8fANQS/D3B7dx8
++883911133bnDw8ObMplMXxRFFd/3ywCEEEISkWgFppTSllI6WuuYmbl13hiI
++cApAqlQqo4cOHdr58MMPv/bEE09MJUK3YqzlVur/AkAQkQVAMnPrmHXxxRd3
++3HzzzSuGh4dXdHd3L85ms10AEATBQhAE9VOEp9MBQIIwWZ9aezLmsInIUUoF
++5XL57b179+789Kc/vS+Jj1Nla4E4bXwQETlEJBJ2AQCrvb09d/fddy9ev379
++iq6urj7bbE4mk+kQQsggCKpBEDRamhdCvBeAmwDg1jUtuU+xBp0SM04QBJVy
++ufzO7t27d95yyy1vAGicIiMn7hq/160kADvRugCQuuWWWwZuv/32NWefffZw
++W1tbgZlVFEWBEELYtu0yM4dh2AjD0Gezaa21NjvWTLZmsjSrOGZWihnmDLMG
++0Npz8p2ZOdZaR1JKt1AorFiyZMnaa6+9Ng1gYffu3Y3kWjold+jTJTJ78+bN
++vffcc8/w5s2bV3R1dXVKKSmO41AppbTWmojIcRyPmXUQBI0oikJmZiR/NIs4
++1J7PsDUgEGq7yVorgiKAW8KeAGIwnTymtQ6FEMJ13fZ8Pt+/bt26gSuvvNIb
++GRmpjI+PB5lMRsRxjFMTIgDIbdu2bRgYGCisXLmyc+3atQPpdDoVRVEYRVGk
++tWatNSullBCCXNf1ACAMw4ZSWhFBEJgUbBXDC109m+7hl88u6N8sZxU061yc
++Vyxi4pBYa2ZAtQROWEy3rMPMOokprbWObNtOeZ6XXbRokZ6envZHR0eV67oa
++QHgqy8pt27Z9duPGjSsLhQIfOHBg0vd93/M8GwC1tM/MWkppeZ6XJiKEYRiw
++jjWRhRD5kEhRN71+Zj9eurSIkYtTmF6R0YcXuWpG+JwtNbi9CoYmjqBPAvit
++j2VZHhE5tVptYnp6+lC1Wp1Pp9Mpx3H09u3ba0op/+qrrw7feuutkwBWrVpl
++t7e3p5YvX75p8eLF7XNzczPvvPPOcSklLMs6QaeWZVmpVCpFBISh8gOdCjSl
++dTsd7B3C9os7af9lKZSWEbFFRLB0LZ/myRVZHuu0uBrVdcdxX+fr0DHAKnEd
++6JZ7tZ7TbDZLpVJpIggCPwiC0HEcu7e3txDH8cz+/fvnnnrqqfiBBx54F432
++A0g/+uij6zZt2nS54zj5ycnJPS+++OLrvu/HQ0NDhXQ67WUy6VSxvbMD0uNK
++Q8xneCw/YO1e1y4Ob3CodgYRwCwAEgxIQAcgDgisoMit1bnnjVms3TWL8w5r
++4WqXfFcKbQshJDNzo9GoOo7jptPptnq9Xp6fny87juMuXrz4bN/369/85je/
++++CDDx5g5oiITgC2PM/L+b4f3nDDDb/4xje+MX/jjTd+cvHixVt6e3vXjIyM
++7Ny9+7VD2Uw6FPYS8lS27qGePgMvru2SBzalRGW1ILYBCwzBAJNRigagwQCD
++NaSuZfNU35TC9JlFvPnqRLxhV4lWz0iKhA7mdbNR9zOZVCqbzbZrraN6vV7v
++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
++====
