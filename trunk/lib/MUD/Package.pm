@@ -112,6 +112,9 @@ sub setField {
 
     # Convert '\n' to a newline
     $value =~ s/(\\n)+ */\n/g;
+
+    # Remove a terminating newline
+    $value =~ s/(\n)+$//;
     
     my $wrapped = wrap("", "  ", "$field: $value");
     $wrapped =~ s/\n(\s*).?\s*\n/\n$1.\n/g;
