@@ -445,6 +445,18 @@ sub writeDebControl {
     close(OUT) or croak "Unable to close control: $!\n";
 }
 
+sub readValueFromFile {
+    my ($file) = @_;
+    my $contents = '';
+
+    open(IN, $file) or croak "Unable to read file $file: $!\n";
+    while(<IN>) { $contents .= $_ ; }
+    close(IN);
+
+    $contents =~ s/\n/\\n/g;
+
+    return $contents;
+}
 
 sub patchDebControl {
     my $self = shift;
@@ -482,7 +494,8 @@ sub patchDebControl {
 
     # -- Icon(s)...
     #
-    my $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{package};
+    my $iconFile = $self->{data}->{data}->{deb}->{icon};
+    if (! -f $iconFile) {$iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{package};}
     if (! -f $iconFile and ($self->{data}->{data}->{deb}->{icon} || '') =~ /^https?:.*?\.(\w+)(\?.*)?$/) {
         $iconFile = $self->{workdir}.'/'.$self->{package}.".$1";
         system('wget', '-O', $iconFile, $self->{data}->{data}->{deb}->{icon});
@@ -498,11 +511,30 @@ sub patchDebControl {
             $control =~ s/^Package: .*$/$&\nXB-Maemo-Icon-26:$iconData/mg;
         }
     }
-    
+
+    # -- Description
+    #
+    my $description = ref($self->{data}->{data}->{deb}->{description})
+	? readValueFromFile($self->{data}->{data}->{deb}->{description}->{file})
+	: $self->{data}->{data}->{deb}->{description};
+    $control = MUD::Package->setField($control, "Description", $description) if $description;
+
+    # -- Upgrade Description
+    #
+    my $upgradeDescription = ref($self->{data}->{data}->{deb}->{'upgrade-description'})
+	? readValueFromFile($self->{data}->{data}->{deb}->{'upgrade-description'}->{file})
+	: $self->{data}->{data}->{deb}->{'upgrade-description'};
+    $control = MUD::Package->setField($control, "XB-Maemo-Upgrade-Description", $upgradeDescription) if $upgradeDescription;
+
+    # -- Display Name
+    #
+    my $displayName = $self->{data}->{data}->{deb}->{'display-name'};
+    $control = MUD::Package->setField($control, "XB-Maemo-Display-Name", $displayName) if $displayName;
+
     # -- Other control fields...
     #
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
-        next if $k =~ /^(icon|prefix-section|library|libdev)$/;
+        next if $k =~ /^(icon|prefix-section|library|libdev|upgrade-description|description|display-name)$/;
         $control = MUD::Package->setField($control, $k, $v);
     }
 
