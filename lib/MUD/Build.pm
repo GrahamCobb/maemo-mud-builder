@@ -141,6 +141,9 @@ sub fetch {
     chdir $self->{workdir};
     $fetch->fetch();
 
+    # Note: fetch might change directory while dealing with dependencies,
+    # so reset
+    chdir $self->{workdir};
     my $buildDir = basename($self->{data}->{build} || '.');
     my $origBDir = $buildDir;
     $buildDir    =~ s/-src\b//;
@@ -408,6 +411,10 @@ sub genDebControl {
         close OUT;
       }
     }
+
+    # Make dh_make 0.38 and earlier work like dh_make 0.42
+    # MAKE install var=xx => MAKE var=xx install
+    system('sed','-i','debian/rules','-e','/$(MAKE) install ./s/\(install\) \(.*\)/\2 \1/');
 
     foreach my $f (<debian/*.files>) {
         my $i = $f;
