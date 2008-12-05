@@ -251,7 +251,7 @@ sub compile {
     
     # First build: build binaries and get build-deps
     my $dpkg_depcheck = 'dpkg-depcheck -m -o ../build.deps';
-    $dpkg_depcheck ='' if $self->{data}->{sdk} =~ /(bora|chinook)/;
+    $dpkg_depcheck ='' if $self->{data}->{sdk} =~ /(bora|gregale)/;
     
     system("$dpkg_depcheck $DPKG_BUILDPACKAGE | tee ../log");
     
