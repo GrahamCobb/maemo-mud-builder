@@ -144,28 +144,34 @@ is a need to override the defaults, that power is available.</p>
 
 <h2 id="deb">Deb section</h2>
 <pre><code>&lt;deb prefix-section=&quot;<i>(0|1)</i>&quot;&gt;
-    &lt;icon&gt;<i>URL</i>&lt;/icon&gt;
+    &lt;icon&gt;<i>file or URL</i>&lt;/icon&gt;
     &lt;version&gt;&#8230;&lt;/version&gt;
     &lt;description&gt;
         <i>short description</i>\n<i>long description</i>
     &lt;/description&gt;
+    &lt;description file="<i>filename</i>"/&gt;
     &lt;section&gt;<i>section name</i>&lt;/section&gt;
     &lt;library&gt;<i>library package name</i>&lt;/library&gt;
     &lt;libdev&gt;<i>library development package name</i>&lt;/libdev&gt;
     &lt;maintainer&gt;<i>Some Name &lt;email@address&gt;</i>&lt;/maintainer&gt;
+    &lt;upgrade-description&gt;<i>short description for upgrade</i>\n<i>long description for upgrade</i>&lt;/upgrade-description&gt;
+    &lt;upgrade-description file="<i>filename</i>"/&gt;
+    &lt;display-name&gt;<i>Application name</i>&lt;/display-name&gt;
     &#8230;
 &lt;/deb&gt;</code></pre>
 
 <p>Most of the child elements of the <code>deb</code> node correspond to fields
 within the <a
 href="http://www.debian.org/doc/debian-policy/ch-controlfields.html#s-controlfieldslist">debian/control</a>,
-allowing you to change their value without patching the file.</p>
-
-<p>The capitalised tag name is used as the field name, and the value is used as
+allowing you to change their value without patching the file.
+The capitalised tag name is used as the field name, and the value is used as
 the content. Multi-line entries can be entered, such as the description, by entering <code>\n</code> within the text.</p>
 
 <p>The <em>description</em> should contain two parts: the synopsis at around 60
-characters, and the extended description over several lines following it. The <em>section</em> will be automatically prefixed with <code>user/</code>, if not already by <i>mud-builder</i> unless the <code>prefix-section</code> attribute is set to <code>0</code>, or a section is specified explicitly. Packages which
+characters, and the extended description over several lines following it.
+It can either be specified as text in the value of the tag or a filename can be specified as an attribute.</p>
+
+<p>The <em>section</em> will be automatically prefixed with <code>user/</code>, if not already by <i>mud-builder</i> unless the <code>prefix-section</code> attribute is set to <code>0</code>, or a section is specified explicitly. Packages which
 end-users can install directly (rather than libraries) are prefixed like this,
 according to the <a href="http://www.maemo.org//platform/docs/howtos/howto_making_an_application_package_bora.html">Maemo packaging guide</a>. In addition,
 certain sections are recommended, if possible:</p>
@@ -186,6 +192,14 @@ certain sections are recommended, if possible:</p>
 <p class="post-compact">Other sections should have the second word capitalised,
 such as <code>user/Fonts</code> A selection of <a href="http://maemo.org/maemowiki/UserSections">third-party sections</a> is available in the Maemo.org wiki.</p>
 
+<p>The <em>icon</em> can either be used to specify a file in the package source directory
+(note the file must be available <strong>before</strong> the package is built) or a URL
+and it defaults to <code>icon/<i>package</i></code>.  
+If a URL is specified it is copied to the <code>icon/<i>package</i></code> file.
+If the icon file exists, it is resized (using the <code>convert</code> program) to 26x26
+and is specified as the Application Manager icon for the package
+(using the XB-Maemo-Icon-26 filed in the control file).</p>
+
 <p>There are two tags designed for use when creating library packages: <em>library</em> and <em>libdev</em>. 
 These can be used to specify the package names used for the library package itself and the development
 package.  
@@ -196,3 +210,13 @@ followed by <code>-dev</code>.</p>
 
 <p>The <em>maintainer</em> tag should be used to specify the name and email address of the maintainer
 of the maemo package (which is not likely to be the maintainer of the upstream package).</p>
+
+<p>The <em>upgrade-description</em> tag is used to specify different description text to be displayed by the
+Application Manager when the package is being upgraded (the normal <em>description</em> text is used for
+the first installation of a package).  The value should be specified in the same way as for the <em>description</em> tag.
+This corresponds to the <code>XB-Maemo-Upgrade-Description</code> control file field.</p>
+
+<p>The <em>display-name</em> tag is used to specify the name the Application Manager should display to the user instead of the
+package name.  This corresponds to the <code>XB-Maemo-Display-Name</code> control file field.</p>
+
+<p>
