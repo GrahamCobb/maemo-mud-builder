@@ -154,7 +154,9 @@ is a need to override the defaults, that power is available.</p>
     &lt;library&gt;<i>library package name</i>&lt;/library&gt;
     &lt;libdev&gt;<i>library development package name</i>&lt;/libdev&gt;
     &lt;maintainer&gt;<i>Some Name &lt;email@address&gt;</i>&lt;/maintainer&gt;
-    &lt;upgrade-description&gt;<i>short description for upgrade</i>\n<i>long description for upgrade</i>&lt;/upgrade-description&gt;
+    &lt;upgrade-description&gt;
+        <i>short description for upgrade</i>\n<i>long description for upgrade</i>
+    &lt;/upgrade-description&gt;
     &lt;upgrade-description file="<i>filename</i>"/&gt;
     &lt;display-name&gt;<i>Application name</i>&lt;/display-name&gt;
     &#8230;
@@ -198,7 +200,9 @@ and it defaults to <code>icon/<i>package</i></code>.
 If a URL is specified it is copied to the <code>icon/<i>package</i></code> file.
 If the icon file exists, it is resized (using the <code>convert</code> program) to 26x26
 and is specified as the Application Manager icon for the package
-(using the XB-Maemo-Icon-26 filed in the control file).</p>
+(using the XB-Maemo-Icon-26 field in the control file).
+Note: this requires that the <code>uuencode</code> program is installed -- this can be found in the <code>sharutils</code>
+package in the Maemo SDK.</p>
 
 <p>There are two tags designed for use when creating library packages: <em>library</em> and <em>libdev</em>. 
 These can be used to specify the package names used for the library package itself and the development
