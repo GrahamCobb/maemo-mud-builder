@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="gpesummary"
-    date="20080114"
-    release="2.8+2"
+    date="20081212"
+    release="2.8+4"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -27,14 +27,20 @@
     source ./autogen.sh
     echo "Autogen done"
     </command>
-    <depends>libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons</depends>
+    <depends sdk="gregale">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons</depends>
+    <depends sdk="bora">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons</depends>
+    <depends sdk="chinook">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
   </fetch>
   <build>
     <configure-append>-</configure-append>
   </build>
-  <deb>
-    <section>user/pim</section>
+  <deb prefix-section="0">
+    <section>x11</section><!-- Hide from Maemo Application Manager -->
     <maintainer>Christoph Würstle &lt;n800@axique.de&gt;</maintainer>
-    <description>GPE home page applet\nPart of the GPE PIM suite, this applet summarises\ninformation from the GPE PIM applications for display\non the home page.\nPackaged with MUD</description>
+    <depends sdk="chinook">gpe-icons (&gt;= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="bora">gpe-icons (&gt;= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="gregale">gpe-icons (&gt;= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <description>GPE PIM suite home page applet\nThis applet summarises information from the GPE PIM\napplications for display on the home page.\nPackaged with MUD</description>
+    <build-depends sdk="chinook">debhelper (&gt;= 4.0.0), libtododb-dev, libeventdb-dev, libcontactsdb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
   </deb>
 </package>

@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="libhandoff"
-    date="20080114"
-    release="2.8+2"
+    date="20081212"
+    release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -16,7 +16,7 @@
     branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
     svn export -r {${date}T0000Z} $branch/$pkg $pkgdir
     </command>
-    <!-- <depends></depends> -->
+    <depends>libglib2.0-dev</depends>
   </fetch>
   <build>
   </build>
@@ -24,5 +24,6 @@
     <library>libhandoff0</library>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE libhandoff library\nGPE interprocess communication\nPackaged with MUD</description>
+    <build-depends>debhelper (&gt;= 5), libglib2.0-dev</build-depends>
   </deb>
 </package>

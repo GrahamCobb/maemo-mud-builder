@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="libxsettings-client"
-    date="20080114"
-    release="2.8+2"
+    date="20081212"
+    release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -24,7 +24,7 @@
     cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
     rm -f $pkgdir/debian/changelog.tmp
     </command>
-    <!-- <depends></depends> -->
+    <depends>libx11-dev</depends>
   </fetch>
   <build>
   </build>
@@ -32,5 +32,6 @@
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE libxsettings-client library\nPackaged with MUD</description>
     <library>libxsettings-client1</library>
+    <build-depends>debhelper (&gt;&gt; 3), libx11-dev</build-depends>
   </deb>
 </package>

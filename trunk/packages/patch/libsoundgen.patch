@@ -58,3 +58,23 @@ Index: debian/libsoundgen0.install
 +++ debian/libsoundgen0.install	(revision 0)
 @@ -0,0 +1 @@
 +usr/lib/lib*.so.*
+Index: configure.ac
+===================================================================
+--- configure.ac	(revision 1)
++++ configure.ac	(working copy)
+@@ -10,13 +10,13 @@
+ AC_PROG_CC
+ AC_PROG_LIBTOOL
+ 
+-PKG_CHECK_MODULES(DEPS, glib-2.0 esound gtk-doc)
++PKG_CHECK_MODULES(DEPS, glib-2.0 esound)
+ 
+ AC_SUBST(DEPS_CFLAGS)
+ AC_SUBST(DEPS_LIBS)
+ 
+ #gtk-doc for documentation, currently unused
+-GTK_DOC_CHECK(1.2)
++#GTK_DOC_CHECK(1.2)
+ 
+ AC_CONFIG_FILES([Makefile libsoundgen.pc])
+ AC_OUTPUT
