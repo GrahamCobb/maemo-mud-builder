@@ -50,6 +50,13 @@ Index: debian/rules
  	dh_installdeb
  	dh_shlibdeps
  	dh_gencontrol
+Index: debian/shlibs.local
+===================================================================
+--- debian/shlibs.local	(revision 0)
++++ debian/shlibs.local	(revision 0)
+@@ -0,0 +1,2 @@
++# This file is created to work round a very obscure bug which only appears in the BORA scratchbox root when using dpkg-shlibdeps in xsettings-client
++# I have no idea why but this seems to work
 Index: configure.ac
 ===================================================================
 --- configure.ac	(revision 1)

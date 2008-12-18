@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="libtododb"
-    date="20080114"
-    release="2.8+2"
+    date="20081212"
+    release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -24,13 +24,14 @@
     cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
     rm -f $pkgdir/debian/changelog.tmp
     </command>
-    <depends>libsqlite0-dev, libgpepimc</depends>
+    <depends>libsqlite0-dev, libgpepimc, libgpewidget, intltool, libglib2.0-dev, autotools-dev</depends>
   </fetch>
   <build>
   </build>
   <deb prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE libtododb library\nTodo database access for GPE PIM applications.\nPackaged with MUD</description>
+    <build-depends>debhelper (&gt;= 5), autotools-dev, libsqlite0-dev, libglib2.0-dev, intltool, libgpepimc-dev, libgpewidget-dev</build-depends>
     <library>libtododb1</library>
   </deb>
 </package>

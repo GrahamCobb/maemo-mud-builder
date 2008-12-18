@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="starling"
-    date="20080114"
-    release="2.8+2"
+    date="20081212"
+    release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -27,13 +27,24 @@
     source ./autogen.sh
     echo "Autogen done"
     </command>
-    <depends>libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons</depends>
+    <depends sdk="gregale">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, libhandoff</depends>
+    <depends sdk="bora">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, libhandoff</depends>
+    <depends sdk="chinook">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, libhandoff</depends>
   </fetch>
   <build>
   </build>
   <deb>
-    <section>user/pim</section>
+    <section>user/multimedia</section>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
-    <description>GPE music player\nThis application provides a music player including\nsupport for last.fm tracking\nPackaged with MUD</description>
+    <description>GPE suite audio player\nStarling is the audio player from the GPE suite. Starling supports\nplaying mp3 and ogg files (via the ogg-support package).\n    \nStarling makes use of Nokia's hardware buttons for better usability:\nthe full screen key toggles between play and pause; and, + advances\nto the next song and - goes to the previous.  It supports recursive\nloading of directories and caches tags in a local database.  For\nfiles lacking tags, it has a sophisticated algorithm for guessing\nthe name based on the location and file name.  Finally, it supports\ndownloading lyrics for the current song and uploading playlists to\nlast.fm.</description>
+    <depends sdk="gregale">gstreamer0.10-indt-playbinmaemo, gpe-icons (&gt;=${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="bora">gstreamer0.10-indt-playbinmaemo, gpe-icons (&gt;=${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="chinook">gpe-icons (&gt;=${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <build-depends sdk="chinook">debhelper (&gt;= 5), libgpewidget-dev, libsqlite0-dev, libsoup2.2-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, bison, libhandoff-dev, libbluetooth2-dev, libasound2-dev, cdbs, libxaw-headers, libsdl1.2-dev, gtk-doc-tools</build-depends>
+    <recommends>ogg-support</recommends>
+    <display-name>GPE Audio player</display-name>
+    <!-- <upgrade-description>Daily testing build of GPE suite audio player</upgrade-description> -->
+    <upgrade-description>Updated beta of GPE suite audio player\nChanges include:\n- The addition of a play queue\n- The addition of play lists\n- The ability to narrow the visible tracks according to search terms\n- Starling remembers added directories and scans them for new files\n    on start up\n- Starling purges stale entries automatically on start up\n- Starling serializes its state on exit and restores it on start up,\n    for instance, the song that was playing and the position in the\n    song are saved and restored, so too are the selection and scroll\n    window's position.\n- rating songs via a widget\n- property-based searching.  To search for songs added in the last\n    week that have not yet been played, one could use:\n    \n      added:&lt;1W and play-count:=0 \n    \n    For 4 and 5 star songs that have not been played in the last 3 days:\n    \n      rating:&gt;4 and played:&gt;3D \n    \n- saved searches\n- the caption format can now be set via the GUI (options -> caption\n    format)\n- the caption format now supports conditions.  To print the title or\n    the URI, one can do:\n    \n      %t?(%t)(%u)\n    \n- there is now an option to disable automatic downloading of lyrics\n- Starling now brings the existing instance of starling to the\n  front, if there is one already running\n- Starling now remembers files that have disappeared thereby\n    preserving play lists and allowing for fast scanning of already\n    seen removable media\n    \n- For more details, please see\n    \n    http://gpe.linuxtogo.org/projects/starling.shtml\n    \n- Change name to GPE Audio player and update menu items and icons</upgrade-description>
+    <icon>data/bass-26x26.png</icon>
   </deb>
 </package>

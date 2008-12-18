@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="gpe-todo"
-    date="20080114"
-    release="2.8+2"
+    date="20081212"
+    release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -25,13 +25,22 @@
     rm -f $pkgdir/debian/changelog.tmp
     </command>
     <depends>libtododb, libgpepimc, libgpewidget, gpe-icons</depends>
+    <!-- <depends>libtododb, libgpepimc, libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends> -->
   </fetch>
   <build>
     <configure-append>--enable-hildon --disable-cairo</configure-append>
   </build>
   <deb>
-    <section>user/pim</section>
+    <section>user/office</section>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
-    <description>GPE todo application\nPart of the GPE PIM suite, this application\nprovides support for todo lists including categories,\nand partial completion states.\nPackaged with MUD</description>
+    <description>GPE PIM suite todo lists applications\nIncludes categories, and partial completion states.\nPackaged with MUD</description>
+    <depends sdk="chinook">gpe-icons (&gt;= ${source:Version}), gpesummary (&gt;= ${source:Version}), gpesyncd (&gt;= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="bora">gpe-icons (&gt;= ${Source-Version}), gpesummary (&gt;= ${Source-Version}), gpesyncd (&gt;= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="gregale">gpe-icons (&gt;= ${Source-Version}), gpesummary (&gt;= ${Source-Version}), gpesyncd (&gt;= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <build-depends>debhelper (&gt;= 4.0.0), libtododb-dev, libgpepimc-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
+    <display-name>GPE To-do list</display-name>
+    <!-- <upgrade-description>Daily testing build of GPE suite todo list manager</upgrade-description> -->
+    <upgrade-description>Updated beta of GPE PIM suite todo list manager\nChanges include:\n- Category changes automatically updated (bug 80)\n- Fixed "Open..." menu item (bug 205)\n"Show completed" state is saved\n- Added delete menu item (bug 249)\n- Translation updates\n- Change name to GPE To-do list and update menu items and icons</upgrade-description>
+    <icon>hildon/gpe-todo-26x26.png</icon>
   </deb>
 </package>

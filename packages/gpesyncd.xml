@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="gpesyncd"
-    date="20080114"
-    release="2.8+2"
+    date="20081212"
+    release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -16,14 +16,16 @@
     branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
     svn export -r {${date}T0000Z} $branch/$pkg $pkgdir
     </command>
-    <depends>libmimedir-gnome, libgpewidget, libgpepimc, libgpevtype, libsqlite0-dev, libcontactsdb, libeventdb, libtododb</depends>
+    <depends sdk="gregale">libmimedir-gnome, libgpewidget, libgpepimc, libgpevtype, libsqlite0-dev, libcontactsdb, libeventdb, libtododb</depends>
+    <depends sdk="bora">libmimedir-gnome, libgpewidget, libgpepimc, libgpevtype, libsqlite0-dev, libcontactsdb, libeventdb, libtododb</depends>
+    <depends sdk="chinook">libmimedir-gnome, libgpewidget, libgpepimc, libgpevtype, libsqlite0-dev, libcontactsdb, libeventdb, libtododb, intltool, libglib2.0-dev, autotools-dev, libhildon1-dev</depends>
   </fetch>
   <build>
     <configure-append>--enable-hildon --disable-cairo</configure-append>
   </build>
-  <deb>
-    <section>user/pim</section>
+  <deb prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
-    <description>GPE PIM synchronisation application\nNecessary for synchronisation using Opensync.\nPackaged with MUD</description>
+    <description>GPE PIM suite synchronisation application\nNecessary for synchronisation using Opensync.\nPackaged with MUD</description>
+    <build-depends sdk="chinook">debhelper (&gt;= 5), autotools-dev, libglib2.0-dev, intltool, libmimedir-gnome-dev, libgpewidget-dev, libgpepimc-dev, libgpevtype-dev, libcontactsdb-dev, libeventdb-dev, libtododb-dev, libhildon1-dev</build-depends>
   </deb>
 </package>

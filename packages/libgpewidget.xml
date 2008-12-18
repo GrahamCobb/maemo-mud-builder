@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="libgpewidget"
-    date="20080114"
-    release="2.8+2"
+    date="20081212"
+    release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -24,12 +24,14 @@
     cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
     rm -f $pkgdir/debian/changelog.tmp
     </command>
+    <depends>libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool</depends>
   </fetch>
   <build>
   </build>
   <deb prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE libgpewidget library\nLibrary of GPE widgets.\nPackaged with MUD</description>
-    <library>libgpewidget10</library>
+    <library>libgpewidget1</library>
+    <build-depends>debhelper (&gt;&gt; 3.0.0), libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool</build-depends>
   </deb>
 </package>
