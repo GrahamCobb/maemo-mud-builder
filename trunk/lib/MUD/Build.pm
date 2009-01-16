@@ -89,6 +89,9 @@ sub _init {
     $buildDir = readlink($buildDir) if -l $buildDir;
     print "Build dir = [$buildDir]\n";
     $self->{data}->{build} = $buildDir if -d $buildDir;
+
+    $ENV{'MUD_PACKAGES_DIR'} = $self->{config}->directory('PACKAGES_DIR');
+    $ENV{'MUD_PACKAGES_RELDIR'} = File::Spec->abs2rel($ENV{'MUD_PACKAGES_DIR'}, $self->{workdir}.'/.build');
 }
 
 
@@ -495,7 +498,13 @@ sub patchDebControl {
     # -- Icon(s)...
     #
     my $iconFile = $self->{data}->{data}->{deb}->{icon};
-    if (! -f $iconFile) {$iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{package};}
+    if (! -f $iconFile) {
+      foreach my $suffix (('-26.png', '-32.png', '-40.png', '-48.png', '-64.png', '')) {
+        $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{package}.$suffix;
+        last if -f $iconFile;
+      }
+    }
+
     if (! -f $iconFile and ($self->{data}->{data}->{deb}->{icon} || '') =~ /^https?:.*?\.(\w+)(\?.*)?$/) {
         $iconFile = $self->{workdir}.'/'.$self->{package}.".$1";
         system('wget', '-O', $iconFile, $self->{data}->{data}->{deb}->{icon});
@@ -512,21 +521,21 @@ sub patchDebControl {
         }
     }
 
-    # -- Description
+    # -- Description...
     #
     my $description = ref($self->{data}->{data}->{deb}->{description})
 	? readValueFromFile($self->{data}->{data}->{deb}->{description}->{file})
 	: $self->{data}->{data}->{deb}->{description};
     $control = MUD::Package->setField($control, "Description", $description) if $description;
 
-    # -- Upgrade Description
+    # -- Upgrade Description...
     #
     my $upgradeDescription = ref($self->{data}->{data}->{deb}->{'upgrade-description'})
 	? readValueFromFile($self->{data}->{data}->{deb}->{'upgrade-description'}->{file})
 	: $self->{data}->{data}->{deb}->{'upgrade-description'};
     $control = MUD::Package->setField($control, "XB-Maemo-Upgrade-Description", $upgradeDescription) if $upgradeDescription;
 
-    # -- Display Name
+    # -- Display Name...
     #
     my $displayName = $self->{data}->{data}->{deb}->{'display-name'};
     $control = MUD::Package->setField($control, "XB-Maemo-Display-Name", $displayName) if $displayName;
@@ -534,7 +543,7 @@ sub patchDebControl {
     # -- Other control fields...
     #
     while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
-        next if $k =~ /^(icon|prefix-section|library|libdev|upgrade-description|description|display-name)$/;
+        next if $k =~ /^(icon|prefix-section|library|libdev|upgrade-description|description|display-name|version)$/;
         $control = MUD::Package->setField($control, $k, $v);
     }
 
