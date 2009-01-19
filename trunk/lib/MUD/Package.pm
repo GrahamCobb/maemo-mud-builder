@@ -71,12 +71,12 @@ C<ORIGINAL>.
 =cut
 
 sub new {
-    my $that = shift;
-    $that = ref($that) || $that;
+  my $that = shift;
+  $that = ref($that) || $that;
 
-    my $self = bless { @_ }, $that;
-    $self->_init();
-    return $self;
+  my $self = bless { @_ }, $that;
+  $self->_init();
+return $self;
 }
 
 
@@ -87,9 +87,9 @@ Initialise a new instance. Private method.
 =cut
 
 sub _init {
-    my $self = shift;
+  my $self = shift;
 
-    $self->{config} ||= new MUD::Config();
+  $self->{config} ||= new MUD::Config();
 }
 
 
@@ -103,42 +103,42 @@ variables defined for the build.
 =cut
 
 sub load {
-    my $self = shift;
-    my ($name) = @_;
+  my $self = shift;
+  my ($name) = @_;
 
-    croak "Package names must be lowercase.\n" if lc($name) ne $name;
-    my $file = $self->{config}->directory('PACKAGES_DIR') . "/$name.xml";
-    croak("Unknown package '$name': can't find [$file]") unless -f $file;
+  croak "Package names must be lowercase.\n" if lc($name) ne $name;
+  my $file = $self->{config}->directory('PACKAGES_DIR') . "/$name.xml";
+  croak("Unknown package '$name': can't find [$file]") unless -f $file;
 
-    # FIXME: Should do heuristics to work out default sdk name
-    my $sdk = $::OPTS{sdk} || 'diablo';
+  # FIXME: Should do heuristics to work out default sdk name
+  my $sdk = $::OPTS{sdk} || 'diablo';
 
-    my $xsl = "$self->{config}->{base}/XSL/SDK.xsl";
-    $xsl = $::OPTS{xsl} if $::OPTS{xsl};
-    croak("Missing XSLT file: $xsl") unless -f $xsl;
+  my $xsl = "$self->{config}->{base}/XSL/SDK.xsl";
+  $xsl = $::OPTS{xsl} if $::OPTS{xsl};
+  croak("Missing XSLT file: $xsl") unless -f $xsl;
 
-    my $holdTerminator = $/;
-    undef $/;
-    open(XMLFILE,"xsltproc --stringparam sdk $sdk $xsl $file |") or croak("Unable to perform XSL Transformation on [$file]: $!\nHave you installed xsltproc?");
-    $file = <XMLFILE>;
-    close(XMLFILE);
-    $/ = $holdTerminator;
-    
-    # Lower case all the tags for normalisation
-    $file =~ s!(</?[\w-]+)!lc($1)!egx;
+  my $holdTerminator = $/;
+  undef $/;
+  open(XMLFILE,"xsltproc --stringparam sdk $sdk $xsl $file |") or croak("Unable to perform XSL Transformation on [$file]: $!\nHave you installed xsltproc?");
+  $file = <XMLFILE>;
+  close(XMLFILE);
+  $/ = $holdTerminator;
+  
+  # Lower case all the tags for normalisation
+  $file =~ s!(</?[\w-]+)!lc($1)!egx;
 
-    $self->{data} = XMLin($file) or croak("Unable to parse configuration for '$name': error in [$file]?");
-    $self->{name} = $name;
-    $self->{sdk}  = $sdk;
+  $self->{data} = XMLin($file) or croak("Unable to parse configuration for '$name': error in [$file]?");
+  $self->{name} = $name;
+  $self->{sdk}  = $sdk;
 
-    if ($self->{data}->{build}->{env}) {
-        while(my ($k, $v) = each %{ $self->{data}->{build}->{env} }) {
-            $v =~ s/\$([\w_]+)/$ENV{$1} || ''/egx;
-            $ENV{$k} = $v;
-        }
+  if ($self->{data}->{build}->{env}) {
+    while(my ($k, $v) = each %{ $self->{data}->{build}->{env} }) {
+      $v =~ s/\$([\w_]+)/$ENV{$1} || ''/egx;
+      $ENV{$k} = $v;
     }
+  }
 
-    return $self;
+  return $self;
 }
 
 
@@ -350,16 +350,16 @@ returning the array of lines which makes it up.
 =cut
 
 sub parseField {
-    my ($field, $data) = @_;
+  my ($field, $data) = @_;
 
-    my @lines = $data =~ /^[\r\n]+\s?$field:(\s+.*?[\r\n])(\s\s\S.*[\r\n])*/ig;
+  my @lines = $data =~ /^[\r\n]+\s?$field:(\s+.*?[\r\n])(\s\s\S.*[\r\n])*/ig;
 
-    if ($field =~ /^(Build-)?Depends$/i) {
-        @lines = map { s/\s*[\(\[].*?[\)\]]//; chomp; $_ }
-                      split /\s*[,|]\s+/, join(", ", @lines);
-    }
+  if ($field =~ /^(Build-)?Depends$/i) {
+    @lines = map { s/\s*[\(\[].*?[\)\]]//; chomp; $_ }
+             split /\s*[,|]\s+/, join(", ", @lines);
+  }
 
-    return @lines;
+  return @lines;
 }
 
 
@@ -375,43 +375,43 @@ If C<VALUE> is undefined, no change is made to C<DATA>.
 =cut
 
 sub setField {
-    my ($data, $field, $value) = @_;
-    return $data if !defined($value);
-    
-    # Capitalise field name
-    $field = ucfirst($field);
-    $field =~ s/\b([a-z])/uc($1)/egx;
+  my ($data, $field, $value) = @_;
+  return $data if !defined($value);
+  
+  # Capitalise field name
+  $field = ucfirst($field);
+  $field =~ s/\b([a-z])/uc($1)/egx;
 
-    # Auto-escape the first line break in Description
-    $value =~ s/\n/\\n/ if $field eq 'Description' and $value !~ /\\n/;
-    
-    # Escape blank-lines
-    $value =~ s/^\s*.\s*$/\\n\\n/mg;
-    
-    # Clobber white-space from the XML file for reformatting.
-    $value =~ s/[\s\t\r\n]+/ /sg;
-    $value =~ s/^[\s\r\t\n]+//;
-    $value =~ s/[\s\r\t\n]+$//;
+  # Auto-escape the first line break in Description
+  $value =~ s/\n/\\n/ if $field eq 'Description' and $value !~ /\\n/;
+  
+  # Escape blank-lines
+  $value =~ s/^\s*.\s*$/\\n\\n/mg;
+  
+  # Clobber white-space from the XML file for reformatting.
+  $value =~ s/[\s\t\r\n]+/ /sg;
+  $value =~ s/^[\s\r\t\n]+//;
+  $value =~ s/[\s\r\t\n]+$//;
 
-    # Convert '\n' to a newline
-    $value =~ s/(\\n)+ */\n/g;
+  # Convert '\n' to a newline
+  $value =~ s/(\\n)+ */\n/g;
 
-    # Remove a terminating newline
-    $value =~ s/(\n)+$//;
-    
-    my $wrapped = wrap("", "  ", "$field: $value");
-    $wrapped =~ s/\n(\s*).?\s*\n/\n$1.\n/g;
-    
-    # Put the field in the correct paragraph
-    my $paragraph = $field eq 'Uploaders' ? 'Source' : 'Package';
-    
-    if ($data =~ /^$field:/im) {
-        $data =~ s/(\n?\s?)$field:([ \t]+[^\n]+\n)*/$1$wrapped\n/ig;
-    } else {
-        $data =~ s/^$paragraph: .*$/$&\n$wrapped/mg;
-    }
-    
-    $_[0] = $data;
+  # Remove a terminating newline
+  $value =~ s/(\n)+$//;
+  
+  my $wrapped = wrap("", "  ", "$field: $value");
+  $wrapped =~ s/\n(\s*).?\s*\n/\n$1.\n/g;
+  
+  # Put the field in the correct paragraph
+  my $paragraph = $field eq 'Uploaders' ? 'Source' : 'Package';
+  
+  if ($data =~ /^$field:/im) {
+    $data =~ s/(\n?\s?)$field:([ \t]+[^\n]+\n)*/$1$wrapped\n/ig;
+  } else {
+    $data =~ s/^$paragraph: .*$/$&\n$wrapped/mg;
+  }
+  
+  $_[0] = $data;
 }
 
 
@@ -423,16 +423,16 @@ in the file are converted into C<\n>. - DISABLED)
 =cut
 
 sub readFile {
-    my ($file) = @_;
-    my $contents = '';
+  my ($file) = @_;
+  my $contents = '';
 
-    open(IN, $file) or croak "Unable to read file $file: $!\n";
-    while(<IN>) { $contents .= $_ ; }
-    close(IN);
+  open(IN, $file) or croak "Unable to read file $file: $!\n";
+  while(<IN>) { $contents .= $_ ; }
+  close(IN);
 
-    #$contents =~ s/\n/\\n/g;
+  #$contents =~ s/\n/\\n/g;
 
-    return $contents;
+  return $contents;
 }
  
 
