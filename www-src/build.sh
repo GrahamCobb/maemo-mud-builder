@@ -44,3 +44,12 @@ if [ -d docs -a -f docs/index.php ]; then
   done
 fi
 
+# -- Re-generate Perl documentation...
+#
+### Will only run if http://pdoc.sf.net/ is installed and
+### scripts/perlmod2www.pl is copied to /usr/local/bin/pdoc
+if [ -x /usr/local/bin/pdoc ]; then
+  cd ${BIN_DIR}
+  mkdir pod
+  /usr/local/bin/pdoc -source ${SRC_DIR}/../trunk/lib -target ${BIN_DIR}/pod
+fi
