@@ -6,11 +6,6 @@ MUD::Package - Define a MUD package, and the data/definitions
 
 =head1 SYNOPSIS
 
-This class abstracts L<MUD::Build> from the underlying container
-format for MUD packages. This allows for future expansion in changing
-the disk structure etc. by changing this class alone. Given a package
-name, it will find the various artifacts: XML definition, icons etc.
-
     use MUD::Package;
     my $pkg = MUD::Package->new();
     $pkg->load('vim');
@@ -24,14 +19,21 @@ name, it will find the various artifacts: XML definition, icons etc.
     my $section       = $pkg->section;
     my $version       = $pkg->version;
     my $extraFiles    = $pkg->extraFiles;
-
-There are also convenience methods for dealing with Debian control
-files: 
     
     MUD::Package::setField($controlData, 'Section', 'user/network');
     my @values = MUD::Package::parseField($controlData, 'Section');
 
 =head1 DESCRIPTION
+
+This class abstracts L<MUD::Build> from the underlying container
+format for MUD packages. This allows for future expansion in changing
+the disk structure etc. by changing this class alone. Given a package
+name, it will find the various artifacts: XML definition, icons etc.
+
+There are also convenience methods for dealing with Debian control
+files, see L</setField> and L</parseField>. 
+
+=head1 METHODS
 
 =over 12
 
@@ -58,7 +60,7 @@ $VERSION = '0.20';
                             science shells sound tex text utils web x11);
 
 
-=item new( [ORIGINAL] )
+=head2 new( [ORIGINAL] )
 
 Create a new package instance. This can be optionally
 initialised by passing in an existing package as
@@ -76,7 +78,7 @@ sub new {
 }
 
 
-=item _init
+=head2 _init
 
 Initialise a new instance. Private method.
 
@@ -89,7 +91,7 @@ sub _init {
 }
 
 
-=item load( NAME )
+=head2 load( NAME )
 
 Load information for the given package into this object.
 This will load an XML file from C<PACKAGES_DIR/name.xml>,
@@ -138,7 +140,7 @@ sub load {
 }
 
 
-=item name
+=head2 name
 
 Return the package's name.
 
@@ -151,7 +153,7 @@ sub name {
 }
 
 
-=item icon( SIZE )
+=head2 icon( SIZE )
 
 Return a path to a file containing an icon of the specified
 size. If L<ImageMagick> is installed, it will be used to convert
@@ -172,7 +174,7 @@ sub icon {
 }
 
 
-=item description
+=head2 description
 
 Return this package's description. This can be sourced
 from a file, or directly embedded within the XML.
@@ -187,7 +189,7 @@ sub description {
 }
 
 
-=item upgradeDescription
+=head2 upgradeDescription
 
 Return the short description of the reason this package has
 been updated. This can be sourced from a file, or directly
@@ -203,7 +205,7 @@ sub upgradeDescription {
 }
 
 
-=item displayName
+=head2 displayName
 
 Return the name which should be displayed as a human-readable,
 user-friendly variant in Application Manager.
@@ -217,7 +219,7 @@ sub displayName {
 }
 
 
-=item patches
+=head2 patches
 
 Return an array of patch files which should be applied against
 the unpacked source before building. If no patches are to be
@@ -232,7 +234,7 @@ sub patches {
 }
 
 
-=item controlFields
+=head2 controlFields
 
 Return a hash reference of values which contain additional
 C<debian/control> fields to set.
@@ -258,7 +260,7 @@ sub controlFields {
 }
 
 
-=item section
+=head2 section
 
 Return the section which this package should be in. If no
 section is explicitly specified then, for I<non->libraries,
@@ -273,7 +275,7 @@ sub section {
 }
 
 
-=item version [( VERSION )]
+=head2 version [( VERSION )]
 
 Set or return the version number which should be used for this package.
 Setting the version number can be done by sub-classes of
@@ -292,7 +294,7 @@ sub version {
 }
 
 
-=item extraFiles
+=head2 extraFiles
 
 Return a hash reference of extra files to be installed. These
 take the form of C<TARGET =E<gt> SOURCE>, which allows multiple
@@ -311,7 +313,7 @@ sub extraFiles {
 }
 
 
-=item parseField( FIELD, DATA )
+=head2 parseField( FIELD, DATA )
 
 Utility method for reading a field from a Debian control file and
 returning the array of lines which makes it up.
@@ -334,7 +336,7 @@ sub parseField {
 }
 
 
-=item setField( DATA, FIELD, VALUE )
+=head2 setField( DATA, FIELD, VALUE )
 
 Utility method for setting a field within a Debian control file.
 The value of C<DATA> is changed in place; no value is returned.
@@ -386,7 +388,7 @@ sub setField {
 }
 
 
-=item readFile( FILE )
+=head2 readFile( FILE )
 
 Utility method for reading the contents of a file. (Any newlines
 in the file are converted into C<\n>. - DISABLED)
