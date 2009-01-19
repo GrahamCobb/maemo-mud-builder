@@ -5,16 +5,16 @@ MUD::Build - Build packages suitable for upload
 
 =head1 SYNOPSIS
 
-This class is primarily responsible for controlling the build process
-used by C<mud>.
-
     use MUD::Build;
     my $mud = MUD::Build->new( package => 'vim' );
     $mud->build();
 
 =head1 DESCRIPTION
 
-=over 12
+This class is primarily responsible for controlling the build process
+used by C<mud>.
+
+=head1 METHODS
 
 =cut
 
@@ -41,7 +41,7 @@ $VERSION = '0.10';
 $DPKG_BUILDPACKAGE = 'dpkg-buildpackage -d -rfakeroot -i -sa';
 
 
-=item new( OPTS )
+=head2 new( OPTS )
 
 Create a new instance. OPTS is a hash containing name/value pairs:
 
@@ -67,7 +67,7 @@ sub new {
 }
 
 
-=item _init
+=head2 _init
 
 Initialise a new instance. Private method.
 
@@ -97,7 +97,7 @@ sub _init {
 }
 
 
-=item build
+=head2 build
 
 Build the configured package and place the deb files ready for upload
 in the C<uploads/> directory.
@@ -119,7 +119,7 @@ sub build {
 }
 
 
-=item fetch
+=head2 fetch
 
 Download the source for the package and unpack it in the build directory.
 
@@ -182,7 +182,7 @@ sub fetch {
 }
 
 
-=item patch
+=head2 patch
 
 Apply any patches for the given package and modify Debian control structures
 to apply to the Maemo SDK. 
@@ -239,7 +239,7 @@ sub patch {
 }
 
 
-=item compile
+=head2 compile
 
 Build the unpacked, and potentially patched, binaries.
 
@@ -283,7 +283,7 @@ sub compile {
 }
 
 
-=item source
+=head2 source
 
 Build the unpacked, and potentially patched, source packages ready
 for upload to the autobuilder.
@@ -304,7 +304,7 @@ sub source {
 }
 
 
-=item clean
+=head2 clean
 
 Remove the build directory and any temporary files used therein.
 
@@ -318,7 +318,7 @@ sub clean {
 }
 
 
-=item copy
+=head2 copy
 
 Copy output files - including debs, tarballs, dsc and changes files - to
 the upload directory.
