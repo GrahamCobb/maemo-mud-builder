@@ -16,6 +16,8 @@ used by C<mud>.
 
 =head1 METHODS
 
+=over 12
+
 =cut
 
 package MUD::Build;
@@ -41,7 +43,7 @@ $VERSION = '0.10';
 $DPKG_BUILDPACKAGE = 'dpkg-buildpackage -d -rfakeroot -i -sa';
 
 
-=head2 new( OPTS )
+=item new( OPTS )
 
 Create a new instance. OPTS is a hash containing name/value pairs:
 
@@ -67,7 +69,7 @@ sub new {
 }
 
 
-=head2 _init
+=item _init
 
 Initialise a new instance. Private method.
 
@@ -97,7 +99,7 @@ sub _init {
 }
 
 
-=head2 build
+=item build
 
 Build the configured package and place the deb files ready for upload
 in the C<uploads/> directory.
@@ -119,7 +121,7 @@ sub build {
 }
 
 
-=head2 fetch
+=item fetch
 
 Download the source for the package and unpack it in the build directory.
 
@@ -182,7 +184,7 @@ sub fetch {
 }
 
 
-=head2 patch
+=item patch
 
 Apply any patches for the given package and modify Debian control structures
 to apply to the Maemo SDK. 
@@ -239,7 +241,7 @@ sub patch {
 }
 
 
-=head2 compile
+=item compile
 
 Build the unpacked, and potentially patched, binaries.
 
@@ -283,7 +285,7 @@ sub compile {
 }
 
 
-=head2 source
+=item source
 
 Build the unpacked, and potentially patched, source packages ready
 for upload to the autobuilder.
@@ -304,7 +306,7 @@ sub source {
 }
 
 
-=head2 clean
+=item clean
 
 Remove the build directory and any temporary files used therein.
 
@@ -318,7 +320,7 @@ sub clean {
 }
 
 
-=head2 copy
+=item copy
 
 Copy output files - including debs, tarballs, dsc and changes files - to
 the upload directory.
@@ -486,22 +488,9 @@ sub patchDebControl {
 
     # -- Icon(s)...
     #
-    my $iconFile = $self->{data}->{data}->{deb}->{icon};
-    if (! -f $iconFile) {
-      foreach my $suffix (('-26.png', '-32.png', '-40.png', '-48.png', '-64.png', '')) {
-        $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{package}.$suffix;
-        last if -f $iconFile;
-      }
-    }
-
-    if (! -f $iconFile and ($self->{data}->{data}->{deb}->{icon} || '') =~ /^https?:.*?\.(\w+)(\?.*)?$/) {
-        $iconFile = $self->{workdir}.'/'.$self->{package}.".$1";
-        system('wget', '-O', $iconFile, $self->{data}->{data}->{deb}->{icon});
-    }
-
-    if (-f $iconFile and $control !~ /^XB-Maemo-Icon-26:/im) {
-        system('convert', $iconFile, '-resize', '26x26', $iconFile);
-        my $iconData = `uuencode -m icon <$iconFile`;
+    my $iconFile = $self->{data}->icon(26);
+    if ($iconFile and $control !~ /^XB-Maemo-Icon-26:/im) {
+        my $iconData = `uuencode -m icon <\Q${iconFile}\E`;
         $iconData =~ s/^begin-base64 \d{3,4} icon[\s\r\n]+//m;
         $iconData =~ s/^/  /mg;
         if ($iconData) {

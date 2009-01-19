@@ -1,7 +1,9 @@
-#
-# MUD::Config                               (c) Andrew Flegg 2007
-# ~~~~~~~~~~~                               Relased under the Artistic Licence
-#                                           http://mud-builder.garage.maemo.org/
+
+=head1 NAME
+
+MUD::Config - Read and store MUD configuration.
+
+=cut 
 
 package MUD::Config;
 

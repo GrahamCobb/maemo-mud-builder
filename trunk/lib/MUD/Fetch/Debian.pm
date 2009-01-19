@@ -1,7 +1,9 @@
-#
-# MUD::Fetch::Debian                        (c) Andrew Flegg 2007
-# ~~~~~~~~~~~~~~~~~~                        Relased under the Artistic Licence
-#                                           http://mud-builder.garage.maemo.org/
+
+=head1 NAME
+
+MUD::Fetch::Debian - Fetch package source from upstream Debian
+
+=cut 
 
 package MUD::Fetch::Debian;
 
@@ -156,3 +158,12 @@ sub apt {
 }
 
 
+=head1 COPYRIGHT
+
+(c) Andrew Flegg 2007 - 2009. Released under the Artistic Licence:
+L<http://www.opensource.org/licenses/artistic-license-2.0.php>
+
+=head1 SEE ALSO
+
+L<MUD::Fetch::Base>
+L<http://mud-builder.garage.maemo.org/>
