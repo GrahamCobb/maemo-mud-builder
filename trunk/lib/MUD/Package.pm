@@ -178,7 +178,7 @@ sub icon {
   my $iconFile = $self->{data}->{deb}->{icon};
   if (! -f $iconFile) {
     foreach my $suffix (('-26.png', '-32.png', '-40.png', '-48.png', '-64.png', '')) {
-      $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{package}.$suffix;
+      $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{name}.$suffix;
       last if -f $iconFile;
     }
   }
@@ -406,7 +406,7 @@ sub setField {
   my $paragraph = $field eq 'Uploaders' ? 'Source' : 'Package';
   
   if ($data =~ /^$field:/im) {
-    $data =~ s/(\n?\s?)$field:([ \t]+[^\n]+\n)*/$1$wrapped\n/ig;
+    $data =~ s/^$field:\s.*$(^[ \t]+\S.*$)*/$1$wrapped/img;
   } else {
     $data =~ s/^$paragraph: .*$/$&\n$wrapped/mg;
   }
