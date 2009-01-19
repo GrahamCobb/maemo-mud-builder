@@ -49,7 +49,9 @@ Create a new instance. OPTS is a hash containing name/value pairs:
 
 =item package
 
-Name of the package. This is required.
+Name of the package. This is required.  This can either a 
+L<MUD::Package> I<reference>, or the name of a package. The use of
+reference passing is used when doing recursive, dependency builds.
 
 =back
 
@@ -67,7 +69,7 @@ sub new {
 
 =item _init
 
-Initialise a new instance.
+Initialise a new instance. Private method.
 
 =cut
 
@@ -150,11 +152,11 @@ sub fetch {
     my $buildDir = basename($self->{data}->{build} || '.');
     my $origBDir = $buildDir;
     $buildDir    =~ s/-src\b//;
-    my $version  = $self->{data}->{version} || $self->{data}->{data}->{deb}->{version};
+    my $version  = $self->{data}->version;
     print "Version = $version, buildDir = $buildDir\n";
     $version   ||= $1 if $buildDir =~ s/-(\d[\w\-\.\+\:]+\w|\d\w*)*$//;
     $version   ||= $1 if !$version and $buildDir =~ s/(\d+)$//;
-    $version     = $self->{data}->{data}->{deb}->{version} || $version;
+    $version     = $self->{data}->version || $version;
     $version   ||= 1;
     print "Version = $version, buildDir = $buildDir\n";
     $buildDir    = $self->{package} unless $buildDir =~ /^[a-z0-9\-\+]+$/;
@@ -165,7 +167,7 @@ sub fetch {
     print "Build dir = $buildDir\n";
     rename $origBDir, $buildDir if $origBDir ne $buildDir;
 
-    $self->{data}->{version} = $version;
+    $self->{data}->version($version);
     $self->{data}->{build} = File::Spec->rel2abs($buildDir, $self->{workdir});
     print "Set build dir to [".$self->{data}->{build}."]\n";
     system('ln', '-snf', $self->{data}->{build}, $self->{workdir}.'/.build');
@@ -274,7 +276,7 @@ sub compile {
       if (@buildDeps) {
           print "Adding calculated build-deps of [".join(', ', @buildDeps)."]\n";
           my $control = $self->readDebControl();
-          $control = MUD::Package->setField($control, "Build-Depends", join(', ', @buildDeps));
+          MUD::Package::setField($control, "Build-Depends", join(', ', @buildDeps));
           $self->writeDebControl($control);
       }
     }
@@ -448,19 +450,6 @@ sub writeDebControl {
     close(OUT) or croak "Unable to close control: $!\n";
 }
 
-sub readValueFromFile {
-    my ($file) = @_;
-    my $contents = '';
-
-    open(IN, $file) or croak "Unable to read file $file: $!\n";
-    while(<IN>) { $contents .= $_ ; }
-    close(IN);
-
-    $contents =~ s/\n/\\n/g;
-
-    return $contents;
-}
-
 sub patchDebControl {
     my $self = shift;
 
@@ -470,8 +459,8 @@ sub patchDebControl {
     # -- Fix standards version and uploaders...
     #
     $control =~ s/^(Section:.*)devel/$1libdev/;
-    $control = MUD::Package->setField($control, 'Standards-Version', '3.6.1');
-    $control = MUD::Package->setField($control, 'Uploaders', 'MUD Project <mud-builder-team@garage.maemo.org>');
+    MUD::Package::setField($control, 'Standards-Version', '3.6.1');
+    MUD::Package::setField($control, 'Uploaders', 'MUD Project <mud-builder-team@garage.maemo.org>');
 
     # -- Fix "BROKEN" libraries...
     #
@@ -485,7 +474,7 @@ sub patchDebControl {
     $control =~ s/\Q${name}\E-dev/${libdevname}/mgi;
 
     # -- Fix section...
-    #
+    # TODO Use $self->{data}->section
     my $userSection = defined ($self->{data}->{data}->{deb}->{'prefix-section'}) 
         ? $self->{data}->{data}->{deb}->{'prefix-section'} : $self->{package} !~ /^lib/;
         
@@ -523,28 +512,20 @@ sub patchDebControl {
 
     # -- Description...
     #
-    my $description = ref($self->{data}->{data}->{deb}->{description})
-	? readValueFromFile($self->{data}->{data}->{deb}->{description}->{file})
-	: $self->{data}->{data}->{deb}->{description};
-    $control = MUD::Package->setField($control, "Description", $description) if $description;
+    MUD::Package::setField($control, "Description", $self->{data}->description);
 
     # -- Upgrade Description...
     #
-    my $upgradeDescription = ref($self->{data}->{data}->{deb}->{'upgrade-description'})
-	? readValueFromFile($self->{data}->{data}->{deb}->{'upgrade-description'}->{file})
-	: $self->{data}->{data}->{deb}->{'upgrade-description'};
-    $control = MUD::Package->setField($control, "XB-Maemo-Upgrade-Description", $upgradeDescription) if $upgradeDescription;
+    MUD::Package::setField($control, "XB-Maemo-Upgrade-Description", $self->{data}->upgradeDescription);
 
     # -- Display Name...
     #
-    my $displayName = $self->{data}->{data}->{deb}->{'display-name'};
-    $control = MUD::Package->setField($control, "XB-Maemo-Display-Name", $displayName) if $displayName;
+    MUD::Package::setField($control, "XB-Maemo-Display-Name", $self->{data}->displayName);
 
     # -- Other control fields...
     #
-    while (my ($k, $v) = each %{ $self->{data}->{data}->{deb} }) {
-        next if $k =~ /^(icon|prefix-section|library|libdev|upgrade-description|description|display-name|version)$/;
-        $control = MUD::Package->setField($control, $k, $v);
+    while (my ($k, $v) = each %{ $self->{data}->controlFields }) {
+        MUD::Package::setField($control, $k, $v);
     }
 
     $self->writeDebControl($control) if $control ne $origControl;
@@ -552,7 +533,7 @@ sub patchDebControl {
     # -- Modify changelog to contain this build...
     #
     # debchange doesn't do anything if the version is already there except moan
-    system('debchange', '-v', $self->{data}->{version},
+    system('debchange', '-v', $self->{data}->version,
                         '-p', '--noquery',
                         'Build using mud-builder by '.($ENV{USER} || 'unknown'));
 
@@ -565,7 +546,7 @@ sub patchDebControl {
 
 =head1 COPYRIGHT
 
-(c) Andrew Flegg 2007 - 2008. Released under the Artistic Licence:
+(c) Andrew Flegg 2007 - 2009. Released under the Artistic Licence:
 L<http://www.opensource.org/licenses/artistic-license-2.0.php>
 
 =head1 SEE ALSO

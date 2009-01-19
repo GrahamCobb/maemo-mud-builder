@@ -12,7 +12,7 @@
   </build>
   <deb>
     <version>7.2-0maemo1</version>
-    <section>user/programming</section>
+    <section>user/utilities</section>
     <description>Powerful console text editor
     One of the most powerful text editors in existence, vim is "Vi-Improved".
     .

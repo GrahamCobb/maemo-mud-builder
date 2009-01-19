@@ -41,7 +41,7 @@ sub fetch {
         @end = grep { !$s{$_} } @end;
         $self->{package}->{build} = $end[0];
     }
-    $self->{package}->{version} = $1 if $basename =~ /-(\d[\w\-\.]+\w|\d\w*)*$/;
+    $self->{package}->version($1) if $basename =~ /-(\d[\w\-\.]+\w|\d\w*)*$/;
 
     my @deps = split /\s*,\s*/, ($self->{package}->{data}->{fetch}->{depends} || '');
     foreach my $dep (@deps) {
