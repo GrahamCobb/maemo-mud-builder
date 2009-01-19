@@ -45,6 +45,9 @@ use strict;
 use vars qw(@ISA $VERSION @PERMITTED_SECTIONS);
 use XML::Simple;
 use Text::Wrap;
+use File::Spec;
+use File::Temp qw(tempfile);
+use File::Copy;
 use Carp;
 
 @ISA     = qw();
@@ -59,8 +62,7 @@ $VERSION = '0.20';
                             libdevel mail math misc net news oldlibs perl python
                             science shells sound tex text utils web x11);
 
-
-=head2 new( [ORIGINAL] )
+=item new( [ORIGINAL] )
 
 Create a new package instance. This can be optionally
 initialised by passing in an existing package as
@@ -78,7 +80,7 @@ sub new {
 }
 
 
-=head2 _init
+=item _init
 
 Initialise a new instance. Private method.
 
@@ -91,7 +93,7 @@ sub _init {
 }
 
 
-=head2 load( NAME )
+=item load( NAME )
 
 Load information for the given package into this object.
 This will load an XML file from C<PACKAGES_DIR/name.xml>,
@@ -140,7 +142,7 @@ sub load {
 }
 
 
-=head2 name
+=item name
 
 Return the package's name.
 
@@ -153,7 +155,7 @@ sub name {
 }
 
 
-=head2 icon( SIZE )
+=item icon( SIZE )
 
 Return a path to a file containing an icon of the specified
 size. If L<ImageMagick> is installed, it will be used to convert
@@ -170,11 +172,36 @@ If no appropriate icon can be found, C<undef> is returned.
 =cut
 
 sub icon {
-  return undef; # TODO icon()
+  my $self = shift;
+  my ($size) = @_;
+  
+  my $iconFile = $self->{data}->{deb}->{icon};
+  if (! -f $iconFile) {
+    foreach my $suffix (('-26.png', '-32.png', '-40.png', '-48.png', '-64.png', '')) {
+      $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{package}.$suffix;
+      last if -f $iconFile;
+    }
+  }
+
+  if (! -f $iconFile and ($self->{data}->{deb}->{icon} || '') =~ /^https?:.*?(\.\w+)(\?.*)?$/) {
+    (undef, $iconFile) = tempfile("mud-$self->{name}-XXXXX", SUFFIX => $1, UNLINK => 1, DIR => File::Spec->tmpdir);
+    system('wget', '-O', $iconFile, $self->{data}->{deb}->{icon});
+  }
+  
+  if ($iconFile !~ /-$size\b/) {
+    my $sourceIcon = $iconFile;
+    (undef, $iconFile) = tempfile("mud-$self->{name}-XXXXX", SUFFIX => ".png", UNLINK => 1, DIR => File::Spec->tmpdir);
+    print "+++ Converting [$sourceIcon] to [$iconFile] at $size pixels WxH\n";
+    system('convert', $sourceIcon, '-resize', "${size}x${size}", $iconFile);
+    copy($sourceIcon, $iconFile) or die "copy failed: $!" unless -s $iconFile;
+  }
+  
+  return undef unless -s $iconFile;
+  return $iconFile;
 }
 
 
-=head2 description
+=item description
 
 Return this package's description. This can be sourced
 from a file, or directly embedded within the XML.
@@ -189,7 +216,7 @@ sub description {
 }
 
 
-=head2 upgradeDescription
+=item upgradeDescription
 
 Return the short description of the reason this package has
 been updated. This can be sourced from a file, or directly
@@ -205,7 +232,7 @@ sub upgradeDescription {
 }
 
 
-=head2 displayName
+=item displayName
 
 Return the name which should be displayed as a human-readable,
 user-friendly variant in Application Manager.
@@ -219,7 +246,7 @@ sub displayName {
 }
 
 
-=head2 patches
+=item patches
 
 Return an array of patch files which should be applied against
 the unpacked source before building. If no patches are to be
@@ -234,7 +261,7 @@ sub patches {
 }
 
 
-=head2 controlFields
+=item controlFields
 
 Return a hash reference of values which contain additional
 C<debian/control> fields to set.
@@ -260,7 +287,7 @@ sub controlFields {
 }
 
 
-=head2 section
+=item section
 
 Return the section which this package should be in. If no
 section is explicitly specified then, for I<non->libraries,
@@ -275,7 +302,7 @@ sub section {
 }
 
 
-=head2 version [( VERSION )]
+=item version [( VERSION )]
 
 Set or return the version number which should be used for this package.
 Setting the version number can be done by sub-classes of
@@ -294,7 +321,7 @@ sub version {
 }
 
 
-=head2 extraFiles
+=item extraFiles
 
 Return a hash reference of extra files to be installed. These
 take the form of C<TARGET =E<gt> SOURCE>, which allows multiple
@@ -313,7 +340,7 @@ sub extraFiles {
 }
 
 
-=head2 parseField( FIELD, DATA )
+=item parseField( FIELD, DATA )
 
 Utility method for reading a field from a Debian control file and
 returning the array of lines which makes it up.
@@ -336,7 +363,7 @@ sub parseField {
 }
 
 
-=head2 setField( DATA, FIELD, VALUE )
+=item setField( DATA, FIELD, VALUE )
 
 Utility method for setting a field within a Debian control file.
 The value of C<DATA> is changed in place; no value is returned.
@@ -388,7 +415,7 @@ sub setField {
 }
 
 
-=head2 readFile( FILE )
+=item readFile( FILE )
 
 Utility method for reading the contents of a file. (Any newlines
 in the file are converted into C<\n>. - DISABLED)
