@@ -188,17 +188,15 @@ sub icon {
     system('wget', '-O', $iconFile, $self->{data}->{deb}->{icon});
   }
   
-  if ($iconFile !~ /-$size\b/) {
+  if (-f $iconFile and $iconFile !~ /-$size\b/) {
     my $sourceIcon = $iconFile;
     (undef, $iconFile) = tempfile("mud-$self->{name}-XXXXX", SUFFIX => ".png", UNLINK => 1, DIR => File::Spec->tmpdir);
     print "+++ Converting [$sourceIcon] to [$iconFile] at ${size}px WxH\n";
     system('convert', $sourceIcon, '-resize', "${size}x${size}", $iconFile);
     copy($sourceIcon, $iconFile) or die "copy failed: $!" unless -s $iconFile;
-  } else {
-    print "+++ Found icon [$iconFile] at ${size} pixels WxH\n";
   }
   
-  return undef unless -s $iconFile;
+  return undef unless $iconFile and -s $iconFile;
   return $iconFile;
 }
 
