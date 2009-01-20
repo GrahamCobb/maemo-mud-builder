@@ -76,7 +76,7 @@ sub new {
 
   my $self = bless { @_ }, $that;
   $self->_init();
-return $self;
+  return $self;
 }
 
 
@@ -178,7 +178,7 @@ sub icon {
   my $iconFile = $self->{data}->{deb}->{icon};
   if (! -f $iconFile) {
     foreach my $suffix (('-26.png', '-32.png', '-40.png', '-48.png', '-64.png', '')) {
-      $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->{name}.$suffix;
+      $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->name.$suffix;
       last if -f $iconFile;
     }
   }
@@ -191,9 +191,11 @@ sub icon {
   if ($iconFile !~ /-$size\b/) {
     my $sourceIcon = $iconFile;
     (undef, $iconFile) = tempfile("mud-$self->{name}-XXXXX", SUFFIX => ".png", UNLINK => 1, DIR => File::Spec->tmpdir);
-    print "+++ Converting [$sourceIcon] to [$iconFile] at $size pixels WxH\n";
+    print "+++ Converting [$sourceIcon] to [$iconFile] at ${size}px WxH\n";
     system('convert', $sourceIcon, '-resize', "${size}x${size}", $iconFile);
     copy($sourceIcon, $iconFile) or die "copy failed: $!" unless -s $iconFile;
+  } else {
+    print "+++ Found icon [$iconFile] at ${size} pixels WxH\n";
   }
   
   return undef unless -s $iconFile;
@@ -257,7 +259,14 @@ applied, returns an empty list.
 =cut
 
 sub patches {
-  return (); # TODO
+  my $self = shift;
+  
+  my @patches = ();
+  
+  my $patch = $self->{config}->directory('PACKAGES_DIR').'/patch/'.$self->name.'.patch';
+  push @patches, $patch if -f $patch;
+
+  return @patches;
 }
 
 

@@ -197,12 +197,11 @@ sub patch {
     chdir $self->{data}->{build} || croak "Build dir not set.\n";
 
     # -- Apply any patches...
-    # 
-    my $patch = $self->{config}->directory('PACKAGES_DIR').'/patch/'.$self->{package}.'.patch';
-    print "+++ Checking patch file [$patch]\n";
-    if (-f $patch) {
-        system("patch -p0 <$patch");
-        croak "Failed to apply patch [$?]\n" if $?;
+    #
+    foreach my $patch ($self->{data}->patches) { 
+      print "+++ Applying patch file [$patch]\n";
+      system("patch -p0 <$patch");
+      croak "Failed to apply patch [$?]\n" if $?;
     }
 
     # -- Remove documentation...
