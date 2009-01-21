@@ -18,7 +18,7 @@ MUD::Package - Define a MUD package, and the data/definitions
     my $controlFields = $pkg->controlFields;
     my $section       = $pkg->section;
     my $version       = $pkg->version;
-    my $extraFiles    = $pkg->extraFiles;
+    my @extras        = $pkg->extras;
     
     MUD::Package::setField($controlData, 'Section', 'user/network');
     my @values = MUD::Package::parseField($controlData, 'Section');
@@ -49,6 +49,7 @@ use File::Spec;
 use File::Temp qw(tempfile);
 use File::Copy;
 use Carp;
+use MUD::ExtrasEntry;
 
 @ISA     = qw();
 $VERSION = '0.20';
@@ -328,22 +329,22 @@ sub version {
 }
 
 
-=item extraFiles
+=item extras
 
-Return a hash reference of extra files to be installed. These
-take the form of C<TARGET =E<gt> SOURCE>, which allows multiple
-copies of the same source file to be included in the package in
-multiple locations.
+Return an array of L<MUD::ExtrasEntry>s which should be 
+copied into C<mud-extras> in the source tree, and made available
+to the build scripts.
 
-If no extra files are to be installed, an empty hash reference
-is returned.
+If no extra files are to be installed, an empty list is returned.
 
 =cut
 
-sub extraFiles {
+sub extras {
   my $self = shift;
   
-  return {}; # TODO
+  return (); #TODO
+  #new MUD::ExtrasEntry('/etc/debian_version', { path => '/etc/debian_version.host'}),
+  #new MUD::ExtrasEntry('/etc/profile', { path => '/etc/profile.host'})
 }
 
 

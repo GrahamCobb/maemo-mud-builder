@@ -1,4 +1,4 @@
-<html><head><title>MUD::Build</title>
+<html><head><title>MUD::ExtrasEntry</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" >
 <link rel="stylesheet" title="black with blue on white" type="text/css" href="../_black_with_blue_on_white.css" media="all" >
 <link rel="alternate stylesheet" title="black with magenta on white" type="text/css" href="../_black_with_magenta_on_white.css" media="all" >
@@ -38,11 +38,11 @@
 <div class='indexgroup'>
 <ul   class='indexList indexList1'>
   <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
-  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
   <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
   <li class='indexItem indexItem1'><a href='#COPYRIGHT'>COPYRIGHT</a>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#POD_ERRORS'>POD ERRORS</a>
 </ul>
 </div>
 
@@ -50,40 +50,68 @@
 name="NAME"
 >NAME</a></h1>
 
-<p>MUD::Build - Build packages suitable for upload</p>
-
-<h1><a class='u' href='#___top' title='click to go to top of document'
-name="SYNOPSIS"
->SYNOPSIS</a></h1>
-
-<pre>    use MUD::Build;
-    my $mud = MUD::Build-&#62;new( package =&#62; &#39;vim&#39; );
-    $mud-&#62;build();</pre>
+<p>MUD::ExtrasEntry - definition of file to be copied to mud-extras,
+and possibly auto-installed.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="DESCRIPTION"
 >DESCRIPTION</a></h1>
 
-<p>This class is primarily responsible for controlling the build process used by <code>mud</code>.</p>
+<p>This class encapsulates the information on files which should be copied to <code>mud-extras</code> in the source tree of a package.
+These files are then available to <code>debian/rules</code>,
+and other build scripts,
+to do with as they please.</p>
+
+<p>One typical use is to add new files which should be installed alongside the package,
+for example icons; launch scripts; desktop files and services.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="METHODS"
 >METHODS</a></h1>
 
 <dl>
-<dt><a name="new(_OPTS_)"
->new( OPTS )</a></dt>
+<dt><a name="new(_FILE,_[_METADATA_]_)"
+>new( FILE,
+[ METADATA ] )</a></dt>
 
 <dd>
-<p>Create a new instance. OPTS is a hash containing name/value pairs:</p>
+<p>Create a new instance of a file which should be copied to the source tree.
+<code>FILE</code> should be an absolute path,
+and <code>METADATA</code> is an optional hash of data to define destination mode,
+location etc.</p>
+
+<p><code>METADATA</code> can contain:</p>
 
 <dl>
-<dt><a name="package"
->package</a></dt>
+<dt><a name="path"
+>path</a></dt>
 
 <dd>
-<p>Name of the package. This is required. This can either a <a href="../MUD/Package.html" class="podlinkpod"
->MUD::Package</a> <i>reference</i>, or the name of a package. The use of reference passing is used when doing recursive, dependency builds.</p>
+<p>Destination path in the target package.
+Required if the file is to be auto-added to <code>debian/rules:install</code>.</p>
+
+<dt><a name="mode"
+>mode</a></dt>
+
+<dd>
+<p>Target file mode.
+See <a href="#mode" class="podlinkpod"
+>&#34;mode&#34;</a> for more information.
+Defaults to <code>auto</code>.</p>
+
+<dt><a name="owner"
+>owner</a></dt>
+
+<dd>
+<p>User ID for the target file.
+Defaults to <code>root</code>.</p>
+
+<dt><a name="group"
+>group</a></dt>
+
+<dd>
+<p>Group for the target file.
+Defaults to <code>root</code>.</p>
 </dd>
 </dl>
 
@@ -91,51 +119,50 @@ name="METHODS"
 >_init</a></dt>
 
 <dd>
-<p>Initialise a new instance. Private method.</p>
-
-<dt><a name="build"
->build</a></dt>
-
-<dd>
-<p>Build the configured package and place the deb files ready for upload in the <code>uploads/</code> directory.</p>
-
-<dt><a name="fetch"
->fetch</a></dt>
-
-<dd>
-<p>Download the source for the package and unpack it in the build directory.</p>
-
-<dt><a name="patch"
->patch</a></dt>
-
-<dd>
-<p>Apply any patches for the given package and modify Debian control structures to apply to the Maemo SDK.</p>
-
-<dt><a name="compile"
->compile</a></dt>
-
-<dd>
-<p>Build the unpacked, and potentially patched, binaries.</p>
+<p>Check that the given file exists and load any additional meta-data.
+Private method.</p>
 
 <dt><a name="source"
 >source</a></dt>
 
 <dd>
-<p>Build the unpacked, and potentially patched, source packages ready for upload to the autobuilder.</p>
+<p>Return the absolute file which is the source of the file to be copied.</p>
 
-<p>At the moment, no check is made that a compile step is done previously, however this is seriously recommended to ensure that the auto-calculation of <code>Build-Depends</code> is done correctly.</p>
-
-<dt><a name="clean"
->clean</a></dt>
+<dt><a name="target(_[FILE]_)"
+>target( [FILE] )</a></dt>
 
 <dd>
-<p>Remove the build directory and any temporary files used therein.</p>
+<p>Set or return the path which the file should be installed to on the target system.</p>
 
-<dt><a name="copy"
->copy</a></dt>
+<p>If not explicitly called,
+this will be auto-determined from the information given at construction.</p>
+
+<p>If <i>undef</i> if returned,
+this file should not be auto-installed,
+just copied to <code>mud-extras</code>.</p>
+
+<dt><a name="mode"
+>mode</a></dt>
 
 <dd>
-<p>Copy output files - including debs, tarballs, dsc and changes files - to the upload directory.</p>
+<p>Return the mode for the target file.
+This should be in the format <code>0644</code>,
+suitable for passing to <a>install(1)</a>.</p>
+
+<p>The default is <i>auto</i>,
+which means <code>0644</code> unless the file starts with the bytes <code>#!</code> - in which case <code>0755</code> is used.</p>
+
+<dt><a name="owner"
+>owner</a></dt>
+
+<dd>
+<p>Return the user ID for the target file.</p>
+
+<dt><a name="group"
+>group</a></dt>
+
+<dd>
+<p>Return the group ID for the target file.</p>
 </dd>
 </dl>
 
@@ -143,15 +170,34 @@ name="METHODS"
 name="COPYRIGHT"
 >COPYRIGHT</a></h1>
 
-<p>(c) Andrew Flegg 2007 - 2009. Released under the Artistic Licence: <a href="http://www.opensource.org/licenses/artistic-license-2.0.php" class="podlinkurl"
+<p>(c) Andrew Flegg 2007 - 2009.
+Released under the Artistic Licence: <a href="http://www.opensource.org/licenses/artistic-license-2.0.php" class="podlinkurl"
 >http://www.opensource.org/licenses/artistic-license-2.0.php</a></p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SEE_ALSO"
 >SEE ALSO</a></h1>
 
-<p><a href="http://mud-builder.garage.maemo.org/" class="podlinkurl"
+<p><a href="../MUD/Package.html#extraFiles" class="podlinkpod"
+>&#34;extraFiles&#34; in MUD::Package</a> <a href="http://mud-builder.garage.maemo.org/" class="podlinkurl"
 >http://mud-builder.garage.maemo.org/</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="POD_ERRORS"
+>POD ERRORS</a></h1>
+
+<p>Hey!
+<b>The above document had some coding errors,
+which are explained below:</b></p>
+
+<dl>
+<dt><a name="Around_line_187:"
+>Around line 187:</a></dt>
+
+<dd>
+<p>You forgot a &#39;=back&#39; before &#39;=head1&#39;</p>
+</dd>
+</dl>
 <p class="backlinkbottom"><b><a name="___bottom" href="../index.html" title="All Documents">&lt;&lt;</a></b></p>
 
 <!-- end doc -->
