@@ -30,6 +30,7 @@ use Carp;
 use File::Basename;
 use File::Path;
 use File::Spec;
+
 use MUD::Config;
 use MUD::Package;
 
@@ -229,6 +230,30 @@ sub patch {
     my $append = $self->{data}->{data}->{build}->{'configure-append'} || '';
     print "+++ Appending [$append] to configure.\n";
     $rules =~ s/([\b\s]\.\/configure[\b\s].*?)([\r\n]+?\s*[\r\n]+?)/$1 $append$2/sg if $append;
+    
+    # -- Copy in any extra files and install...
+    #
+    if (my @extras = $self->{data}->extras) {
+      mkdir $MUD::ExtrasEntry::SOURCE_DIR;
+      my @install = ();
+      my ($dir) = $rules =~ /^install:.*?# Add here commands to install the package into (.*?)\.$/ms; 
+      
+      foreach my $file (@extras) {
+        File::Copy::copy($file->source, $MUD::ExtrasEntry::SOURCE_DIR);
+        my $target = $file->target;
+        next unless $target;
+        
+        $target =~ s!^/!!;
+        
+        push @install, 'install -D -m '.$file->mode.
+                                 ' -o '.$file->owner.
+                                 ' -g '.$file->group.
+                                 ' "'.$MUD::ExtrasEntry::SOURCE_DIR.'/'.basename($file->source).'"'.
+                                 ' "'.$dir.'/'.$target.'"';
+      }
+      
+      $rules =~ s{^\tdh_installdirs\n$}{ "$&\t".join("\n\t", @install)."\n" }gme;
+    }
 
     # -- Write back debian/rules...
     #
