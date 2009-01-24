@@ -1,4 +1,0 @@
-#!/bin/sh
-
-echo -e '\033];vim\007'
-exec vim "$@"

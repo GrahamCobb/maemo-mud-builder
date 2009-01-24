@@ -1,0 +1,6 @@
+<extras>
+  <file name="vim.launch">
+    <destination path="/usr/bin/vim.launch"/>
+  </file>
+</extras>
+
