@@ -250,6 +250,8 @@ sub patch {
                                  ' -g '.$file->group.
                                  ' "'.$MUD::ExtrasEntry::SOURCE_DIR.'/'.basename($file->source).'"'.
                                  ' "'.$dir.'/'.$target.'"';
+                                 
+        # TODO Track if icon installed, if so auto-add postinst to update cache
       }
       
       $rules =~ s{^\tdh_installdirs\n$}{ "$&\t".join("\n\t", @install)."\n" }gme;

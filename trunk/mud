@@ -261,7 +261,8 @@ the XML file describing the package.
 sub show {
     my ($pkg) = @_;
 
-    my $data = new MUD::Package(config => $config)->load( $pkg);
+    my $obj  = new MUD::Package(config => $config)->load($pkg);
+    my $data = { format => $obj->{format}, name => $obj->{name}, xml => $obj->{data}, extras => [ $obj->extras ] };
     print Dumper($data);
 }
 
