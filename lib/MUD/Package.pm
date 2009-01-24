@@ -47,6 +47,7 @@ use XML::Simple;
 use Text::Wrap;
 use File::Spec;
 use File::Temp qw(tempfile);
+use File::Basename;
 use File::Copy;
 use Carp;
 use MUD::ExtrasEntry;
@@ -107,10 +108,32 @@ sub load {
   my $self = shift;
   my ($name) = @_;
 
-  croak "Package names must be lowercase.\n" if lc($name) ne $name;
+  # -- Check if it's a new format package...
+  #
   my $file = $self->{config}->directory('PACKAGES_DIR') . "/$name.xml";
-  croak("Unknown package '$name': can't find [$file]") unless -f $file;
-
+  if (-f $file) {
+    $self->{format} = 1; # Old-style package, spread out
+    
+  } elsif (-d $name and -f "$name/mud.xml") {
+    $self->{format} = 2; # New-format package, outside `packages'
+    $self->{basedir} = rel2abs($name).'/';
+    $name =~ s!/$!!;
+    $file = "$name/mud.xml";
+    $name = basename($name);
+    
+  } elsif (-d $self->{config}->directory('PACKAGES_DIR')."/$name.pkg") {
+    $self->{format} = 2; # New-format package, inside `packages'
+    $self->{basedir} = $self->{config}->directory('PACKAGES_DIR')."/$name.pkg/";
+    $file = $self->{basedir}.'/mud.xml';
+    
+  } else {
+    die "Unknown package [$file]\n";
+  }
+  
+  $name =~ s/\.pkg$//;
+    
+  # -- Now load the information, applying any XSLT...
+  #
   # FIXME: Should do heuristics to work out default sdk name
   my $sdk = $::OPTS{sdk} || 'diablo';
 
@@ -178,8 +201,11 @@ sub icon {
   
   my $iconFile = $self->{data}->{deb}->{icon};
   if (! -f $iconFile) {
-    foreach my $suffix (('-26.png', '-32.png', '-40.png', '-48.png', '-64.png', '')) {
-      $iconFile = $self->{config}->directory('PACKAGES_DIR').'/icon/'.$self->name.$suffix;
+    my $iconDir = $self->{format} == 1 ? $self->{config}->directory('PACKAGES_DIR').'/icon/'
+                : $self->{format} == 2 ? $self->{basedir}
+                : croak("Unsupported package format");
+    foreach my $suffix (("-$size.png", '-26.png', '-32.png', '-40.png', '-48.png', '-64.png', '')) {
+      $iconFile = $iconDir.$self->name.$suffix;
       last if -f $iconFile;
     }
   }
@@ -261,9 +287,13 @@ sub patches {
   my $self = shift;
   
   my @patches = ();
-  
-  my $patch = $self->{config}->directory('PACKAGES_DIR').'/patch/'.$self->name.'.patch';
-  push @patches, $patch if -f $patch;
+  if ($self->{format} == 1) {
+    my $patch = $self->{config}->directory('PACKAGES_DIR').'/patch/'.$self->name.'.patch';
+    push @patches, $patch if -f $patch;
+    
+  } elsif ($self->{format} == 2) {
+    push @patches, glob($self->{basedir}.'patches/*') if -d $self->{basedir}.'patches';
+  }
 
   return @patches;
 }
@@ -335,16 +365,66 @@ Return an array of L<MUD::ExtrasEntry>s which should be
 copied into C<mud-extras> in the source tree, and made available
 to the build scripts.
 
+Files in the package's C<extras> directory will be returned here,
+with (optional) metadata loaded from C<extras.xml>. 
+
+If the package is the C<.pkg> directory format, the following
+special files in the directory - if present - are automatically added
+to the returned list:
+
+=over
+
+=item I<package>-26.png =E<gt> C</usr/share/icons/hicolor/26x26/hildon/I<package>.png>
+
+=item I<package>-64.png =E<gt> C</usr/share/icons/hicolor/scalable/hildon/I<package>.png>
+
+=item I<package>.desktop =E<gt> C</usr/share/applications/hildon/I<package>.desktop>
+
+=item I<package>.service =E<gt> C</usr/share/applications/hildon/I<package>.desktop>
+
+=back
+
 If no extra files are to be installed, an empty list is returned.
 
 =cut
 
 sub extras {
   my $self = shift;
+  my @extras = ();
   
-  return (); #TODO
-  #new MUD::ExtrasEntry('/etc/debian_version', { path => '/etc/debian_version.host'}),
-  #new MUD::ExtrasEntry('/etc/profile', { path => '/etc/profile.host'})
+  return () if $self->{format} == 1;
+  croak "Unsupported format in extras()" unless $self->{format} == 2;
+  
+  # -- Look for desktop files and do some automagicification...
+  #
+  if (-f (my $desktop = $self->{basedir}."$self->{name}.desktop")) {
+    push @extras, new MUD::ExtrasEntry($desktop, { path => "/usr/share/applications/hildon/$self->{name}.desktop"} );
+    push @extras, new MUD::ExtrasEntry($self->icon(26), { path => "/usr/share/icons/hicolor/26x26/hildon/$self->{name}.png"} );
+    push @extras, new MUD::ExtrasEntry($self->icon(64), { path => "/usr/share/icons/hicolor/scalable/hildon/$self->{name}.png"} );
+    
+    if (-f (my $service = $self->{basedir}."$self->{name}.service")) {
+      push @extras, new MUD::ExtrasEntry($service, { path => "/usr/share/dbus-1/services/$self->{name}.service"} );
+    }
+  }
+  
+  #-- Glob extras and parse extras.xml...
+  #
+  if (-f (my $extrasFile = $self->{basedir}.'extras.xml') and
+      -d (my $extrasDir = $self->{basedir}.'extras')) {
+    my $xml = XMLin($extrasFile, ForceArray => qw(destination), KeyAttr => qw(name));
+    foreach my $file (glob($extrasDir.'/*')) {
+      my $destinations = $xml->{file}->{substr($file, length($extrasDir) + 1)}->{destination};
+      if ($destinations) {
+        foreach my $destination (@$destinations) {
+          push @extras, new MUD::ExtrasEntry($file, $destination)
+        }
+      } else {
+        push @extras, new MUD::ExtrasEntry($file);
+      }
+    }
+  }
+  
+  return @extras;
 }
 
 
