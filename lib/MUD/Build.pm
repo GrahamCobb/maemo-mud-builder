@@ -25,7 +25,7 @@ package MUD::Build;
 use strict;
 use utf8;
 use locale;
-use vars qw(@ISA $VERSION @PREVENT_INSTALL $DPKG_BUILDPACKAGE); 
+use vars qw(@ISA $VERSION @PREVENT_INSTALL $DPKG_BUILDPACKAGE $GTK_ICON_CACHE_REFRESH); 
 use Carp;
 use File::Basename;
 use File::Path;
@@ -41,7 +41,8 @@ $VERSION = '0.10';
 @PREVENT_INSTALL = qw(changelogs docs examples info man);
 
 # Use -i to ignore .svn directories(among others)
-$DPKG_BUILDPACKAGE = 'dpkg-buildpackage -d -rfakeroot -i -sa';
+$DPKG_BUILDPACKAGE      = 'dpkg-buildpackage -d -rfakeroot -i -sa';
+$GTK_ICON_CACHE_REFRESH = 'gtk-update-icon-cache -f /usr/share/icons/hicolor';
 
 
 =item new( OPTS )
@@ -236,7 +237,8 @@ sub patch {
     if (my @extras = $self->{data}->extras) {
       mkdir $MUD::ExtrasEntry::SOURCE_DIR;
       my @install = ();
-      my ($dir) = $rules =~ /^install:.*?# Add here commands to install the package into (.*?)\.$/ms; 
+      my ($dir) = $rules =~ /^install:.*?# Add here commands to install the package into (.*?)\.$/ms;
+      my $installedIcon = 0; 
       
       foreach my $file (@extras) {
         File::Copy::copy($file->source, $MUD::ExtrasEntry::SOURCE_DIR);
@@ -251,10 +253,23 @@ sub patch {
                                  ' "'.$MUD::ExtrasEntry::SOURCE_DIR.'/'.basename($file->source).'"'.
                                  ' "'.$dir.'/'.$target.'"';
                                  
-        # TODO Track if icon installed, if so auto-add postinst to update cache
+        $installedIcon = 1 if $target =~ m!^usr/share/icons/hicolor/!;
       }
       
       $rules =~ s{^\tdh_installdirs\n$}{ "$&\t".join("\n\t", @install)."\n" }gme;
+      
+      # Ensure postinst refreshes the icon cache
+      if ($installedIcon) {
+        if (-f "debian/postinst") {
+          open(OUT, ">>debian/postinst") or croak "Unable to append to postinst: $!\n";
+        } else {
+          open(OUT, ">debian/postinst") or croak "Unable to create postinst: $!\n";
+          print OUT "#!/bin/sh\n";
+        }
+        print OUT "$GTK_ICON_CACHE_REFRESH\n";
+        close(OUT);
+        chmod 0755, "debian/postinst";
+      }
     }
 
     # -- Write back debian/rules...
