@@ -11,8 +11,9 @@
     <configure-append>--disable-darwin --disable-xsmp --disable-netbeans --enable-gui=no --disable-gtktest --disable-gpm --disable-acl --disable-nls --enable-multibyte</configure-append>
   </build>
   <deb>
-    <version>7.2-0maemo2</version>
+    <version>7.2-0maemo4</version>
     <section>user/utilities</section>
+    <upgrade-description>An update to vim 7.2, including UTF-8 support and syntax highlighting</upgrade-description>
     <description>Powerful console text editor
     One of the most powerful text editors in existence, vim is "Vi-Improved".
     .
