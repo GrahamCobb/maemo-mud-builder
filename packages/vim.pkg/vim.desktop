@@ -3,5 +3,5 @@ Version=1.0
 Encoding=UTF-8
 Name=vim
 Icon=vim
-Exec=/usr/bin/vim.launch
+Exec=/usr/bin/vim.launch --xterm
 Type=Application
