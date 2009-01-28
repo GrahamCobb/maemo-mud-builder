@@ -491,12 +491,12 @@ sub setField {
   $wrapped =~ s/\n(\s*).?\s*\n/\n$1.\n/g;
   
   # Put the field in the correct paragraph
-  my $paragraph = $field eq 'Uploaders' ? 'Source' : 'Package';
+  my $paragraph = $field =~ /^(Uploaders|Build-Depends)$/ ? 'Source' : 'Package';
   
   if ($data =~ /^$field:/im) {
-    $data =~ s/^$field:\s.*$(^[ \t]+\S.*$)*/$1$wrapped/img;
+    $data =~ s/^$field:\s.*\n([ \t]+\S.*\n)*/$wrapped\n/img or croak "Failed to change field [$field] to [$value] in [$data]";
   } else {
-    $data =~ s/^$paragraph: .*$/$&\n$wrapped/mg;
+    $data =~ s/^$paragraph: .*$/$&\n$wrapped/mg or croak "Failed to add field [$field] with [$value] in [$data]";
   }
   
   $_[0] = $data;
