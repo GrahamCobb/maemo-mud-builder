@@ -1,0 +1,21 @@
+<package>
+  <fetch type="tarball">
+    <url>http://download.gnome.org/sources/vala/0.5/vala-0.5.7.tar.bz2</url>
+  </fetch>
+  <build>
+    <copyright>lgpl</copyright>
+  </build>
+  <deb prefix-section="0">
+    <section>programming</section>
+    <depends>c-compiler</depends>
+    <description>Vala is a modern programming language compiling to C.
+      Vala is a new programming language that aims to bring modern
+      programming language features to GNOME developers without imposing
+      any additional runtime requirements and without using a different ABI
+      compared to applications and libraries written in C.
+      .
+      Given its dependence on gcc, this is intended for use within the Maemo
+      SDK.</description>
+  </deb>
+</package>
+
