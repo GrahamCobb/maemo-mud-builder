@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Vala Sample
+Icon=vala-sample
+Exec=/usr/bin/hildon-hello
+Type=Application

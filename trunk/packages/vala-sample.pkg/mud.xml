@@ -2,7 +2,7 @@
 <package>
   <fetch type="command">
     <command>
-      PKGDIR=vala-sample-0.0.1
+      PKGDIR=vala-sample-0.0.3
       mkdir "${PKGDIR}"
       cp "${MUD_PACKAGES_DIR}/vala-sample.pkg/sample.vala" "${PKGDIR}/"
       cp "${MUD_PACKAGES_DIR}/vala-sample.pkg/Makefile" "${PKGDIR}/"
@@ -10,7 +10,7 @@
     <depends>vala</depends>
   </fetch>
   <deb>
-    <section>programming</section>
+    <section>user/development</section>
     <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
     <description>A Vala sample application.</description>
     <display-name>Vala Sample</display-name>
