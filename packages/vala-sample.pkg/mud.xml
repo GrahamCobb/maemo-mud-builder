@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="command">
+    <command>
+      PKGDIR=vala-sample-0.0.1
+      mkdir "${PKGDIR}"
+      cp "${MUD_PACKAGES_DIR}/vala-sample.pkg/sample.vala" "${PKGDIR}/"
+      cp "${MUD_PACKAGES_DIR}/vala-sample.pkg/Makefile" "${PKGDIR}/"
+    </command>
+    <depends>vala</depends>
+  </fetch>
+  <deb>
+    <section>programming</section>
+    <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
+    <description>A Vala sample application.</description>
+    <display-name>Vala Sample</display-name>
+  </deb>
+</package>
+  
