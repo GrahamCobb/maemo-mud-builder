@@ -58,7 +58,7 @@ sub fetch {
 		}
 
             } else {
-                system('fakeroot', 'apt-get', '-y', 'install', $dep);
+                system('fakeroot', 'apt-get', '-y', '--force-yes', 'install', $dep);
                 my $dpkg = `dpkg -s $dep 2>/dev/null`;
                 print $dpkg;
                 if ($dpkg !~ /Status: install ok installed/) {
