@@ -1,6 +1,9 @@
 compile:
-	valac --pkg gtk+-2.0 --pkg hildon-1 -o hildon-hello sample.vala
+	mkdir bin
+	valac --pkg gtk+-2.0 --pkg hildon-1 -o bin/hildon-hello sample.vala
 
 install:
-	mkdir -p "$(DESTDIR)/usr/bin/"
-	cp hildon-hello "$(DESTDIR)/usr/bin/"
+	dh_install bin/hildon-hello usr/bin
+
+clean:
+	rm -rf bin
