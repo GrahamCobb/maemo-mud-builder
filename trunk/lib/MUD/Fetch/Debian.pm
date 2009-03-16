@@ -137,6 +137,7 @@ sub apt {
     my $self = shift;
 
     my @args = ('apt-get', '-y',
+                           '--force-yes',
                            '-o', 'Dir::Etc::SourceList='.$self->{sources}, 
                            '-o', 'APT::Cache-Limit=20000000',
                            '-o', 'APT::Get::AllowUnauthenticated=1',
