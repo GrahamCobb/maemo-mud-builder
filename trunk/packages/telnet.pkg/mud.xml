@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian"/>
+  <deb>
+    <version>0.17-maemo2</version>
+    <section>user/network</section>
+    <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
+  </deb>
+</package>
