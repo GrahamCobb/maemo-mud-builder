@@ -7,7 +7,7 @@
     <configure-append>--enable-maintainer-mode --disable-dependency-tracking</configure-append>
   </build>
   <deb prefix-section="0">
-    <version>0.7.3-maemo1</version>
+    <version>0.7.3-maemo3</version>
     <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
     <section>programming</section>
     <depends>c-compiler</depends>
