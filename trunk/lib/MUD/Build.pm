@@ -311,7 +311,7 @@ sub compile {
           while (<LOG>) {
               $inNeeded ||= /^Packages needed:$/;
               next unless $inNeeded and m/^  ([^\s\r\n]+)$/;
-              push @buildDeps, $1;
+              push @buildDeps, $1 if $1 ne $self->{data}->name;
           }
           close(LOG);
       }
