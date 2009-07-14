@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Horizon
+Icon=horizon
+Exec=/usr/bin/horizon
+X-Osso-Service=org.maemo.horizon
+Type=Application

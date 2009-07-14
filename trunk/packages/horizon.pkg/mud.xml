@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="command">
+    <command>
+      PKGDIR=horizon-0.0.3
+      mkdir "${PKGDIR}"
+      cp "${MUD_PACKAGES_DIR}/horizon.pkg/"*.py "${PKGDIR}/"
+      cp "${MUD_PACKAGES_DIR}/horizon.pkg/"{Makefile,horizon} "${PKGDIR}/"
+    </command>
+  </fetch>
+  <deb>
+    <depends>python-runtime | python2.5-runtime</depends>
+    <section>user/graphics</section>
+    <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
+    <description>An artificial horizon and spirit level.
+      This application shows the pitch and roll of an accelerometer
+      enabled device. In the absence of accelerometers, it shows a
+      twisty turny path through the sky.
+      .
+      The application can also be used as a spirit level, showing the
+      pitch angle in degrees.
+    </description>
+    <display-name>Horizon</display-name>
+  </deb>
+</package>
+
