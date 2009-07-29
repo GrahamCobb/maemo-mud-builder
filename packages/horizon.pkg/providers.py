@@ -9,23 +9,28 @@ from math import sin, cos, pi
 class Dummy:
     """One of the simplest providers: returns dead-on, flat."""
     def position(self):
-        return (0, -1000, 0)
+        #return (0, 0, -1000) # Back down
+        #return (0, 0, 1000)  # Front down
+        #return (-1000, 0, 0) # Right edge down
+        #return (1000, 0, 0)  # Left edge down
+        #return (0, -1000, 0) # Bottom edge down
+        return (-500, -500, 0) # Bottom right down
 
 
 class Demo:
     """A demonstration provider which will take the user on a tour through
        the air."""
-    x = 0
-    y = -1000
-    z = 0
+    x = 0.0
+    y = 0.0
+    z = 0.0
     
     def position(self):
-        self.x -= 2
-        self.y += 1
-        self.z += 2
-        return (sin(self.x / 150.0 * pi) * 150,
-                cos(self.y / 150.0 * pi) * 200,
-                sin(self.z / 150.0 * pi) * 300)
+        self.x += 0.1
+        self.y += 0.04
+        self.z += 0.03
+        return (sin(self.x) * 550,
+                sin(self.y) * 400 - 200,
+                sin(self.z) * 450)
 
 
 class NokiaAccelerometer:
