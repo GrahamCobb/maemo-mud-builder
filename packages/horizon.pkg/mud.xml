@@ -2,7 +2,7 @@
 <package>
   <fetch type="command">
     <command>
-      PKGDIR=horizon-0.0.3
+      PKGDIR=horizon-0.0.4
       mkdir "${PKGDIR}"
       cp "${MUD_PACKAGES_DIR}/horizon.pkg/"*.py "${PKGDIR}/"
       cp "${MUD_PACKAGES_DIR}/horizon.pkg/"{Makefile,horizon} "${PKGDIR}/"
