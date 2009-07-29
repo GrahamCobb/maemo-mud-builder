@@ -72,9 +72,7 @@ class Horizon(Screen):
         
         (x, y, z) = self.provider.position()
         boundary = max(min(z / 1000.0, 1), -1)
-        rotation = atan2(x, y) - pi
-        if (rotation < -pi):
-          rotation += 2*pi
+        rotation = atan2(x, -y)
         
         if (self.rotation <> rotation or self.boundary <> boundary):
           self.rotation = rotation
