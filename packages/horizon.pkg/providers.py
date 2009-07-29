@@ -42,7 +42,9 @@ class NokiaAccelerometer:
     
     def position(self):
         f = open(ACCELEROMETER_PATH, 'r')
-        return [int(w) for w in f.readline().split()]
+        coords = [int(w) for w in f.readline().split()]
+        f.close()
+        return coords
 
     @classmethod
     def available(cls):
