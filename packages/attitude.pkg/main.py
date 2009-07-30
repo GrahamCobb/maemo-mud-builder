@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Main class for `Horizon' - a false horizon display using accelerometer
+# Main class for `Attitude' - a false horizon display using accelerometer
 # information.                              (c) Andrew Flegg 2009
 #                                           Released under the Artistic Licence
 
@@ -13,7 +13,7 @@ import cairo
 import gtk
 from math import pi, sin, atan2, degrees
 
-class Horizon(Screen):
+class Attitude(Screen):
     """Create and manage a Cairo display using an external information
     system providing accelerometer information.
     
@@ -43,11 +43,11 @@ class Horizon(Screen):
         if (visible == self.visible):
           return
           
-        super(Horizon, self).set_visible(visible)
+        super(Attitude, self).set_visible(visible)
         print "Visibility change: %d" % (visible)
         if (visible):
           self.update_display()
-          gobject.timeout_add(self.freq, Horizon.update_display, self)
+          gobject.timeout_add(self.freq, Attitude.update_display, self)
         
     # -----------------------------------------------------------------------
     def show(self):
@@ -159,5 +159,5 @@ if __name__ == "__main__":
     else:
       provider = providers.Demo()
       
-    framework.run(Horizon(provider))
+    framework.run(Attitude(provider))
 

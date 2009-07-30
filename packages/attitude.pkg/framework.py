@@ -151,12 +151,12 @@ class Screen(gtk.DrawingArea):
 # Create and set-up the application, window, event handlers etc.
 def run(widget):
     if (has_hildon):
-      print "+++ Hildon, yay!\n"
+      print "+++ Hildon, yay!"
       widget.app = hildon.Program()
       window = hildon.Window()
       gtk.set_application_name(widget.display_name)
     else:
-      print "--- No Hildon, sorry\n"
+      print "--- No Hildon, sorry"
       window = gtk.Window()
       window.set_title(widget.display_name)
       
@@ -170,7 +170,7 @@ def run(widget):
     window.connect("property-notify-event", widget.do_property_event)
     
     if (has_osso):
-      print "+++ Have osso, yay!\n"
+      print "+++ Have osso, yay!"
       try:
         osso_context = osso.Context(widget.dbus_name, widget.version, False)
         device = osso.DeviceState(osso_context)

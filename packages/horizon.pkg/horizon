@@ -1,4 +1,0 @@
-#!/bin/sh
-
-PYTHON=`which python2.5` || PYTHON=`which python`
-exec $PYTHON /usr/lib/python2.5/site-packages/horizon/main.py "$@"

@@ -2,10 +2,10 @@
 <package>
   <fetch type="command">
     <command>
-      PKGDIR=horizon-0.0.5
+      PKGDIR=attitude-0.0.6
       mkdir "${PKGDIR}"
-      cp "${MUD_PACKAGES_DIR}/horizon.pkg/"*.py "${PKGDIR}/"
-      cp "${MUD_PACKAGES_DIR}/horizon.pkg/"{Makefile,horizon} "${PKGDIR}/"
+      cp "${MUD_PACKAGES_DIR}/attitude.pkg/"*.py "${PKGDIR}/"
+      cp "${MUD_PACKAGES_DIR}/attitude.pkg/"{Makefile,attitude} "${PKGDIR}/"
     </command>
   </fetch>
   <deb>
@@ -20,7 +20,7 @@
       The application can also be used as a spirit level, showing the
       pitch angle in degrees.
     </description>
-    <display-name>Horizon</display-name>
+    <display-name>Attitude</display-name>
   </deb>
 </package>
 
