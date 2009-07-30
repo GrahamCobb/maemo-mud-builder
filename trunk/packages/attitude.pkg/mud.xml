@@ -9,7 +9,7 @@
     </command>
   </fetch>
   <deb>
-    <depends>python-runtime | python2.5-runtime</depends>
+    <depends>python-imaging | python2.5-imaging, python-osso | python2.5-osso, python-hildon | python2.5-hildon</depends>
     <section>user/graphics</section>
     <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
     <description>An artificial horizon and spirit level.
