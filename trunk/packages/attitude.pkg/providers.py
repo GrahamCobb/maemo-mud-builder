@@ -1,5 +1,5 @@
 #
-# Provider information sources for `Horizon' - a false horizon display using
+# Provider information sources for `Attitude' - a false horizon display using
 # accelerometer information.                (c) Andrew Flegg 2009
 #                                           Released under the Artistic Licence
 
@@ -28,8 +28,8 @@ class Demo:
         self.x += 0.1
         self.y += 0.04
         self.z += 0.03
-        return (sin(self.x) * 550,
-                sin(self.y) * 400 - 200,
+        return (sin(self.x) * 350,
+                sin(self.y) * 400 - 100,
                 sin(self.z) * 450)
 
 

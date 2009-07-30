@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Attitude
+Icon=attitude
+Exec=/usr/bin/attitude
+X-Osso-Service=org.maemo.attitude
+Type=Application

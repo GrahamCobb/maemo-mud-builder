@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.maemo.attitude
+Exec=/usr/bin/attitude
