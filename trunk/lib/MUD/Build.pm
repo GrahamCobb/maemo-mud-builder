@@ -41,7 +41,7 @@ $VERSION = '0.10';
 @PREVENT_INSTALL = qw(changelogs docs examples info man);
 
 # Use -i to ignore .svn directories(among others)
-$DPKG_BUILDPACKAGE      = 'dpkg-buildpackage -d -rfakeroot -i -sa';
+$DPKG_BUILDPACKAGE      = 'dpkg-buildpackage -d -rfakeroot -i -sa -us -uc';
 $GTK_ICON_CACHE_REFRESH = 'gtk-update-icon-cache -f /usr/share/icons/hicolor';
 
 
