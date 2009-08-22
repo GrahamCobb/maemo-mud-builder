@@ -2,7 +2,7 @@
 <package>
   <fetch type="command">
     <command>
-      PKGDIR=attitude-0.0.6
+      PKGDIR=attitude-0.0.7
       mkdir "${PKGDIR}"
       cp "${MUD_PACKAGES_DIR}/attitude.pkg/"*.py "${PKGDIR}/"
       cp "${MUD_PACKAGES_DIR}/attitude.pkg/"{Makefile,attitude} "${PKGDIR}/"
@@ -10,6 +10,7 @@
   </fetch>
   <deb>
     <depends>python-imaging | python2.5-imaging, python-osso | python2.5-osso, python-hildon | python2.5-hildon</depends>
+    <architecture>any</architecture>
     <section>user/graphics</section>
     <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
     <description>An artificial horizon and spirit level.
