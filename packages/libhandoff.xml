@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="libhandoff"
-    date="20081212"
+    date="20090125"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used

@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="gpe-contacts"
-    date="20081212"
+    date="20090125"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -24,9 +24,11 @@
     cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
     rm -f $pkgdir/debian/changelog.tmp
     </command>
-    <depends sdk="gregale">libgpevtype, libcontactsdb, libeventdb, libgpepimc, libgpewidget, libmimedir-gnome, gpe-icons</depends>
-    <depends sdk="bora">libgpevtype, libcontactsdb, libeventdb, libgpepimc, libgpewidget, libmimedir-gnome, gpe-icons</depends>
+    <depends sdk="gregale">libgpevtype, libcontactsdb, libeventdb, libgpepimc, libgpewidget, libmimedir-gnome, gpe-icons, hildon-libs-dev</depends>
+    <depends sdk="bora">libgpevtype, libcontactsdb, libeventdb, libgpepimc, libgpewidget, libmimedir-gnome, gpe-icons, hildon-libs-dev</depends>
     <depends sdk="chinook">libgpevtype, libcontactsdb, libeventdb, libgpepimc, libgpewidget, libmimedir-gnome, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
+    <depends sdk="diablo">libgpevtype, libcontactsdb, libeventdb, libgpepimc, libgpewidget, libmimedir-gnome, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
+    <depends sdk="fremantle">libgpevtype, libcontactsdb, libeventdb, libgpepimc, libgpewidget, libmimedir-gnome, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
   </fetch>
   <build>
     <configure-append>--enable-hildon --disable-cairo</configure-append>
@@ -36,9 +38,13 @@
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE PIM suite contact manager\nIncludes category support.\nPackaged with MUD</description>
     <depends sdk="chinook">gpe-icons (&gt;= ${source:Version}), gpesummary (&gt;= ${source:Version}), gpesyncd (&gt;= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="diablo">gpe-icons (&gt;= ${source:Version}), gpesummary (&gt;= ${source:Version}), gpesyncd (&gt;= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="fremantle">gpe-icons (&gt;= ${source:Version}), gpesummary (&gt;= ${source:Version}), gpesyncd (&gt;= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <depends sdk="bora">gpe-icons (&gt;= ${Source-Version}), gpesummary (&gt;= ${Source-Version}), gpesyncd (&gt;= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <depends sdk="gregale">gpe-icons (&gt;= ${Source-Version}), gpesummary (&gt;= ${Source-Version}), gpesyncd (&gt;= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <build-depends sdk="chinook">debhelper (&gt;= 4.0.0), libgpevtype-dev, libcontactsdb-dev, libeventdb-dev, libgpepimc-dev, libgpewidget-dev, libmimedir-gnome-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
+    <build-depends sdk="diablo">debhelper (&gt;= 4.0.0), libgpevtype-dev, libcontactsdb-dev, libeventdb-dev, libgpepimc-dev, libgpewidget-dev, libmimedir-gnome-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
+    <build-depends sdk="fremantle">debhelper (&gt;= 4.0.0), libgpevtype-dev, libcontactsdb-dev, libeventdb-dev, libgpepimc-dev, libgpewidget-dev, libmimedir-gnome-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
     <display-name>GPE Contacts</display-name>
     <!-- <upgrade-description>Daily testing build of GPE PIM suite contact manager</upgrade-description> -->
     <upgrade-description>Updated beta of GPE PIM suite contact manager\nChanges include:\n- Additional import fixes\n- Fix command line import (bug 230)\n- Category changes automatically updated (bug 80)\n- Translation updates\n- Change name to GPE Contacts and update menu items and icons</upgrade-description>

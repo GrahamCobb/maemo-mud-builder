@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="gpe-filemanager"
-    date="20081212"
+    date="20090125"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -16,9 +16,11 @@
     branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
     svn export -r {${date}T0000Z} $branch/$pkg $pkgdir
     </command>
-    <depends sdk="gregale">libgpewidget, gpe-icons</depends>
-    <depends sdk="bora">libgpewidget, gpe-icons</depends>
+    <depends sdk="gregale">libgpewidget, gpe-icons, hildon-libs-dev</depends>
+    <depends sdk="bora">libgpewidget, gpe-icons, hildon-libs-dev</depends>
     <depends sdk="chinook">libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
+    <depends sdk="diablo">libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
+    <depends sdk="fremantle">libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
   </fetch>
   <build>
     <configure-append>--enable-hildon --disable-cairo</configure-append>
@@ -28,6 +30,8 @@
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>File manager consistent with the other GPE applications\nPackaged with MUD</description>
     <build-depends sdk="chinook">debhelper (&gt;= 5), libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
+    <build-depends sdk="diablo">debhelper (&gt;= 5), libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
+    <build-depends sdk="fremantle">debhelper (&gt;= 5), libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
     <display-name>GPE File manager</display-name>
     <!-- <upgrade-description>Daily testing build of GPE suite file manager</upgrade-description> -->
     <upgrade-description>Updated beta of GPE suite file manager\nChanges include:\n- Translation updates\n- Change name to GPE File manager and update menu items and icons</upgrade-description>

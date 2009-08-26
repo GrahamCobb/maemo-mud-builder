@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="libsoundgen"
-    date="20081212"
+    date="20090125"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -19,6 +19,9 @@
    <depends sdk="gregale">libglib2.0-dev</depends>
    <depends sdk="bora">libglib2.0-dev</depends>
    <depends sdk="chinook">libglib2.0-dev, libesd0-dev</depends>
+   <depends sdk="diablo">libglib2.0-dev, libesd0-dev</depends>
+   <!-- <depends sdk="fremantle">libglib2.0-dev, libesd0-dev</depends> -->
+   <depends sdk="fremantle">libglib2.0-dev</depends>
   </fetch>
   <build>
   </build>
@@ -27,6 +30,8 @@
     <description>GPE libsoundgen library\nPackaged with MUD</description>
     <library>libsoundgen0</library>
     <build-depends sdk="chinook">debhelper (&gt;= 5), libglib2.0-dev, libesd0-dev</build-depends>
+    <build-depends sdk="diablo">debhelper (&gt;= 5), libglib2.0-dev, libesd0-dev</build-depends>
+    <build-depends sdk="fremantle">debhelper (&gt;= 5), libglib2.0-dev, libesd0-dev</build-depends>
     <build-depends sdk="bora">debhelper (&gt;= 5), libglib2.0-dev</build-depends>
   </deb>
 </package>
