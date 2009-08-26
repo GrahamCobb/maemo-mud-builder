@@ -4,7 +4,7 @@
     <command>
     pkg="xsisusb"
     date="20080615"
-    release="0.2+"
+    release="0.3+1"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -24,12 +24,15 @@
     cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
     rm -f $pkgdir/debian/changelog.tmp
     </command>
-    <depends>maemo-sdk-dev</depends>
+    <depends sdk="chinook">x11proto-randr-dev, x11proto-xf86bigfont-dev, x11proto-record-dev, x11proto-scrnsaver-dev, x11proto-bigreqs-dev, libxmuu-dev, libhal-dev, x11proto-xsp-dev, x11proto-xinerama-dev, x11proto-xcmisc-dev, tslib-dev, x11proto-video-dev, x11proto-composite-dev, libxfixes-dev, libxfont-dev, x11proto-damage-dev, libxrender-dev, libxkbfile-dev, libsdl1.2-dev, x11proto-resource-dev, quilt</depends>
+    <depends sdk="fremantle">x11proto-randr-dev, x11proto-xf86bigfont-dev, x11proto-record-dev, x11proto-scrnsaver-dev, x11proto-bigreqs-dev, libxmuu-dev, libhal-dev, x11proto-xsp-dev, x11proto-xinerama-dev, x11proto-xcmisc-dev, libts-dev, x11proto-video-dev, x11proto-composite-dev, libxfixes-dev, libxfont-dev, x11proto-damage-dev, libxrender-dev, libxkbfile-dev, libsdl1.2-dev, x11proto-resource-dev, quilt</depends>
+    <!-- <depends>libxfixes-dev, libsdl1.2-dev, debhelper, pkg-config, bison, x11proto-bigreqs-dev, x11proto-composite-dev, x11proto-core-dev, x11proto-damage-dev, x11proto-fixes-dev, x11proto-kb-dev, x11proto-xinerama-dev, x11proto-randr-dev, x11proto-record-dev, x11proto-render-dev, x11proto-resource-dev, x11proto-scrnsaver-dev, x11proto-trap-dev, x11proto-video-dev, x11proto-xcmisc-dev, x11proto-xext-dev, x11proto-xf86bigfont-dev, x11proto-input-dev, xtrans-dev, libxau-dev, libxdmcp-dev, libxfont-dev, libfontenc-dev, libxkbfile-dev, libxmuu-dev, libxext-dev, libx11-dev, libxrender-dev, libxi-dev, x11proto-xsp-dev, tslib-dev, linux-kernel-headers, libhal-dev</depends> -->
+    <!-- <depends>libxfixes-dev, libsdl1.2-dev, debhelper, pkg-config, bison, flex, x11proto-bigreqs-dev, x11proto-composite-dev, x11proto-core-dev, x11proto-damage-dev, x11proto-fixes-dev, x11proto-kb-dev, x11proto-xinerama-dev, x11proto-randr-dev, x11proto-record-dev, x11proto-render-dev, x11proto-resource-dev, x11proto-scrnsaver-dev, x11proto-trap-dev, x11proto-video-dev, x11proto-xcmisc-dev, x11proto-xext-dev, x11proto-xf86bigfont-dev, x11proto-input-dev, xtrans-dev, libxau-dev, libxdmcp-dev, libxfont-dev, libfontenc-dev, libxkbfile-dev, libxmuu-dev, libxext-dev, libx11-dev, libxrender-dev, libxi-dev, quilt, x11proto-xsp-dev, tslib-dev, linux-kernel-headers, libhal-dev</depends> -->
+    <!-- <depends>maemo-sdk-dev</depends> -->
   </fetch>
   <build>
   </build>
   <deb prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
-    <!-- <build-depends>debhelper (>= 4.0.0), pkg-config, bison, flex, x11proto-bigreqs-dev, x11proto-composite-dev (>= 0.3), x11proto-core-dev (>= 7.0.8), x11proto-damage-dev (>> 1.1.0), x11proto-fixes-dev (>> 4.0), x11proto-kb-dev (>> 1.0.3), x11proto-xinerama-dev, x11proto-randr-dev (>> 1.2), x11proto-record-dev, x11proto-render-dev, x11proto-resource-dev, x11proto-scrnsaver-dev, x11proto-trap-dev, x11proto-video-dev, x11proto-xcmisc-dev, x11proto-xext-dev (>= 6.9.99.0-1), x11proto-xf86bigfont-dev, x11proto-input-dev (>> 1.4.1), xtrans-dev, libxau-dev (>= 1:0.99.1-1), libxdmcp-dev (>= 1:0.99.1-1), libxfont-dev, libfontenc-dev, libxkbfile-dev (>= 1:0.99.1-1), libxmuu-dev (>= 1:0.99.1-1) [i386 amd64], libxext-dev (>= 1:1.0.0-3) [i386 amd64], libx11-dev (>= 2:1.0.0-6osso1) [i386 amd64], libxrender-dev (>= 1:0.9.0-1) [i386 amd64], libxi-dev (>= 1:0.99.1-1) [i386 amd64], quilt, x11proto-xsp-dev, tslib-dev [arm armel], linux-kernel-headers (>= 2.6.16.osso3), libhal-dev</build-depends> -->
   </deb>
 </package>

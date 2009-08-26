@@ -1,0 +1,28 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -106,9 +106,9 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-
++#
+ 	dh_installdocs
+-	dh_installchangelogs
++#	dh_installchangelogs
+ 	dh_install --sourcedir=debian/tmp
+ #	dh_installinit -pxsisusb --name=x-server -u"start 21 2 3 4 5 . stop 23 0 1 6 ." --no-start
+ 	dh_link
+Index: render/renderedge.c
+===================================================================
+--- render/renderedge.c	(revision 1)
++++ render/renderedge.c	(working copy)
+@@ -26,6 +26,7 @@
+ #include <dix-config.h>
+ #endif
+ 
++#include <X11/X.h>
+ #include "renderedge.h"
+ 
+ /*
