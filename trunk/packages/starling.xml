@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="starling"
-    date="20081212"
+    date="20090125"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -27,9 +27,11 @@
     source ./autogen.sh
     echo "Autogen done"
     </command>
-    <depends sdk="gregale">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, libhandoff</depends>
-    <depends sdk="bora">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, libhandoff</depends>
+    <depends sdk="gregale">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, libhandoff, hildon-libs-dev</depends>
+    <depends sdk="bora">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, libhandoff, hildon-libs-dev</depends>
     <depends sdk="chinook">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, libhandoff</depends>
+    <depends sdk="diablo">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, libhandoff</depends>
+    <depends sdk="fremantle">libgpewidget, libsqlite0-dev, libsoup2.2-dev, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, libhandoff</depends>
   </fetch>
   <build>
   </build>
@@ -40,7 +42,11 @@
     <depends sdk="gregale">gstreamer0.10-indt-playbinmaemo, gpe-icons (&gt;=${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <depends sdk="bora">gstreamer0.10-indt-playbinmaemo, gpe-icons (&gt;=${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <depends sdk="chinook">gpe-icons (&gt;=${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="diablo">gpe-icons (&gt;=${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
+    <depends sdk="fremantle">gpe-icons (&gt;=${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <build-depends sdk="chinook">debhelper (&gt;= 5), libgpewidget-dev, libsqlite0-dev, libsoup2.2-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, bison, libhandoff-dev, libbluetooth2-dev, libasound2-dev, cdbs, libxaw-headers, libsdl1.2-dev, gtk-doc-tools</build-depends>
+    <build-depends sdk="diablo">debhelper (&gt;= 5), libgpewidget-dev, libsqlite0-dev, libsoup2.2-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, bison, libhandoff-dev, libbluetooth2-dev, libasound2-dev, cdbs, libxaw-headers, libsdl1.2-dev, gtk-doc-tools</build-depends>
+    <build-depends sdk="fremantle">debhelper (&gt;= 5), libgpewidget-dev, libsqlite0-dev, libsoup2.2-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, bison, libhandoff-dev, libbluetooth2-dev, libasound2-dev, cdbs, libxaw-headers, libsdl1.2-dev, gtk-doc-tools</build-depends>
     <recommends>ogg-support</recommends>
     <display-name>GPE Audio player</display-name>
     <!-- <upgrade-description>Daily testing build of GPE suite audio player</upgrade-description> -->

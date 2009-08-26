@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="gpe-timesheet"
-    date="20081212"
+    date="20090125"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -16,9 +16,11 @@
     branch="svn://projects.linuxtogo.org/svn/gpe/trunk/base"
     svn export -r {${date}T0000Z} $branch/$pkg $pkgdir
     </command>
-    <depends sdk="gregale">libtododb, libgpewidget</depends>
-    <depends sdk="bora">libtododb, libgpewidget</depends>
+    <depends sdk="gregale">libtododb, libgpewidget, hildon-libs-dev</depends>
+    <depends sdk="bora">libtododb, libgpewidget, hildon-libs-dev</depends>
     <depends sdk="chinook">libtododb, libgpewidget, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
+    <depends sdk="diablo">libtododb, libgpewidget, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
+    <depends sdk="fremantle">libtododb, libgpewidget, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
   </fetch>
   <build>
     <configure-append>--enable-hildon --disable-cairo</configure-append>
@@ -28,6 +30,8 @@
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE PIM suite time recording application\nRecords time against tasks and sub-tasks.\nPackaged with MUD</description>
     <build-depends sdk="chinook">debhelper (&gt;= 5), libtododb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
+    <build-depends sdk="diablo">debhelper (&gt;= 5), libtododb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
+    <build-depends sdk="fremantle">debhelper (&gt;= 5), libtododb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
     <display-name>GPE Timesheet</display-name>
     <!-- <upgrade-description>Daily testing build for GPE suite time tracker</upgrade-description> -->
     <upgrade-description>Updated beta of GPE PIM suite time tracker\nChanges include:\n- Translation updates\n- Change name to GPE Timesheet and update menu items and icons</upgrade-description>

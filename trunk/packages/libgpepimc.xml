@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="libgpepimc"
-    date="20081212"
+    date="20090125"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -24,9 +24,11 @@
     cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
     rm -f $pkgdir/debian/changelog.tmp
     </command>
-    <depends sdk="gregale">libsqlite0-dev, libgpewidget</depends>
-    <depends sdk="bora">libsqlite0-dev, libgpewidget</depends>
+    <depends sdk="gregale">libsqlite0-dev, libgpewidget, libgtk2.0-dev, libglib2.0-dev, intltool, hildon-libs-dev</depends>
+    <depends sdk="bora">libsqlite0-dev, libgpewidget, libgtk2.0-dev, libglib2.0-dev, intltool, hildon-libs-dev</depends>
     <depends sdk="chinook">libsqlite0-dev, libgpewidget, autotools-dev, libgtk2.0-dev, libglib2.0-dev, intltool, libhildon1-dev</depends>
+    <depends sdk="diablo">libsqlite0-dev, libgpewidget, autotools-dev, libgtk2.0-dev, libglib2.0-dev, intltool, libhildon1-dev</depends>
+    <depends sdk="fremantle">libsqlite0-dev, libgpewidget, autotools-dev, libgtk2.0-dev, libglib2.0-dev, intltool, libhildon1-dev</depends>
   </fetch>
   <build>
     <configure-append>--enable-hildon --disable-cairo</configure-append>
@@ -36,5 +38,7 @@
     <description>GPE libgpepimc library\nCategory handling for GPE PIM applications.\nPackaged with MUD</description>
     <library>libgpepimc1</library>
     <build-depends sdk="chinook">debhelper (&gt;= 4.0.0), autotools-dev, libgtk2.0-dev, libglib2.0-dev, libsqlite0-dev, libgpewidget-dev, intltool, libhildon1-dev</build-depends>
+    <build-depends sdk="diablo">debhelper (&gt;= 4.0.0), autotools-dev, libgtk2.0-dev, libglib2.0-dev, libsqlite0-dev, libgpewidget-dev, intltool, libhildon1-dev</build-depends>
+    <build-depends sdk="fremantle">debhelper (&gt;= 4.0.0), autotools-dev, libgtk2.0-dev, libglib2.0-dev, libsqlite0-dev, libgpewidget-dev, intltool, libhildon1-dev</build-depends>
   </deb>
 </package>
