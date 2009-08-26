@@ -2,7 +2,7 @@
 <package>
   <fetch type="command">
     <command>
-    pkg="opensync-plugin-file"
+    pkg="0synctool"
     date="20090316"
     release="0.38+1"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
@@ -14,7 +14,7 @@
     if [ "$majmin" = "$release" ] ; then majmin=${release%+*} ; version="${majmin}+maemo+svn$date-$debver" ; fi
     pkgdir="$pkg-$version"
     branch="http://svn.opensync.org"
-    svn export -r {${date}T0000Z} $branch/plugins/file-sync $pkgdir/source
+    svn export -r {${date}T0000Z} $branch/osynctool/trunk $pkgdir/source
     </command>
     <depends>libopensync</depends>
   </fetch>
@@ -24,6 +24,5 @@
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>opensync packaged with mud</description>
     <build-Depends>debhelper (&gt;= 5), cmake, libopensync-dev</build-Depends>
-    <depends>${shlibs:Depends}, opensync-format-plugin-vformat</depends>
   </deb>
 </package>

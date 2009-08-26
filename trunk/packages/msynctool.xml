@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="msynctool"
-    date="20080615"
-    release="0.36+"
+    date="20080828"
+    release="0.38+1"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}

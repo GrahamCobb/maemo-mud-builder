@@ -2,35 +2,22 @@ Index: source/src/gpe-sync
 ===================================================================
 --- source/src/gpe-sync	(revision 1)
 +++ source/src/gpe-sync	(working copy)
-@@ -34,24 +34,17 @@
- 
- 	In this case, the <handheld_ip> and <handheld_port> tags can be used.
- 
--  Either customise the <ssh> configuration shown below or remove it and uncomment
--  one of the other sections.  Each section is configured to show the default values
--  used if the tags are not specified. 
+@@ -55,13 +55,13 @@
+   one of the other sections.  Each section is configured to show the default values
+   used if the tags are not specified. 
    -->
--  <ssh>
-+  <!-- <ssh>
-     <handheld_ip>127.0.0.1</handheld_ip>
-     <handheld_user>gpeuser</handheld_user>
--  </ssh>
--  <!--
-+  </ssh> -->
-   <local>
-   </local>
--  -->
--  <!--
--  <remote>
-+  <!-- <remote>
-     <handheld_ip>127.0.0.1</handheld_ip>
-     <handheld_port>6446</handheld_port>
--  </remote>
--  -->
-+  </remote> -->
- 
-   <!--
-   The <calendar> tag can be used to specify which GPE calendar
+-  <Authentication><Username>gpeuser</Username></Authentication>
++  <!-- <Authentication><Username>gpeuser</Username></Authentication>
+   <Connection><ActiveConnection>Network</ActiveConnection>
+    <Network>
+     <Address>127.0.0.1</Address>
+     <Protocol>ssh</Protocol>
+    </Network>
+-  </Connection>
++  </Connection> -->
+   <!-- for local access, specify nothing
+   -->
+   <!-- for remote gpesyncd access:
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)

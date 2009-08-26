@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="opensync-format-plugin-vformat"
-    date="20080615"
-    release="0.36+"
+    date="20090316"
+    release="0.38+1"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -23,9 +23,10 @@
   </fetch>
   <build>
   </build>
-  <deb>
+  <deb prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>opensync packaged with mud</description>
+    <depends>${shlibs:Depends}, opensync-format-plugin-xmlformat</depends>
     <build-Depends>debhelper (&gt;= 5), cmake, libopensync-dev</build-Depends>
   </deb>
 </package>

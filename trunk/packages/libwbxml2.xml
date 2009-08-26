@@ -2,6 +2,7 @@
 <package>
   <fetch type="tarball">
     <url>http://prdownloads.sourceforge.net/wbxmllib/wbxml2-0.9.2.tar.gz</url>
+    <depends>libexpat1-dev</depends>
   </fetch>
   <build>
   </build>

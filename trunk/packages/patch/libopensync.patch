@@ -2074,18 +2074,6 @@ Index: source/opensync/merger/xmlDOMWrapAdoptNode.c
 +}
 +
 +#endif /* LIBXML_VERSION */
-Index: source/opensync/CMakeLists.txt
-===================================================================
---- source/opensync/CMakeLists.txt	(revision 1)
-+++ source/opensync/CMakeLists.txt	(working copy)
-@@ -43,6 +43,7 @@
-    merger/opensync_capabilities.c
-    merger/opensync_capability.c
-    merger/opensync_merger.c
-+   merger/xmlDOMWrapAdoptNode.c
-    module/opensync_module.c
-    plugin/opensync_plugin_authentication.c
-    plugin/opensync_plugin.c
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
@@ -2159,7 +2147,7 @@ Index: debian/libopensync-dev.install
  usr/lib/*.la
  usr/share/pkgconfig/*
 +usr/bin/*
-+usr/share/opensync-1.0/cmake
++usr/share/*/cmake
 +
 Index: debian/libopensync1.dirs
 ===================================================================
@@ -2174,8 +2162,8 @@ Index: debian/libopensync1.install
 +++ debian/libopensync1.install	(working copy)
 @@ -1 +1,6 @@
  usr/lib/lib*.so.*
-+usr/lib/opensync-1.0/osplugin
-+usr/lib/opensync-1.0/formats
-+usr/share/opensync-1.0/capabilities
-+usr/share/opensync-1.0/descriptions
-+usr/share/opensync-1.0/schemas
++usr/lib/*/osplugin
++usr/lib/*/formats
++usr/share/*/capabilities
++usr/share/*/descriptions
++usr/share/*/schemas
