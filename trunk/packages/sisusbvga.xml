@@ -2,9 +2,9 @@
 <package>
   <fetch type="command">
     <command>
-    pkg="sisusbvga-2.6.21"
+    pkg="sisusbvga"
     date="20080615"
-    release="0.2+"
+    release="0.3+1"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
