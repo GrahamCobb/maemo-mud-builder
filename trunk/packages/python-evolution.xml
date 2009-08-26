@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>http://files.conduit-project.org/releases/evolution-python-0.0.4.tar.gz</url>
+  </fetch>
+  <build>
+    <configure-append>--disable-ecal LDFLAGS="" PYTHON=/usr/bin/python2.5</configure-append>
+  </build>
+  <deb>
+    <section>python</section>
+    <version>0.0.4-maemo1</version>
+    <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
+    <description>Python bindings for Evolution Data Server.\nAdd python support to evolution-data-server through producing bindings for libebook.</description>
+  </deb>
+</package>
