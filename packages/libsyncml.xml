@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="libsyncml"
-    date="20080615"
-    release="0.35+"
+    date="20090316"
+    release="0.38+1"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -13,8 +13,8 @@
     majmin=${release%-*} ; version="$majmin+maemo-$debver"
     if [ "$majmin" = "$release" ] ; then majmin=${release%+*} ; version="${majmin}+maemo+svn$date-$debver" ; fi
     pkgdir="$pkg-$version"
-    branch="http://svn.opensync.org/libsyncml"
-    svn export -r {${date}T0000Z} $branch/trunk $pkgdir
+    branch="http://svn.opensync.org/libsyncml/branches/libsyncml-0.5.x"
+    svn export -r {${date}T0000Z} $branch $pkgdir
     </command>
     <depends>libopenobex, libsoup2.2-dev, libwbxml2, libbluetooth2-dev</depends>
   </fetch>
