@@ -37,7 +37,7 @@ Index: debian/control
 +Architecture: armel i386
  Section: libs
 -Depends: ${shlibs:Depends}, esound-common (>= ${source:Version})
-+Depends: ${shlibs:Depends}
++Depends: pulseaudio-esound-compat, ${shlibs:Depends}
  Suggests: esound-clients, esound
  Conflicts: esound-clients (<< 0.2.36-1)
  Description: Enlightened Sound Daemon - Shared libraries
