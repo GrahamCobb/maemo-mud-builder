@@ -122,7 +122,7 @@ sub addSource {
     close(IN);
 
     $data .= "\ndeb-src $store\n" unless $foundSrc;
-    $data .= "\ndeb     $store\n" unless $foundBin;
+    $data .= "\n#deb     $store\n" unless $foundBin;
 
     open(OUT, ">$file") or croak("Unable to write sources list [$file]: $!\n");
     print OUT $data;
