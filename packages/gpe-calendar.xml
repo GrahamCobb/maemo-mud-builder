@@ -28,14 +28,14 @@
     <depends sdk="bora">libsoundgen, libmimedir-gnome, libgpevtype, libeventdb, libgpepimc, libgpewidget, libtododb, libxsettings-client, libhandoff, libsoup2.2-dev, gpe-icons, hildon-libs-dev, maemo-version-dev</depends>
     <depends sdk="chinook">libsoundgen, libmimedir-gnome, libgpevtype, libeventdb, libgpepimc, libgpewidget, libtododb, libxsettings-client, libhandoff, libsoup2.2-dev, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</depends>
     <depends sdk="diablo">libsoundgen, libmimedir-gnome, libgpevtype, libeventdb, libgpepimc, libgpewidget, libtododb, libxsettings-client, libhandoff, libsoup2.2-dev, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</depends>
-    <depends sdk="fremantle">libmimedir-gnome, libgpevtype, libeventdb, libgpepimc, libgpewidget, libtododb, libxsettings-client, libhandoff, gpe-icons, intltool, libsoup2.4-dev, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</depends>
+    <depends sdk="fremantle">libsoundgen, libmimedir-gnome, libgpevtype, libeventdb, libgpepimc, libgpewidget, libtododb, libxsettings-client, libhandoff, gpe-icons, intltool, libsoup2.4-dev, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</depends>
   </fetch>
   <build>
     <configure-append sdk="gregale">--enable-hildon --disable-cairo --without-libschedule</configure-append>
     <configure-append sdk="bora">--enable-hildon --disable-cairo --without-libschedule</configure-append>
     <configure-append sdk="chinook">--enable-hildon --disable-cairo --without-libschedule</configure-append>
     <configure-append sdk="diablo">--enable-hildon --disable-cairo --without-libschedule</configure-append>
-    <configure-append sdk="fremantle">--enable-hildon --disable-cairo --without-libschedule --without-libsoundgen</configure-append>
+    <configure-append sdk="fremantle">--enable-hildon --disable-cairo --without-libschedule</configure-append>
   </build>
   <deb>
     <section>user/office</section>
@@ -48,7 +48,7 @@
     <depends sdk="gregale">gpe-icons (&gt;= ${Source-Version}), gpesummary (&gt;= ${Source-Version}), gpesyncd (&gt;= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <build-depends sdk="chinook">debhelper (&gt;= 4), libsoundgen-dev, libmimedir-gnome-dev, libgpevtype-dev, libeventdb-dev, libgpepimc-dev, libgpewidget-dev, libtododb-dev, libxsettings-client-dev, libhandoff-dev, libsoup2.2-dev, libgnutls-dev, libgnutls13, libgcrypt11-dev, libopencdk10-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</build-depends>
     <build-depends sdk="diablo">debhelper (&gt;= 4), libsoundgen-dev, libmimedir-gnome-dev, libgpevtype-dev, libeventdb-dev, libgpepimc-dev, libgpewidget-dev, libtododb-dev, libxsettings-client-dev, libhandoff-dev, libsoup2.2-dev, libgnutls-dev, libgnutls13, libgcrypt11-dev, libopencdk10-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</build-depends>
-    <build-depends sdk="fremantle">debhelper (&gt;= 4), libmimedir-gnome-dev, libgpevtype-dev, libeventdb-dev, libgpepimc-dev, libgpewidget-dev, libtododb-dev, libxsettings-client-dev, libhandoff-dev, libsoup2.2-dev, libgnutls-dev, libgnutls13, libgcrypt11-dev, libopencdk10-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</build-depends>
+    <build-depends sdk="fremantle">debhelper (&gt;= 4), libsoundgen-dev, libmimedir-gnome-dev, libgpevtype-dev, libeventdb-dev, libgpepimc-dev, libgpewidget-dev, libtododb-dev, libxsettings-client-dev, libhandoff-dev, libsoup2.2-dev, libgnutls-dev, libgnutls13, libgcrypt11-dev, libopencdk10-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</build-depends>
     <display-name>GPE Calendar</display-name>
     <!-- <upgrade-description>Daily testing build of GPE PIM suite calendar application</upgrade-description> -->
     <upgrade-description>Updated beta of GPE PIM suite calendar application\nChanges include:\n- Support for week starting on Sunday\n- Additional import fixes\n- Fix command line import (bug 230)\n- Category changes automatically updated (bug 80)\n- Support for duplicating events\n- Translation updates\n- Change name to GPE Calendar and update menu items and icons\n- Improve day-of-week display (bug 256)</upgrade-description>
