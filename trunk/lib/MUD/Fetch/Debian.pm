@@ -46,7 +46,7 @@ sub fetch {
     $deps =~ s/.*Using Scratchbox tools to satisfy builddeps//is;
     my %list = map { $_ => 0 }
                grep { /^[\w\._\-]+$/ }
-               split /[\s\r\n]+/, $deps;
+               split /[\s\r\n,]+/, $deps;
 
     if (keys(%list)) {
         warn "Need extra deps: ".join(", ", keys(%list))."\n";
