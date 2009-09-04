@@ -27,11 +27,11 @@
     source ./autogen.sh
     echo "Autogen done"
     </command>
-    <depends sdk="gregale">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, hildon-libs-dev</depends>
-    <depends sdk="bora">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, hildon-libs-dev</depends>
-    <depends sdk="chinook">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
-    <depends sdk="diablo">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</depends>
-    <depends sdk="fremantle">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libhildondesktop1-dev</depends>
+    <depends sdk="gregale">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, hildon-libs-dev, maemo-version</depends>
+    <depends sdk="bora">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, hildon-libs-dev, maemo-version</depends>
+    <depends sdk="chinook">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</depends>
+    <depends sdk="diablo">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version-dev</depends>
+    <depends sdk="fremantle">libtododb, libeventdb, libcontactsdb, libgpewidget, gpe-icons, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libhildondesktop1-dev, maemo-version-dev</depends>
   </fetch>
   <build>
     <configure-append>-</configure-append>
@@ -45,8 +45,8 @@
     <depends sdk="bora">gpe-icons (&gt;= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <depends sdk="gregale">gpe-icons (&gt;= ${Source-Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <description>GPE PIM suite home page applet\nThis applet summarises information from the GPE PIM\napplications for display on the home page.\nPackaged with MUD</description>
-    <build-depends sdk="chinook">debhelper (&gt;= 4.0.0), libtododb-dev, libeventdb-dev, libcontactsdb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
-    <build-depends sdk="diablo">debhelper (&gt;= 4.0.0), libtododb-dev, libeventdb-dev, libcontactsdb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
-    <build-depends sdk="fremantle">debhelper (&gt;= 4.0.0), libtododb-dev, libeventdb-dev, libcontactsdb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libhildondesktop1-dev</build-depends>
+    <build-depends sdk="chinook">debhelper (&gt;= 4.0.0), libtododb-dev, libeventdb-dev, libcontactsdb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version</build-depends>
+    <build-depends sdk="diablo">debhelper (&gt;= 4.0.0), libtododb-dev, libeventdb-dev, libcontactsdb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, maemo-version</build-depends>
+    <build-depends sdk="fremantle">debhelper (&gt;= 4.0.0), libtododb-dev, libeventdb-dev, libcontactsdb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libhildondesktop1-dev, maemo-version-dev</build-depends>
   </deb>
 </package>
