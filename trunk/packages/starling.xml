@@ -46,7 +46,7 @@
     <depends sdk="fremantle">gpe-icons (&gt;=${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>
     <build-depends sdk="chinook">debhelper (&gt;= 5), libgpewidget-dev, libsqlite0-dev, libsoup2.2-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, bison, libhandoff-dev, libbluetooth2-dev, libasound2-dev, cdbs, libxaw-headers, libsdl1.2-dev, gtk-doc-tools</build-depends>
     <build-depends sdk="diablo">debhelper (&gt;= 5), libgpewidget-dev, libsqlite0-dev, libsoup2.2-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, bison, libhandoff-dev, libbluetooth2-dev, libasound2-dev, cdbs, libxaw-headers, libsdl1.2-dev, gtk-doc-tools</build-depends>
-    <build-depends sdk="fremantle">debhelper (&gt;= 5), libgpewidget-dev, libsqlite0-dev, libsoup2.4-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, bison, libhandoff-dev, libbluetooth2-dev, libasound2-dev, cdbs, libxaw-headers, libsdl1.2-dev, gtk-doc-tools</build-depends>
+    <build-depends sdk="fremantle">debhelper (&gt;= 5), libgpewidget-dev, libsqlite0-dev, libsoup2.4-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, bison, libhandoff-dev, libasound2-dev, cdbs, libxaw-headers, libsdl1.2-dev, gtk-doc-tools</build-depends>
     <recommends>ogg-support</recommends>
     <display-name>GPE Audio player</display-name>
     <!-- <upgrade-description>Daily testing build of GPE suite audio player</upgrade-description> -->
