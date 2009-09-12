@@ -35,6 +35,10 @@
     <display-name>GPE File manager</display-name>
     <!-- <upgrade-description>Daily testing build of GPE suite file manager</upgrade-description> -->
     <upgrade-description>Updated beta of GPE suite file manager\nChanges include:\n- Translation updates\n- Change name to GPE File manager and update menu items and icons</upgrade-description>
-    <icon>pixmaps/gpe-filemanager-26x26.png</icon>
+    <icon sdk="gregale">pixmaps/gpe-filemanager-26x26.png</icon>
+    <icon sdk="bora">pixmaps/gpe-filemanager-26x26.png</icon>
+    <icon sdk="chinook">pixmaps/gpe-filemanager-26x26.png</icon>
+    <icon sdk="diablo">pixmaps/gpe-filemanager-26x26.png</icon>
+    <icon sdk="fremantle">pixmaps/gpe-filemanager-48x48.png</icon>
   </deb>
 </package>

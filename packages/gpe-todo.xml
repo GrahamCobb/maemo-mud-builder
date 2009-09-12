@@ -43,6 +43,10 @@
     <display-name>GPE To-do list</display-name>
     <!-- <upgrade-description>Daily testing build of GPE suite todo list manager</upgrade-description> -->
     <upgrade-description>Updated beta of GPE PIM suite todo list manager\nChanges include:\n- Category changes automatically updated (bug 80)\n- Fixed "Open..." menu item (bug 205)\n"Show completed" state is saved\n- Added delete menu item (bug 249)\n- Translation updates\n- Change name to GPE To-do list and update menu items and icons</upgrade-description>
-    <icon>hildon/gpe-todo-26x26.png</icon>
+    <icon sdk="gregale">hildon/gpe-todo-26x26.png</icon>
+    <icon sdk="bora">hildon/gpe-todo-26x26.png</icon>
+    <icon sdk="chinook">hildon/gpe-todo-26x26.png</icon>
+    <icon sdk="diablo">hildon/gpe-todo-26x26.png</icon>
+    <icon sdk="fremantle">hildon/gpe-todo-48x48.png</icon>
   </deb>
 </package>
