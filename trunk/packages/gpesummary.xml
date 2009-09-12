@@ -4,7 +4,7 @@
     <command>
     pkg="gpesummary"
     date="20090125"
-    release="2.8+4"
+    release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}

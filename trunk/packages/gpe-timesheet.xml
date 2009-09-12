@@ -35,6 +35,10 @@
     <display-name>GPE Timesheet</display-name>
     <!-- <upgrade-description>Daily testing build for GPE suite time tracker</upgrade-description> -->
     <upgrade-description>Updated beta of GPE PIM suite time tracker\nChanges include:\n- Translation updates\n- Change name to GPE Timesheet and update menu items and icons</upgrade-description>
-    <icon>hildon/gpe-timesheet-26x26.png</icon>
+    <icon sdk="gregale">hildon/gpe-timesheet-26x26.png</icon>
+    <icon sdk="bora">hildon/gpe-timesheet-26x26.png</icon>
+    <icon sdk="chinook">hildon/gpe-timesheet-26x26.png</icon>
+    <icon sdk="diablo">hildon/gpe-timesheet-26x26.png</icon>
+    <icon sdk="fremantle">hildon/gpe-timesheet-48x48.png</icon>
   </deb>
 </package>
