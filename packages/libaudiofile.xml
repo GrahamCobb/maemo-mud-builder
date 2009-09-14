@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian">
+    <name>audiofile</name>
+    <depends>dpatch</depends>
+  </fetch>
+  <build>
+  </build>
+  <deb prefix-section="0">
+    <version>0.2.6-7+maemo-1</version>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+    <description>libaudiofile for Maemo Fremantle\nThis is a version of libaudiofile to support the Fremantle port of libesd</description>
+  </deb>
+</package>
