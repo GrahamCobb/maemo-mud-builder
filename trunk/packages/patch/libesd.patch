@@ -33,20 +33,15 @@ Index: debian/control
 - This package contains the documentation and configuration files.
 -
  Package: libesd0
--Architecture: any
-+Architecture: armel i386
+ Architecture: any
  Section: libs
 -Depends: ${shlibs:Depends}, esound-common (>= ${source:Version})
 +Depends: pulseaudio-esound-compat, ${shlibs:Depends}
  Suggests: esound-clients, esound
  Conflicts: esound-clients (<< 0.2.36-1)
  Description: Enlightened Sound Daemon - Shared libraries
-@@ -52,28 +27,13 @@
-  This package is for use with OSS sound drivers.
- 
- Package: libesd0-dev
--Architecture: any
-+Architecture: armel i386
+@@ -55,25 +30,10 @@
+ Architecture: any
  Section: libdevel
  Depends: libesd0 (= ${binary:Version}) | libesd-alsa0 (= ${binary:Version}), 
 -         libaudiofile-dev (>= 0.1.5),
