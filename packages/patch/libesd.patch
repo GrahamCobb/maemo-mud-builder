@@ -1704,22 +1704,33 @@ Index: libesd0.in
 ===================================================================
 --- libesd0.in	(revision 0)
 +++ libesd0.in	(revision 0)
-@@ -0,0 +1,16 @@
+@@ -0,0 +1,27 @@
 +description "libesd0"
 +author "Graham Cobb <g+770@cobb.uk.net>"
 +
 +start on started pulseaudio
 +
-+stop on starting shutdown
-+
 +console none
 +
 +script
++  # wait for authorisation cookie to appear
++  count=0
++  while [ ! -f /var/run/pulse/.esd_auth ]
++  do
++    count=$((count+1))
++    if [ $count -gt 30 ]
++    then exit 1
++    fi
++    sleep 1
++  done
++  #echo waited $count seconds >/tmp/libesd0.log
++
++  # user must be able to access authorisation cookie
++  ln -sf /var/run/pulse/.esd_auth /home/user/       
++  chmod +r /var/run/pulse/.esd_auth          
++
 +  # libesd requires a softlink in /tmp/ to work
-+  if [ ! -d /tmp/.esd-29999 ]
-+  then
-+    ln -sf /tmp/.esd /tmp/.esd-29999
-+  fi
++  ln -sf /tmp/.esd /tmp/.esd-29999
 +end script
 Index: configure
 ===================================================================

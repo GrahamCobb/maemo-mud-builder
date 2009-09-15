@@ -7,7 +7,7 @@
   <build>
   </build>
   <deb prefix-section="0">
-    <version>0.2.41+maemo-3</version>
+    <version>0.2.41+maemo-4</version>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>Minimal libesd for Maemo Fremantle\nThis is a minimal version of libesd designed to\nwork with the pulseaudio support in Maemo 5 Fremantle and\nto allow applications that are designed to use libesd to be\nbuilt and run on Maemo 5</description>
   </deb>
