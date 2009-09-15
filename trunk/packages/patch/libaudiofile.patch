@@ -1,0 +1,18 @@
+Index: test/misc.sh
+===================================================================
+--- test/misc.sh	(revision 1)
++++ test/misc.sh	(working copy)
+@@ -1,3 +1,4 @@
++#!/bin/sh
+ #
+ # Test miscellaneous data reading and writing for AIFF, AIFF-C, and WAVE
+ # file formats.
+Index: test/pipe.sh
+===================================================================
+--- test/pipe.sh	(revision 1)
++++ test/pipe.sh	(working copy)
+@@ -1,3 +1,4 @@
++#!/bin/sh
+ # pipe.sh
+ # This script provides a simple test of Audio File Library
+ # operation on non-seekable file handles.
