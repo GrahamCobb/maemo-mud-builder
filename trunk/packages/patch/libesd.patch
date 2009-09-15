@@ -2414,19 +2414,6 @@ Index: configure
         sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g' -e 's/\$U/'"$U"'/g'`; do
      # Make sure the directory exists.
      test -f "$dirpart/$file" && continue
-Index: esddsp.in
-===================================================================
---- esddsp.in	(revision 1)
-+++ esddsp.in	(working copy)
-@@ -106,7 +106,7 @@
- prefix=@prefix@
- exec_prefix=@exec_prefix@
- 
--LD_PRELOAD="libesddsp.so.@ESD_MAJOR_VERSION@ libesd.so.@ESD_MAJOR_VERSION@ $LD_PRELOAD"
-+LD_PRELOAD="@libdir@/esound/libesddsp.so.@ESD_MAJOR_VERSION@ libesd.so.@ESD_MAJOR_VERSION@ $LD_PRELOAD"
- export LD_PRELOAD
- 
- # invoke the program with the args given
 Index: docs/Makefile.in
 ===================================================================
 --- docs/Makefile.in	(revision 1)
@@ -4891,19 +4878,6 @@ Index: INSTALL
  
  `--help'
  `-h'
-Index: clients.c
-===================================================================
---- clients.c	(revision 1)
-+++ clients.c	(working copy)
-@@ -175,6 +175,8 @@
- 	    ESDBG_TRACE( 
- 	    if (esd_use_tcpip) {
- 
-+		unsigned long addr;
-+
- 		port = ntohs( incoming.sin_port );
- 		addr = ntohl( incoming.sin_addr.s_addr );
- 
 Index: Makefile.am
 ===================================================================
 --- Makefile.am	(revision 1)
