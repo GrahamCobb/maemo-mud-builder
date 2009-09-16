@@ -1307,7 +1307,7 @@ Index: debian/control
  Architecture: any
  Section: libs
 -Depends: ${shlibs:Depends}, esound-common (>= ${source:Version})
-+Depends: pulseaudio-esound-compat, ${shlibs:Depends}
++Depends: pulseaudio-esound-compat, ${shlibs:Depends}, upstart
  Suggests: esound-clients, esound
  Conflicts: esound-clients (<< 0.2.36-1)
 -Description: Enlightened Sound Daemon - Shared libraries
@@ -1423,9 +1423,14 @@ Index: debian/libesd0.postinst
 ===================================================================
 --- debian/libesd0.postinst	(revision 0)
 +++ debian/libesd0.postinst	(revision 0)
-@@ -0,0 +1,2 @@
+@@ -0,0 +1,7 @@
 +#!/bin/sh
-+start libesd0
++if start --quiet libesd0
++then
++    : ok
++else
++    echo libesd0 not started -- assuming running on scratchbox
++fi
 Index: depcomp
 ===================================================================
 --- depcomp	(revision 1)
