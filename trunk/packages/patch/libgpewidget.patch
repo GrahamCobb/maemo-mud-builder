@@ -1,8 +1,108 @@
+Index: debian/rules.orig
+===================================================================
+--- debian/rules.orig	(revision 0)
++++ debian/rules.orig	(revision 0)
+@@ -0,0 +1,89 @@
++#!/usr/bin/make -f
++# Sample debian/rules that uses debhelper.
++# GNU copyright 1997 to 1999 by Joey Hess.
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++
++
++ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
++	CFLAGS += -g
++endif
++ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
++	INSTALL_PROGRAM += -s
++endif
++
++# shared library versions, option 1
++version=2.0.5
++major=2
++# option 2, assuming the library is created as src/.libs/libfoo.so.2.0.5 or so
++#version=`ls src/.libs/lib*.so.* | \
++# awk '{if (match($$0,/[0-9]+\.[0-9]+\.[0-9]+$$/)) print substr($$0,RSTART)}'`
++#major=`ls src/.libs/lib*.so.* | \
++# awk '{if (match($$0,/\.so\.[0-9]+$$/)) print substr($$0,RSTART+4)}'`
++
++configure: configure-stamp
++configure-stamp:
++	dh_testdir
++	# Add here commands to configure the package.
++
++	touch configure-stamp
++
++
++build: build-stamp
++build-stamp: configure-stamp 
++	dh_testdir
++
++	# Add here commands to compile the package.
++	$(MAKE) PREFIX=/usr
++
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp configure-stamp
++
++	# Add here commands to clean up after the build process.
++	-$(MAKE) clean
++
++	dh_clean
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++	dh_installdirs
++
++	# Add here commands to install the package into debian/tmp
++	$(MAKE) install PREFIX=/usr DESTDIR=$(CURDIR)/debian/tmp
++	$(MAKE) install-devel PREFIX=/usr DESTDIR=$(CURDIR)/debian/tmp
++
++
++# Build architecture-independent files here.
++binary-indep: build install
++# We have nothing to do by default.
++
++# Build architecture-dependent files here.
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++	dh_movefiles
++
++	dh_installdocs
++	dh_installman
++	dh_installchangelogs 
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++	dh_makeshlibs
++	dh_installdeb
++	dh_shlibdeps -V
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure
+
+Property changes on: debian/rules.orig
+___________________________________________________________________
+Name: svn:executable
+   + *
+
 Index: debian/rules
 ===================================================================
 --- debian/rules	(revision 1)
 +++ debian/rules	(working copy)
-@@ -30,6 +30,9 @@
+@@ -27,6 +27,9 @@
  configure-stamp:
  	dh_testdir
  	# Add here commands to configure the package.
@@ -12,7 +112,7 @@ Index: debian/rules
  
  	touch configure-stamp
  
-@@ -61,7 +65,7 @@
+@@ -58,7 +61,7 @@
  
  	# Add here commands to install the package into debian/tmp
  	$(MAKE) install PREFIX=/usr DESTDIR=$(CURDIR)/debian/tmp
@@ -21,7 +121,7 @@ Index: debian/rules
  
  
  # Build architecture-independent files here.
-@@ -73,15 +77,15 @@
+@@ -70,15 +73,15 @@
  	dh_testdir
  	dh_testroot
  	dh_movefiles
@@ -64,7 +164,7 @@ Index: configure.ac
  ])
  
  ENABLE_HILDON=false
-@@ -69,7 +69,7 @@
+@@ -88,7 +88,7 @@
  
  AC_CONFIG_FILES([Makefile libgpewidget.pc 
                   libgpewidget-uninstalled.pc 
@@ -73,6 +173,116 @@ Index: configure.ac
  AC_OUTPUT
  
  echo "
+Index: configure.ac.orig
+===================================================================
+--- configure.ac.orig	(revision 0)
++++ configure.ac.orig	(revision 0)
+@@ -0,0 +1,105 @@
++#                                               -*- Autoconf -*-
++# Process this file with autoconf to produce a configure script.
++
++AC_PREREQ(2.59)
++AC_INIT(libgpewidget, 0.117, gpe-list@linuxtogo.org)
++AC_CONFIG_SRCDIR([init.c])
++AM_INIT_AUTOMAKE([foreign dist-bzip2])
++
++# i8n stuff
++AH_TEMPLATE([GETTEXT_PACKAGE], [Package name for gettext])
++GETTEXT_PACKAGE=libgpewidget
++AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
++AC_SUBST(GETTEXT_PACKAGE)
++ALL_LINGUAS="$(ls ${srcdir}/po/*.po | sed 's/.*\/po\///;s/\.po//' | tr \\n ' ')"
++
++libgpewidgetlocaledir='${prefix}/${DATADIRNAME}/locale'
++AC_SUBST(libgpewidgetlocaledir)
++
++AM_GLIB_GNU_GETTEXT
++AC_PROG_INTLTOOL([0.23])
++
++# Checks for programs.
++AC_PROG_CC
++AC_PROG_LIBTOOL
++PKG_PROG_PKG_CONFIG
++
++#gtk-doc for documentation
++GTK_DOC_CHECK(1.2)
++
++# library dependencies
++DEPS="gtk+-2.0 >= 2.4 glib-2.0 >= 2.6"
++
++AC_ARG_ENABLE(cairo,
++[  --enable-cairo         Enable using Cairo rendering toolkit],
++[
++	ENABLE_CAIRO=$enableval
++],
++[
++       	PKG_CHECK_EXISTS(cairo, [ENABLE_CAIRO=yes], [ENABLE_CAIRO=no])
++])
++
++ENABLE_HILDON=false
++
++AC_ARG_ENABLE(hildon,
++[  --enable-hildon         Enable Hildon GUI],
++[
++	ENABLE_HILDON=true
++        PKG_CHECK_MODULES(HILDON, hildon-1,
++                AC_DEFINE(HILDON_VER, 2, [Version of hildon libraries]),
++                [
++                        AC_DEFINE(HILDON_VER, 0, [Version of hildon libraries])
++                ])
++	PKG_CHECK_EXISTS(maemo-version,
++		[
++			VERSION=`pkg-config --modversion maemo-version`
++			AC_MSG_NOTICE([Configuring for Maemo $VERSION])
++			CFLAGS="$CFLAGS -DMAEMO_VERSION=\\\"$VERSION\\\""
++			MAEMO_MAJOR=`echo $VERSION | cut -b1 -`
++			CFLAGS="$CFLAGS -DMAEMO_VERSION_MAJOR=$MAEMO_MAJOR"
++		],
++		[
++			AC_MSG_ERROR([maemo-version not found])
++		])
++],
++[
++	ENABLE_HILDON=false
++	CFLAGS="$CFLAGS -DMAEMO_VERSION=\\\"\\\""
++	CFLAGS="$CFLAGS -DMAEMO_VERSION_MAJOR=0"
++])
++
++AC_SUBST(ENABLE_HILDON)
++AC_SUBST(ENABLE_CAIRO)
++
++AM_CONDITIONAL(HILDON, test x$ENABLE_HILDON = xtrue)
++AM_CONDITIONAL(CAIRO, test x$ENABLE_CAIRO = xyes)
++AM_CONDITIONAL(MAEMO5, test x$MAEMO_MAJOR = x5)
++
++if test x$ENABLE_CAIRO = xyes; then
++    DEPS="$DEPS cairo >= 0.4.0"
++fi
++
++PKG_CHECK_MODULES(GPEWIDGET, $DEPS)
++
++AC_SUBST(PREFIX)
++AC_SUBST(CFLAGS)
++AC_SUBST(CPPFLAGS)
++AC_SUBST(LDFLAGS)
++
++AC_CONFIG_FILES([Makefile libgpewidget.pc 
++                 libgpewidget-uninstalled.pc 
++				 doc/Makefile po/Makefile.in])
++AC_OUTPUT
++
++echo "
++######################################
++Configuration:
++
++- Compiler...........: ${CC}
++- Cairo..............: ${ENABLE_CAIRO}
++- Documentation......: ${enable_gtk_doc}
++
++######################################
++
++Now type 'make' to compile ${GETTEXT_PACKAGE}
++"
 Index: Makefile.am
 ===================================================================
 --- Makefile.am	(revision 1)
