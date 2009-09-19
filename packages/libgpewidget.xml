@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="libgpewidget"
-    date="20090125"
+    date="20090920"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -24,11 +24,11 @@
     cat $pkgdir/debian/changelog.tmp &gt;&gt;$pkgdir/debian/changelog
     rm -f $pkgdir/debian/changelog.tmp
     </command>
-    <depends sdk="gregale">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, hildon-libs-dev</depends>
-    <depends sdk="bora">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, hildon-libs-dev</depends>
-    <depends sdk="chinook">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, libhildon1-dev</depends>
-    <depends sdk="diablo">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, libhildon1-dev</depends>
-    <depends sdk="fremantle">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, libhildon1-dev</depends>
+    <depends sdk="gregale">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, hildon-libs-dev, maemo-version-dev</depends>
+    <depends sdk="bora">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, hildon-libs-dev, maemo-version-dev</depends>
+    <depends sdk="chinook">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, libhildon1-dev, maemo-version-dev</depends>
+    <depends sdk="diablo">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, libhildon1-dev, maemo-version-dev</depends>
+    <depends sdk="fremantle">libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, libhildon1-dev, maemo-version-dev</depends>
   </fetch>
   <build>
   </build>
@@ -36,6 +36,6 @@
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE libgpewidget library\nLibrary of GPE widgets.\nPackaged with MUD</description>
     <library>libgpewidget1</library>
-    <build-depends>debhelper (&gt;= 4), libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool</build-depends>
+    <build-depends>debhelper (&gt;= 4), libgtk2.0-dev, libglib2.0-dev, libxrender-dev, intltool, maemo-version-dev</build-depends>
   </deb>
 </package>
