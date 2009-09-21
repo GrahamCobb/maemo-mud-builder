@@ -225,6 +225,10 @@ sub patch {
     # -- Include dh_install...
     #
     $rules =~ s/^\s*#\s*dh_install\s*$/\tdh_install --sourcedir=debian\/tmp/mg;
+    
+    # -- Include maemo-optify...
+    #
+    $rules =~ s/^\tdh_gencontrol$/$&\n\tmaemo-optify/mg if $self->{data}->optify;
 
     # -- Append configure flags...
     #
@@ -529,7 +533,7 @@ sub patchDebControl {
 
     # -- Icon(s)...
     #
-    my $iconFile = $self->{data}->icon(26);
+    my $iconFile = $self->{data}->icon($self->{data}->{sdk} eq 'fremantle' ? 48 : 26);
     if ($iconFile and $control !~ /^XB-Maemo-Icon-26:/im) {
         my $iconData = `uuencode -m icon <\Q${iconFile}\E`;
         $iconData =~ s/^begin-base64 \d{3,4} icon[\s\r\n]+//m;

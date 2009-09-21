@@ -223,6 +223,7 @@ sub icon {
     copy($sourceIcon, $iconFile) or die "copy failed: $!" unless -s $iconFile;
   }
   
+  print "Icon for ${size}x${size} = [$iconFile]\n";
   return undef unless $iconFile and -s $iconFile;
   return $iconFile;
 }
@@ -299,6 +300,21 @@ sub patches {
 }
 
 
+=item optify
+
+Return true if the package should be automatically "optified". This
+will introduce a build-dependency on 'maemo-optify' and ensure the
+optification happens after the package has been built.
+
+=cut
+
+sub optify {
+  my $self = shift;
+  
+  return $self->{data}->{deb}->{'optify'};
+}
+
+
 =item controlFields
 
 Return a hash reference of values which contain additional
@@ -318,7 +334,7 @@ sub controlFields {
   # -- Generate...
   #
   my %data = map { $_ => $self->{data}->{deb}->{$_} }
-             grep { $_ !~ /^(icon|prefix-section|library|libdev|upgrade-description|description|display-name|version)$/ }
+             grep { $_ !~ /^(icon|prefix-section|optify|library|libdev|upgrade-description|description|display-name|version|bugtracker)$/ }
              keys %{ $self->{data}->{deb} };
   $self->{controlFields} = \%data;
   return $self->{controlFields};
@@ -376,6 +392,8 @@ to the returned list:
 
 =item I<package>-26.png =E<gt> C</usr/share/icons/hicolor/26x26/hildon/I<package>.png>
 
+=item I<package>-48.png =E<gt> C</usr/share/icons/hicolor/48x48/hildon/I<package>.png>
+
 =item I<package>-64.png =E<gt> C</usr/share/icons/hicolor/scalable/hildon/I<package>.png>
 
 =item I<package>.desktop =E<gt> C</usr/share/applications/hildon/I<package>.desktop>
@@ -400,6 +418,7 @@ sub extras {
   if (-f (my $desktop = $self->{basedir}."$self->{name}.desktop")) {
     push @extras, new MUD::ExtrasEntry($desktop, { path => "/usr/share/applications/hildon/$self->{name}.desktop"} );
     push @extras, new MUD::ExtrasEntry($self->icon(26), { path => "/usr/share/icons/hicolor/26x26/hildon/$self->{name}.png"} );
+    push @extras, new MUD::ExtrasEntry($self->icon(48), { path => "/usr/share/icons/hicolor/48x48/hildon/$self->{name}.png"} );
     push @extras, new MUD::ExtrasEntry($self->icon(64), { path => "/usr/share/icons/hicolor/scalable/hildon/$self->{name}.png"} );
     
     if (-f (my $service = $self->{basedir}."$self->{name}.service")) {
