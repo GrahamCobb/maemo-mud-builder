@@ -68,6 +68,20 @@ EOM
     exit;
 }
 
+if (!$OPTS{sdk}) {
+  if (open(IN, "</etc/maemo_version")) {
+    chomp(my $line = <IN>);
+    my ($sdk) = $line =~ /^([\d\.]+)/;
+    
+    $OPTS{sdk} = $sdk == 5.0 ? 'fremantle'
+               : $sdk == 4.1 ? 'diablo'
+               : $sdk == 4.0 ? 'chinook'
+               : '';
+    close(IN);
+    print "+++ Guessed SDK = [$OPTS{sdk}]\n";
+  }
+}
+
 $config = { base => $Bin };
 $config->{file} = $OPTS{config} if $OPTS{config};
 $config = new MUD::Config(%$config);
