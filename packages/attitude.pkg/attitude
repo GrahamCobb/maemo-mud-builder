@@ -1,4 +1,6 @@
 #!/bin/sh
 
 PYTHON=`which python2.5` || PYTHON=`which python`
-exec $PYTHON /usr/lib/python2.5/site-packages/attitude/main.py "$@"
+APP=/usr/lib/python2.5/site-packages/attitude/main.py
+[ -f "/opt/maemo/${APP}" ] && APP="/opt/maemo/${APP}"
+exec "$PYTHON" "$APP" "$@"

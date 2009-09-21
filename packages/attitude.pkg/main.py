@@ -25,10 +25,11 @@ class Attitude(Screen):
     
     rotation = None
     boundary = None
-    freq     = 4
-    count    = 0
-    average  = 3
+    freq     = 3 
+    count    = -1
+    average  = 4 
     total    = (0, 0, 0)
+    fudge    = 0.15
 
     ground = None
     sky    = None
@@ -74,12 +75,17 @@ class Attitude(Screen):
         returns x, y, z tuple. The values should be in the range -1000 - 1000."""
         
         (x, y, z) = self.provider.position()
-        self.total = (self.total[0] + x, self.total[1] + y, self.total[2] + z)
+        if (self.count == -1):
+          self.total = (x, y, z)
+          self.count = 0
+
+        self.total = (self.total[0] + (x-self.total[0])*self.fudge, self.total[1] + (y-self.total[1])*self.fudge, self.total[2] + (z-self.total[2])*self.fudge)
         if (++self.count % self.average <> 0):
           return self.visible
 
-        (x, y, z) = (self.total[0] / self.average, self.total[1] / self.average, self.total[2] / self.average)
-        self.total = (0, 0, 0)
+        #(x, y, z) = (self.total[0] / self.average, self.total[1] / self.average, self.total[2] / self.average)
+        #self.total = (0, 0, 0)
+        (x, y, z) = self.total
         self.count = 0
 
         boundary = max(min(z / 1000.0, 1), -1)

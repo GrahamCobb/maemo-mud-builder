@@ -19,13 +19,6 @@ except ImportError:
 try:
   import osso
   has_osso = True
-  try:
-    f = open('/etc/maemo_version', 'r')
-    if (f.readline().startswith('5.0')):
-      print "*** Disabling OSSO functionality due to Maemo 5 bug #4782"
-      has_osso = False
-  except:
-    pass
 except ImportError:
   has_osso = False
 
