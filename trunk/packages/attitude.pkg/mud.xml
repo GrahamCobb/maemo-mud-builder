@@ -2,13 +2,13 @@
 <package>
   <fetch type="command">
     <command>
-      PKGDIR=attitude-0.0.7
+      PKGDIR=attitude-0.0.8
       mkdir "${PKGDIR}"
       cp "${MUD_PACKAGES_DIR}/attitude.pkg/"*.py "${PKGDIR}/"
       cp "${MUD_PACKAGES_DIR}/attitude.pkg/"{Makefile,attitude} "${PKGDIR}/"
     </command>
   </fetch>
-  <deb>
+  <deb optify="1">
     <depends>python-imaging | python2.5-imaging, python-osso | python2.5-osso, python-hildon | python2.5-hildon</depends>
     <architecture>any</architecture>
     <section>user/graphics</section>
@@ -22,6 +22,7 @@
       pitch angle in degrees.
     </description>
     <display-name>Attitude</display-name>
+    <bugtracker>https://bugs.maemo.org/describecomponents.cgi?product=Attitude</bugtracker>
   </deb>
 </package>
 
