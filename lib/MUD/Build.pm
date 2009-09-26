@@ -556,6 +556,10 @@ sub patchDebControl {
     #
     MUD::Package::setField($control, "XB-Maemo-Display-Name", $self->{data}->displayName);
 
+    # -- Bugtracker...
+    #
+    MUD::Package::setField($control, "Xsbc-Bugtracker", $self->{data}->bugTracker);
+
     # -- Other control fields...
     #
     while (my ($k, $v) = each %{ $self->{data}->controlFields }) {
