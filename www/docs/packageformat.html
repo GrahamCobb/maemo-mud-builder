@@ -174,7 +174,7 @@ is a need to override the defaults, that power is available.</p>
 <p>TBC...</p>
 
 <h2 id="deb">Deb section</h2>
-<pre><code>&lt;deb prefix-section=&quot;<i>(0|1)</i>&quot;&gt;
+<pre><code>&lt;deb prefix-section=&quot;<i>(0|1)</i>&quot; optify=&quot;<i>(0|1)</i>&quot;&gt;
     &lt;icon&gt;<i>file or URL</i>&lt;/icon&gt;
     &lt;version&gt;&#8230;&lt;/version&gt;
     &lt;description&gt;
@@ -257,6 +257,10 @@ package name.  This corresponds to the <code>XB-Maemo-Display-Name</code> contro
 
 <p>The <em>bugtracker</em> tag is used to specify the URL of where bugs may be logged.
 This currently corresponds to the <code>Xsbc-Bugtracker</code> control file field.</p>
+
+<p>The <em>optify</em> attribute tells MUD to add the <code>maemo-optify</code> script to debian/rules and to add
+<code>maemo-optify</code> as a build dependency.  This is a process used in Maemo Fremantle to move large files to the /opt partition to save
+space on the user's root partition.</p>
 
 <p>
 <p class="link"><a class="prev" href="creating.html">&lt;&lt; Creating a new package
