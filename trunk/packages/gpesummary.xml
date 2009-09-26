@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="gpesummary"
-    date="20090125"
+    date="20090926"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -36,7 +36,7 @@
   <build>
     <configure-append>-</configure-append>
   </build>
-  <deb prefix-section="0">
+  <deb optify="1" prefix-section="0">
     <section>x11</section><!-- Hide from Maemo Application Manager -->
     <maintainer>Christoph Würstle &lt;n800@axique.de&gt;</maintainer>
     <depends sdk="chinook">gpe-icons (&gt;= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}</depends>

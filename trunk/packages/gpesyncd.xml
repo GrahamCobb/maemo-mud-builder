@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="gpesyncd"
-    date="20090125"
+    date="20090926"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -25,7 +25,7 @@
   <build>
     <configure-append>--enable-hildon --disable-cairo</configure-append>
   </build>
-  <deb prefix-section="0">
+  <deb optify="1" prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE PIM suite synchronisation application\nNecessary for synchronisation using Opensync.\nPackaged with MUD</description>
     <build-depends sdk="chinook">debhelper (&gt;= 5), autotools-dev, libglib2.0-dev, intltool, libmimedir-gnome-dev, libgpewidget-dev, libgpepimc-dev, libgpevtype-dev, libcontactsdb-dev, libeventdb-dev, libtododb-dev, libhildon1-dev</build-depends>

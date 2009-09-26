@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="libmimedir-gnome"
-    date="20090125"
+    date="20090926"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -20,7 +20,7 @@
   </fetch>
   <build>
   </build>
-  <deb prefix-section="0">
+  <deb optify="1" prefix-section="0">
     <library>libmimedir-gnome0</library>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE libmimedir library\nParsing/generation of V-formats for events, contacts and todos.\nPackaged with MUD.</description>

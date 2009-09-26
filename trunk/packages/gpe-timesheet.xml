@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="gpe-timesheet"
-    date="20090125"
+    date="20090926"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -25,7 +25,7 @@
   <build>
     <configure-append>--enable-hildon --disable-cairo</configure-append>
   </build>
-  <deb>
+  <deb optify="1">
     <section>user/office</section>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE PIM suite time recording application\nRecords time against tasks and sub-tasks.\nPackaged with MUD</description>
@@ -40,5 +40,6 @@
     <icon sdk="chinook">hildon/gpe-timesheet-26x26.png</icon>
     <icon sdk="diablo">hildon/gpe-timesheet-26x26.png</icon>
     <icon sdk="fremantle">hildon/gpe-timesheet-48x48.png</icon>
+    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi</bugtracker>
   </deb>
 </package>

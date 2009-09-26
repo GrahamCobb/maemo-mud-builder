@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="starling"
-    date="20090125"
+    date="20090926"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -35,7 +35,7 @@
   </fetch>
   <build>
   </build>
-  <deb>
+  <deb optify="1">
     <section>user/multimedia</section>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE suite audio player\nStarling is the audio player from the GPE suite. Starling supports\nplaying mp3 and ogg files (via the ogg-support package).\n    \nStarling makes use of Nokia's hardware buttons for better usability:\nthe full screen key toggles between play and pause; and, + advances\nto the next song and - goes to the previous.  It supports recursive\nloading of directories and caches tags in a local database.  For\nfiles lacking tags, it has a sophisticated algorithm for guessing\nthe name based on the location and file name.  Finally, it supports\ndownloading lyrics for the current song and uploading playlists to\nlast.fm.</description>
@@ -56,5 +56,6 @@
     <icon sdk="chinook">data/bass-26x26.png</icon>
     <icon sdk="diablo">data/bass-26x26.png</icon>
     <icon sdk="fremantle">data/bass-48x48.png</icon>
+    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi</bugtracker>
   </deb>
 </package>
