@@ -14,6 +14,7 @@ MUD::Package - Define a MUD package, and the data/definitions
     my $description   = $pkg->description;
     my $upgradeDesc   = $pkg->upgradeDescription;
     my $displayName   = $pkg->displayName;
+    my $bugTracker    = $pkg->bugTracker;
     my @patchFiles    = $pkg->patches;
     my $controlFields = $pkg->controlFields;
     my $section       = $pkg->section;
@@ -273,6 +274,19 @@ sub displayName {
   return $self->{data}->{deb}->{'display-name'};
 }
 
+=item bugTracker
+
+Return the URL of the bug tracker.
+
+=cut
+
+sub bugTracker {
+  my $self = shift;
+  
+  return $self->{data}->{deb}->{'bugtracker'};
+}
+
+
 
 =item patches
 
@@ -510,7 +524,7 @@ sub setField {
   $wrapped =~ s/\n(\s*).?\s*\n/\n$1.\n/g;
   
   # Put the field in the correct paragraph
-  my $paragraph = $field =~ /^(Uploaders|Build-Depends)$/ ? 'Source' : 'Package';
+  my $paragraph = $field =~ /^(Uploaders|Build-Depends|Xsbc-Bugtracker)$/ ? 'Source' : 'Package';
   
   if ($data =~ /^$field:/im) {
     $data =~ s/^$field:\s.*\n([ \t]+\S.*\n)*/$wrapped\n/img or croak "Failed to change field [$field] to [$value] in [$data]";
