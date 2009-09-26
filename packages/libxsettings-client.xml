@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="libxsettings-client"
-    date="20090125"
+    date="20090926"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -28,10 +28,10 @@
   </fetch>
   <build>
   </build>
-  <deb prefix-section="0">
+  <deb optify="1" prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
     <description>GPE libxsettings-client library\nPackaged with MUD</description>
     <library>libxsettings-client1</library>
     <build-depends>debhelper (&gt;&gt; 3), libx11-dev</build-depends>
-  </deb>
+ </deb>
 </package>
