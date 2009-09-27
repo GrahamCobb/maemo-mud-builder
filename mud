@@ -73,9 +73,12 @@ if (!$OPTS{sdk}) {
     chomp(my $line = <IN>);
     my ($sdk) = $line =~ /^([\d\.]+)/;
     
-    $OPTS{sdk} = $sdk == 5.0 ? 'fremantle'
-               : $sdk == 4.1 ? 'diablo'
-               : $sdk == 4.0 ? 'chinook'
+    $OPTS{sdk} = $sdk =~ /^5(\..*)?$/ ? 'fremantle'
+               : $sdk =~ /^4\.1(\..*)?$/ ? 'diablo'
+               : $sdk =~ /^4\.0(\..*)?$/ ? 'chinook'
+               : $sdk =~ /^3(\..*)?$/ ? 'bora'
+               : $sdk =~ /^2(\..*)?$/ ? 'gregale'
+               : $sdk =~ /^1(\..*)?$/ ? 'mistral'
                : '';
     close(IN);
     print "+++ Guessed SDK = [$OPTS{sdk}]\n";
