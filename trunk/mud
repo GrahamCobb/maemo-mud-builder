@@ -69,6 +69,7 @@ EOM
 }
 
 if (!$OPTS{sdk}) {
+  MUD::Build::quietlyInstall("maemo-version");
   if (open(IN, "</etc/maemo_version")) {
     chomp(my $line = <IN>);
     my ($sdk) = $line =~ /^([\d\.]+)/;

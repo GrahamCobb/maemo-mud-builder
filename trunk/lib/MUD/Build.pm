@@ -150,6 +150,9 @@ sub fetch {
     chdir $self->{workdir};
     $fetch->fetch();
 
+    # Try installing maemo-optify if we are going to need it
+    quietlyInstall("maemo-optify") if $self->{data}->optify;
+
     # Note: fetch might change directory while dealing with dependencies,
     # so reset
     chdir $self->{workdir};
@@ -602,12 +605,34 @@ sub optifyCheck {
 
     # Check to see if maemo-optify has been installed
     my $dpkg = `dpkg -s maemo-optify 2>/dev/null`;
-    $self->{optifyCheck} = $dpkg =~ /Status: install ok installed/;
-    if (!$self->{optifyCheck}) {
-	print "+++ Optification disabled as maemo-optify not installed +++\n";
-	print $dpkg;
-    }
+    $self->{optifyCheck} = isInstalled("maemo-optify");
+    print "+++ Optification disabled as maemo-optify not installed +++\n" unless $self->{optifyCheck};
     return $self->{optifyCheck};    
+}
+
+=item isInstalled( PACKAGE )
+
+Utility method for checking if a package is installed
+
+=cut
+
+sub isInstalled {
+    my ($pkgName) = @_;
+
+    my $dpkg = `dpkg -s $pkgName 2>/dev/null`;
+    return $dpkg =~ /Status: install ok installed/;
+}
+
+=item quietlyInstall( PACKAGE )
+
+Utility method for installing a package without complaining if it is not found
+
+=cut
+
+sub quietlyInstall {
+    my ($pkgName) = @_;
+
+    system('fakeroot', 'apt-get', '-y', '--force-yes', 'install', $pkgName) unless isInstalled($pkgName);
 }
 
 =back
