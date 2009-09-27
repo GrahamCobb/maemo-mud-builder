@@ -15,6 +15,8 @@ MUD::Package - Define a MUD package, and the data/definitions
     my $upgradeDesc   = $pkg->upgradeDescription;
     my $displayName   = $pkg->displayName;
     my $bugTracker    = $pkg->bugTracker;
+    my $buildDepends  = $pkg->buildDepends;
+    my $optify        = $pkg->optify;
     my @patchFiles    = $pkg->patches;
     my $controlFields = $pkg->controlFields;
     my $section       = $pkg->section;
@@ -260,6 +262,18 @@ sub upgradeDescription {
   return ref($desc) ? &readFile($desc->{file}) : $desc;
 }
 
+=item buildDepends
+
+Return the list of build dependencies if specified.
+
+=cut
+
+sub buildDepends {
+  my $self = shift;
+  
+  return $self->{data}->{deb}->{'build-depends'};
+}
+
 
 =item displayName
 
@@ -348,7 +362,7 @@ sub controlFields {
   # -- Generate...
   #
   my %data = map { $_ => $self->{data}->{deb}->{$_} }
-             grep { $_ !~ /^(icon|prefix-section|optify|library|libdev|upgrade-description|description|display-name|version|bugtracker)$/ }
+             grep { $_ !~ /^(icon|prefix-section|optify|library|libdev|upgrade-description|description|display-name|version|bugtracker|build-depends)$/ }
              keys %{ $self->{data}->{deb} };
   $self->{controlFields} = \%data;
   return $self->{controlFields};
