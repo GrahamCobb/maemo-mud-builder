@@ -228,7 +228,7 @@ sub patch {
     
     # -- Include maemo-optify...
     #
-    $rules =~ s/^\tdh_gencontrol$/$&\n\tif which maemo-optify >\/dev\/null ; then maemo-optify ; fi/mg if $self->{data}->optify;
+    $rules =~ s/^\tdh_gencontrol$/$&\n\tif which maemo-optify >\/dev\/null ; then maemo-optify ; fi/mg if $self->optifyCheck();
 
     # -- Append configure flags...
     #
@@ -565,7 +565,7 @@ sub patchDebControl {
     # in the package file.  If they are to be automatically calculated they are added later on.
     my $bdeps = $self->{data}->buildDepends;
     if ($bdeps) {
-	if ($self->{data}->optify) {
+	if ($self->optifyCheck()) {
 	    $bdeps .= ', maemo-optify';
 	}
 	MUD::Package::setField($control, "Build-Depends", $bdeps);
@@ -589,6 +589,25 @@ sub patchDebControl {
     # -- Patch other miscellaneous problems...
     #
     system('echo 4 >debian/compat');
+}
+
+# If 'optify' is set, check whether maemo-optify is present
+sub optifyCheck {
+    my $self = shift;
+
+    return $self->{data}->optify unless $self->{data}->optify;
+
+    # See if we have already checked
+    return $self->{optifyCheck} if defined $self->{optifyCheck};
+
+    # Check to see if maemo-optify has been installed
+    my $dpkg = `dpkg -s maemo-optify 2>/dev/null`;
+    $self->{optifyCheck} = $dpkg =~ /Status: install ok installed/;
+    if (!$self->{optifyCheck}) {
+	print "+++ Optification disabled as maemo-optify not installed +++\n";
+	print $dpkg;
+    }
+    return $self->{optifyCheck};    
 }
 
 =back
