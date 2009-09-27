@@ -228,7 +228,7 @@ sub patch {
     
     # -- Include maemo-optify...
     #
-    $rules =~ s/^\tdh_gencontrol$/$&\n\tmaemo-optify/mg if $self->{data}->optify;
+    $rules =~ s/^\tdh_gencontrol$/$&\n\tif which maemo-optify >\/dev\/null ; then maemo-optify ; fi/mg if $self->{data}->optify;
 
     # -- Append configure flags...
     #
@@ -308,7 +308,7 @@ sub compile {
     system("$dpkg_depcheck $DPKG_BUILDPACKAGE | tee ../log");
     
     # Modify debian/control with calculated build-depends if not explicitly set
-    unless (!$dpkg_depcheck || $self->{data}->{data}->{deb}->{'build-depends'}) {
+    unless (!$dpkg_depcheck || $self->{data}->buildDepends) {
       my @buildDeps = ();
       if (open(LOG, "<../build.deps")) {
           my $inNeeded = 0;
@@ -559,6 +559,17 @@ sub patchDebControl {
     # -- Bugtracker...
     #
     MUD::Package::setField($control, "Xsbc-Bugtracker", $self->{data}->bugTracker);
+
+    # -- Build depends...
+    # Note: the build dependencies are only added here if they are explicitly set
+    # in the package file.  If they are to be automatically calculated they are added later on.
+    my $bdeps = $self->{data}->buildDepends;
+    if ($bdeps) {
+	if ($self->{data}->optify) {
+	    $bdeps .= ', maemo-optify';
+	}
+	MUD::Package::setField($control, "Build-Depends", $bdeps);
+    }
 
     # -- Other control fields...
     #
