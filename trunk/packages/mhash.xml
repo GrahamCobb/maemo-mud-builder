@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="debian">
+  <depends>autotools-dev, devscripts</depends>
+ </fetch>
+  <build>
+  </build>
+  <deb optify="1" prefix-section="0">
+    <version>mhash-0.9.9+maemo-1</version>
+    <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
+    <!--<description>libaudiofile for Maemo Fremantle\nThis is a version of libaudiofile to support the Fremantle port of libesd</description>-->
+  </deb>
+</package>
