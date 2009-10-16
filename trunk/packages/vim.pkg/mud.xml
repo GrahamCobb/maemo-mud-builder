@@ -5,15 +5,15 @@
     -              http://www.cs.princeton.edu/~mtwebb/vim_icon/vim_icons.html
     -->
   <fetch type="tarball">
-    <url>ftp://ftp.vim.org/pub/vim/unix/vim-7.2.tar.bz2</url>
+    <url>http://ftp.vim.org/pub/vim/unix/vim-7.2.tar.bz2</url>
   </fetch>
   <build>
     <configure-append>--disable-darwin --disable-xsmp --disable-netbeans --enable-gui=no --disable-gtktest --disable-gpm --disable-acl --disable-nls --enable-multibyte</configure-append>
   </build>
-  <deb>
-    <version>7.2-0maemo4</version>
+  <deb optify="1">
+    <version>7.2-0maemo5</version>
     <section>user/utilities</section>
-    <upgrade-description>An update to vim 7.2, including UTF-8 support and syntax highlighting</upgrade-description>
+    <upgrade-description>Moved most of the runtime files into the larger /opt partition.</upgrade-description>
     <description>Powerful console text editor
     One of the most powerful text editors in existence, vim is "Vi-Improved".
     .
