@@ -3,8 +3,8 @@
   <fetch type="command">
     <command>
     pkg="dbus-scripts"
-    date="20091027"
-    release="1.0-4"
+    date="20091028"
+    release="1.0-5"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
     debver=${release#*-}
@@ -27,7 +27,7 @@
   </fetch>
   <build>
   </build>
-  <deb>
+  <deb prefix-section="0">
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
   </deb>
 </package>
