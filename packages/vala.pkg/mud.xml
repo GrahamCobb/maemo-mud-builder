@@ -1,13 +1,13 @@
 <package>
   <fetch type="tarball">
-    <url>http://download.gnome.org/sources/vala/0.7/vala-0.7.7.tar.bz2</url>
+    <url>http://download.gnome.org/sources/vala/0.7/vala-0.7.8.tar.bz2</url>
   </fetch>
   <build>
     <copyright>lgpl</copyright>
     <configure-append>--enable-maintainer-mode --disable-dependency-tracking</configure-append>
   </build>
   <deb prefix-section="0">
-    <version>0.7.7-maemo1</version>
+    <version>0.7.8-maemo1</version>
     <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
     <section>programming</section>
     <depends>c-compiler</depends>
