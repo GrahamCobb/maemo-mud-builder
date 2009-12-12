@@ -8,7 +8,8 @@
   </build>
   <deb>
     <section>python</section>
-    <version>0.0.4-maemo1</version>
+    <depends>python, ${shlibs:Depends}, ${misc:Depends}</depends>
+    <version>0.0.4-maemo2</version>
     <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
     <description>Python bindings for Evolution Data Server.\nAdd python support to evolution-data-server through producing bindings for libebook.</description>
   </deb>
