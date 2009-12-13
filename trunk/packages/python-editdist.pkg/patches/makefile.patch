@@ -1,0 +1,13 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 0)
++++ Makefile	(revision 0)
+@@ -0,0 +1,8 @@
++compile:
++	python2.5 setup.py build
++
++install:
++	python2.5 setup.py install --root ${DESTDIR}
++
++clean:
++	python2.5 setup.py clean

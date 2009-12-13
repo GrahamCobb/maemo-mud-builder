@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <fetch type="tarball">
+    <url>http://www.mindrot.org/files/py-editdist/py-editdist-0.3.tar.gz</url>
+  </fetch>
+  <build>
+    <configure-append></configure-append>
+  </build>
+  <deb>
+    <section>python</section>
+    <depends>python, ${shlibs:Depends}, ${misc:Depends}</depends>
+    <version>0.0.3-maemo1</version>
+    <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
+    <description>Calculate the 'edit distance' between two strings.\nPython module to calculate the Levenshtein edit distance between two strings. It is implemented as a CPython module and is quite fast.</description>
+  </deb>
+</package>
