@@ -11,14 +11,14 @@
     <configure-append>--disable-darwin --disable-xsmp --disable-netbeans --enable-gui=no --disable-gtktest --disable-gpm --disable-acl --disable-nls --enable-multibyte</configure-append>
   </build>
   <deb optify="1">
-    <version>7.2-0maemo5</version>
+    <version>7.2-0maemo6</version>
     <section>user/utilities</section>
     <upgrade-description>Moved most of the runtime files into the larger /opt partition.</upgrade-description>
     <description>Powerful console text editor
     One of the most powerful text editors in existence, vim is "Vi-Improved".
     .
     This package contains the command line version only, and so should be used
-    inside X Terminal.
+    inside X Terminal; although a launcher icon is provided.
     </description>
   </deb>
 </package>
