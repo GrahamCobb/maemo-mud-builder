@@ -2,5 +2,8 @@
   <file name="vim.launch">
     <destination path="/usr/bin/vim.launch"/>
   </file>
+  <file name="vimrc">
+    <destination path="/usr/share/vim/vimrc"/>
+  </file>
 </extras>
 
