@@ -3,8 +3,11 @@
   <fetch type="tarball">
     <url>http://downloads.sourceforge.net/project/tinyfugue/tinyfugue/5.0%20beta%208/tf-50b8.tar.gz</url>
   </fetch>
+  <build>
+    <configure-append>CC=gcc --disable-inet6 --disable-mailcheck</configure-append>
+  </build>
   <deb optify="1">
-    <version>5.0b8-maemo1</version>
+    <version>5.0b8-maemo2</version>
     <section>user/games</section>
     <display-name>TinyFugue</display-name>
     <description>Flexible, screen-oriented, command-line MUD client.\n
