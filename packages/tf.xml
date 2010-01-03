@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<package>
-  <fetch type="debian">
-    <deb-src>http://ftp.debian.org/ stable main</deb-src>
-  </fetch>
-  <deb>
-    <section>user/games</section>
-  </deb>
-</package>

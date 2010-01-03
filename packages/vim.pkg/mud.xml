@@ -11,7 +11,7 @@
     <configure-append>--disable-darwin --disable-xsmp --disable-netbeans --enable-gui=no --disable-gtktest --disable-gpm --disable-acl --disable-nls --enable-multibyte</configure-append>
   </build>
   <deb optify="1">
-    <version>7.2-0maemo6</version>
+    <version>7.2-0maemo7</version>
     <section>user/utilities</section>
     <upgrade-description>Moved most of the runtime files into the larger /opt partition.</upgrade-description>
     <description>Powerful console text editor
