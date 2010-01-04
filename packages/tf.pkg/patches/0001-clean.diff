@@ -1,0 +1,54 @@
+Index: debian/rules
+===================================================================
+--- debian/rules	(revision 1)
++++ debian/rules	(working copy)
+@@ -27,7 +27,7 @@
+ config.status: configure
+ 	dh_testdir
+ 	# Add here commands to configure the package.
+-	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info CFLAGS="$(CFLAGS)" LDFLAGS="-Wl,-z,defs"
++	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info CFLAGS="$(CFLAGS)" LDFLAGS="-Wl,-z,defs" --disable-inet6 --disable-mailcheck
+ 
+ 
+ build: build-stamp
+@@ -47,7 +47,7 @@
+ 	rm -f build-stamp 
+ 
+ 	# Add here commands to clean up after the build process.
+-	-$(MAKE) distclean
++	$(MAKE) -f unix/Makefile distclean
+ ifneq "$(wildcard /usr/share/misc/config.sub)" ""
+ 	cp -f /usr/share/misc/config.sub config.sub
+ endif
+@@ -76,10 +76,10 @@
+ binary-arch: build install
+ 	dh_testdir
+ 	dh_testroot
+-	dh_installchangelogs CHANGES
+-	dh_installdocs
+-	dh_installexamples
+-#	dh_install
++#	dh_installchangelogs CHANGES
++#	dh_installdocs
++#	dh_installexamples
++	dh_install --sourcedir=debian/tmp
+ #	dh_installmenu
+ #	dh_installdebconf	
+ #	dh_installlogrotate
+@@ -90,7 +90,7 @@
+ #	dh_installinit
+ #	dh_installcron
+ #	dh_installinfo
+-	dh_installman
++#	dh_installman
+ 	dh_link
+ 	dh_strip
+ 	dh_compress
+@@ -100,6 +100,7 @@
+ 	dh_installdeb
+ 	dh_shlibdeps
+ 	dh_gencontrol
++	if which maemo-optify >/dev/null ; then maemo-optify ; fi
+ 	dh_md5sums
+ 	dh_builddeb
+ 
