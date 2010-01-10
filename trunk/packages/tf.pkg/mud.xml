@@ -7,8 +7,9 @@
     <configure-append>--disable-inet6 --disable-mailcheck</configure-append>
   </build>
   <deb optify="1">
-    <version>5.0b8-maemo2</version>
+    <version>5.0b8-maemo3</version>
     <section>user/games</section>
+    <maintainer>Andrew Flegg &lt;andrew@bleb.org&gt;</maintainer>
     <display-name>TinyFugue</display-name>
     <description>Flexible, screen-oriented, command-line MUD client.\n
        TinyFugue is a programmable multi-user dungeon (MUD) client. It can
@@ -17,5 +18,6 @@
        .\n
        This version is intended to be run from within X Terminal.
     </description>
+    <bugtracker>mailto:andrew@bleb.org</bugtracker>
   </deb>
 </package>
