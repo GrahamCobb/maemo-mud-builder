@@ -1,0 +1,6 @@
+<extras>
+  <file name="local.tf">
+    <destination path="/usr/share/tf-lib/local.tf"/>
+  </file>
+</extras>
+
