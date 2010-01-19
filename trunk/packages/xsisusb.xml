@@ -13,7 +13,7 @@
     majmin=${release%-*} ; version="$majmin+maemo-$debver"
     if [ "$majmin" = "$release" ] ; then majmin=${release%+*} ; version="${majmin}+maemo+svn$date-$debver" ; fi
     pkgdir="$pkg-$version"
-    branch="https://garage.maemo.org/svn/xsisusb/trunk/$pkg"
+    branch="https://vcs.maemo.org/svn/xsisusb/trunk/$pkg"
     svn export -r {${date}T0000Z} $branch $pkgdir
     mv -f $pkgdir/debian/changelog $pkgdir/debian/changelog.tmp
     echo "$pkg ($version) unstable; urgency=low" &gt;$pkgdir/debian/changelog
