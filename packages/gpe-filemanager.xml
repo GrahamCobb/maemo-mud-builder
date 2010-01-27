@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="gpe-filemanager"
-    date="20090926"
+    date="20100107"
     release="2.8+"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -34,7 +34,7 @@
     <build-depends sdk="fremantle">debhelper (&gt;= 5), libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
     <display-name>GPE File manager</display-name>
     <!-- <upgrade-description>Daily testing build of GPE suite file manager</upgrade-description> -->
-    <upgrade-description>Updated beta of GPE suite file manager\nChanges include:\n- Translation updates\n- Change name to GPE File manager and update menu items and icons</upgrade-description>
+    <upgrade-description>Updated beta of GPE suite file manager\nChanges include:\n- Translation updates\n- Change name to GPE File manager and update menu items and icons\n - Fix crash in rename handling</upgrade-description>
     <icon sdk="gregale">pixmaps/gpe-filemanager-26x26.png</icon>
     <icon sdk="bora">pixmaps/gpe-filemanager-26x26.png</icon>
     <icon sdk="chinook">pixmaps/gpe-filemanager-26x26.png</icon>
