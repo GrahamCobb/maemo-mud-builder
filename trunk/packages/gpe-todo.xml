@@ -42,7 +42,7 @@
     <build-depends>debhelper (&gt;= 4.0.0), libtododb-dev, libgpepimc-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
     <display-name>GPE To-do list</display-name>
     <!-- <upgrade-description>Daily testing build of GPE suite todo list manager</upgrade-description> -->
-    <upgrade-description>Updated beta of GPE PIM suite todo list manager\nChanges include:\n- Category changes automatically updated (bug 80)\n- Fixed "Open..." menu item (bug 205)\n"Show completed" state is saved\n- Added delete menu item (bug 249)\n- Translation updates\n- Change name to GPE To-do list and update menu items and icons\n- GPE Summary shows abandonned todos\n- Remember category between sessions (bug 261)\n- Improved Fremantle UI support\n- Fix crash when creating new item with non-English locale</upgrade-description>
+    <upgrade-description>New release of GPE PIM suite todo list manager\nChanges include:\n- Category changes automatically updated (bug 80)\n- Fixed "Open..." menu item (bug 205)\n"Show completed" state is saved\n- Added delete menu item (bug 249)\n- Translation updates\n- Change name to GPE To-do list and update menu items and icons\n- GPE Summary shows abandonned todos\n- Remember category between sessions (bug 261)\n- Improved Fremantle UI support\n- Fix crash when creating new item with non-English locale</upgrade-description>
     <icon sdk="gregale">hildon/gpe-todo-26x26.png</icon>
     <icon sdk="bora">hildon/gpe-todo-26x26.png</icon>
     <icon sdk="chinook">hildon/gpe-todo-26x26.png</icon>
