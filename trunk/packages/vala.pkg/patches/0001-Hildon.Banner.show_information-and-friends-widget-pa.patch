@@ -1,0 +1,35 @@
+From 8241a342274d86964147569716275cfe6557d522 Mon Sep 17 00:00:00 2001
+From: Philipp Zabel <philipp.zabel@gmail.com>
+Date: Wed, 20 Jan 2010 12:15:34 +0100
+Subject: [PATCH 1/3] Hildon.Banner.show_information and friends' widget parameters are nullable
+
+---
+ vapi/hildon-1.vapi                       |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/vapi/hildon-1.vapi b/vapi/hildon-1.vapi
+index a3a616a..bf05958 100644
+--- vapi/hildon-1.vapi
++++ vapi/hildon-1.vapi
+@@ -42,12 +42,12 @@ namespace Hildon {
+ 		public void set_markup (string markup);
+ 		public void set_text (string text);
+ 		public void set_timeout (uint timeout);
+-		public static unowned Gtk.Widget show_animation (Gtk.Widget widget, string animation_name, string text);
+-		public static unowned Gtk.Widget show_information (Gtk.Widget widget, string? icon_name, string text);
+-		public static unowned Gtk.Widget show_information_override_dnd (Gtk.Widget widget, string text);
+-		public static unowned Gtk.Widget show_information_with_markup (Gtk.Widget widget, string? icon_name, string markup);
+-		public static unowned Gtk.Widget show_informationf (Gtk.Widget widget, string icon_name, string format);
+-		public static unowned Gtk.Widget show_progress (Gtk.Widget widget, Gtk.ProgressBar bar, string text);
++		public static unowned Gtk.Widget show_animation (Gtk.Widget? widget, string animation_name, string text);
++		public static unowned Gtk.Widget show_information (Gtk.Widget? widget, string? icon_name, string text);
++		public static unowned Gtk.Widget show_information_override_dnd (Gtk.Widget? widget, string text);
++		public static unowned Gtk.Widget show_information_with_markup (Gtk.Widget? widget, string? icon_name, string markup);
++		public static unowned Gtk.Widget show_informationf (Gtk.Widget? widget, string icon_name, string format);
++		public static unowned Gtk.Widget show_progress (Gtk.Widget? widget, Gtk.ProgressBar bar, string text);
+ 		[NoAccessorMethod]
+ 		public bool is_timed { get; construct; }
+ 		[NoAccessorMethod]
+-- 
+1.6.6
+
