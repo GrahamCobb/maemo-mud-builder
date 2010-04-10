@@ -1,0 +1,26 @@
+From cfd2c7d25b3befa43ddc9840f23e08e48f81e925 Mon Sep 17 00:00:00 2001
+From: Philipp Zabel <philipp.zabel@gmail.com>
+Date: Fri, 9 Apr 2010 13:41:08 +0200
+Subject: [PATCH] hildon-1.vapi: hildon_date_button_get_date parameters are out
+
+---
+ vapi/hildon-1.vapi                       |    2 +-
+ vapi/packages/hildon-1/hildon-1.metadata |    3 +++
+ 2 files changed, 4 insertions(+), 1 deletions(-)
+
+diff --git a/vapi/hildon-1.vapi b/vapi/hildon-1.vapi
+index 2856d69..b1526c5 100644
+--- vapi/hildon-1.vapi
++++ vapi/hildon-1.vapi
+@@ -283,7 +283,7 @@ namespace Hildon {
+ 	public class DateButton : Hildon.PickerButton, Atk.Implementor, Gtk.Buildable {
+ 		[CCode (type = "GtkWidget*", has_construct_function = false)]
+ 		public DateButton (Hildon.SizeType size, Hildon.ButtonArrangement arrangement);
+-		public void get_date (uint year, uint month, uint day);
++		public void get_date (out uint year, out uint month, out uint day);
+ 		public void set_date (uint year, uint month, uint day);
+ 		[CCode (type = "GtkWidget*", has_construct_function = false)]
+ 		public DateButton.with_year_range (Hildon.SizeType size, Hildon.ButtonArrangement arrangement, int min_year, int max_year);
+-- 
+1.5.6.1
+

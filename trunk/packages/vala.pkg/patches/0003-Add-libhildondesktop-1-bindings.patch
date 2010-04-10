@@ -219,10 +219,10 @@ index 0000000..92875b9
 diff --git a/vapi/Makefile.am b/vapi/Makefile.am
 --- vapi/Makefile.am
 +++ vapi/Makefile.am
-@@ -117,6 +117,8 @@
- 	libgnomeui-2.0.vapi \
+@@ -130,6 +130,8 @@
  	libgsf-1.deps \
  	libgsf-1.vapi \
+ 	libgvc.vapi \
 +	libhildondesktop-1.deps \
 +	libhildondesktop-1.vapi \
  	libmagic.vapi \
@@ -231,10 +231,10 @@ diff --git a/vapi/Makefile.am b/vapi/Makefile.am
 diff --git a/vapi/Makefile.in b/vapi/Makefile.in
 --- vapi/Makefile.in
 +++ vapi/Makefile.in
-@@ -320,6 +320,8 @@
- 	libgnomeui-2.0.vapi \
+@@ -340,6 +340,8 @@
  	libgsf-1.deps \
  	libgsf-1.vapi \
+ 	libgvc.vapi \
 +	libhildondesktop-1.deps \
 +	libhildondesktop-1.vapi \
  	libmagic.vapi \
