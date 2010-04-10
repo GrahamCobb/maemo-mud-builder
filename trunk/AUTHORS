@@ -14,8 +14,16 @@ nasm
 
 olsrd, olsdr-plugins
 	Adam p <rip@users.garage.maemo.org>
+
 cron
 	John Blook <johnx@users.garage.maemo.org>
 
 gnutar
 	Andrew Zabolotny <zap@homelink.ru>
+
+gpe-*
+	Graham Cobb <g+770@cobb.uk.net>
+
+vala
+	Philipp Zabel <pzabel@gmx.de>
+
