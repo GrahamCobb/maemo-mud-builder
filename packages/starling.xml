@@ -56,6 +56,6 @@
     <icon sdk="chinook">data/bass-26x26.png</icon>
     <icon sdk="diablo">data/bass-26x26.png</icon>
     <icon sdk="fremantle">data/bass-48x48.png</icon>
-    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi</bugtracker>
+    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi?product=starling</bugtracker>
   </deb>
 </package>

@@ -50,6 +50,6 @@
     <icon sdk="chinook">pixmaps/gpe-calendar-26x26.png</icon>
     <icon sdk="diablo">pixmaps/gpe-calendar-26x26.png</icon>
     <icon sdk="fremantle">pixmaps/gpe-calendar-48x48.png</icon>
-    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi</bugtracker>
+    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi?product=gpe-calendar</bugtracker>
   </deb>
 </package>

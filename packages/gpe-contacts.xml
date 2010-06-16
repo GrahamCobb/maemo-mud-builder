@@ -53,6 +53,6 @@
     <icon sdk="chinook">hildon/gpe-contacts-26x26.png</icon>
     <icon sdk="diablo">hildon/gpe-contacts-26x26.png</icon>
     <icon sdk="fremantle">hildon/gpe-contacts-48x48.png</icon>
-    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi</bugtracker>
+    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi?product=gpe-contacts</bugtracker>
   </deb>
 </package>
