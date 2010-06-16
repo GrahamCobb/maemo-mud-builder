@@ -40,6 +40,6 @@
     <icon sdk="chinook">hildon/gpe-timesheet-26x26.png</icon>
     <icon sdk="diablo">hildon/gpe-timesheet-26x26.png</icon>
     <icon sdk="fremantle">hildon/gpe-timesheet-48x48.png</icon>
-    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi</bugtracker>
+    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi?product=gpe-timesheet</bugtracker>
   </deb>
 </package>

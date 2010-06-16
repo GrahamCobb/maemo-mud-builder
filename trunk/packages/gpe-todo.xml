@@ -48,6 +48,6 @@
     <icon sdk="chinook">hildon/gpe-todo-26x26.png</icon>
     <icon sdk="diablo">hildon/gpe-todo-26x26.png</icon>
     <icon sdk="fremantle">hildon/gpe-todo-48x48.png</icon>
-    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi</bugtracker>
+    <bugtracker>http://bugs.linuxtogo.org/enter_bug.cgi?product=gpe-todo</bugtracker>
   </deb>
 </package>
