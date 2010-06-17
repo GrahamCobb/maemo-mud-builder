@@ -137,16 +137,18 @@ sub load {
     
   # -- Now load the information, applying any XSLT...
   #
-  # FIXME: Should do heuristics to work out default sdk name
   my $sdk = $::OPTS{sdk} || 'diablo';
+  my $target = $::OPTS{target} || 'maemo';
 
-  my $xsl = "$self->{config}->{base}/XSL/SDK.xsl";
-  $xsl = $::OPTS{xsl} if $::OPTS{xsl};
-  croak("Missing XSLT file: $xsl") unless -f $xsl;
+  my $xslsdk = $::OPTS{xsl} || "$self->{config}->{base}/XSL/SDK.xsl";
+  croak("Missing XSLT file: $xslsdk") unless -f $xslsdk;
+  my $xsltarget = "$self->{config}->{base}/XSL/target.xsl";
+  croak("Missing XSLT file: $xsltarget") unless -f $xsltarget;
 
   my $holdTerminator = $/;
   undef $/;
-  open(XMLFILE,"xsltproc --stringparam sdk $sdk $xsl $file |") or croak("Unable to perform XSL Transformation on [$file]: $!\nHave you installed xsltproc?");
+  open(XMLFILE,"xsltproc --stringparam sdk $sdk $xslsdk $file | xsltproc --stringparam target $target $xsltarget - |") 
+      or croak("Unable to perform XSL Transformation on [$file]: $!\nHave you installed xsltproc?");
   $file = <XMLFILE>;
   close(XMLFILE);
   $/ = $holdTerminator;
@@ -157,6 +159,7 @@ sub load {
   $self->{data} = XMLin($file) or croak("Unable to parse configuration for '$name': error in [$file]?");
   $self->{name} = $name;
   $self->{sdk}  = $sdk;
+  $self->{target}  = $target;
 
   if ($self->{data}->{build}->{env}) {
     while(my ($k, $v) = each %{ $self->{data}->{build}->{env} }) {
@@ -400,6 +403,35 @@ sub version {
   $self->{version} = $version if $version;
   
   return $self->{data}->{deb}->{version} || $self->{version};
+}
+
+=item shortVersion
+
+Return the version number which should be used for this package, 
+without the "debian version" or "release" number.
+
+=cut
+
+sub shortVersion {
+  my $self = shift;
+  my $version = $self->version;
+  
+  return ($version =~ /^([^-]+)-.*/) ? $1 : $version;
+}
+
+=item releaseVersion
+
+Return the "debian version" or "release" number (which 
+may be an empty string).  If the return value is non-empty
+it will start with "-".
+
+=cut
+
+sub releaseVersion {
+  my $self = shift;
+  my $version = $self->version;
+  
+  return ($version =~ /^[^-]+(-.*)/) ? $1 : '';
 }
 
 

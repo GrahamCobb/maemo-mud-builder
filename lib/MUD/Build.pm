@@ -25,7 +25,7 @@ package MUD::Build;
 use strict;
 use utf8;
 use locale;
-use vars qw(@ISA $VERSION @PREVENT_INSTALL $DPKG_BUILDPACKAGE $GTK_ICON_CACHE_REFRESH); 
+use vars qw(@ISA $VERSION @PREVENT_INSTALL $DPKG_BUILDPACKAGE $GTK_ICON_CACHE_REFRESH $RPMBUILD); 
 use Carp;
 use File::Basename;
 use File::Path;
@@ -43,6 +43,10 @@ $VERSION = '0.10';
 # Use -i to ignore .svn directories(among others)
 $DPKG_BUILDPACKAGE      = 'dpkg-buildpackage -d -rfakeroot -i -sa -us -uc';
 $GTK_ICON_CACHE_REFRESH = 'gtk-update-icon-cache -f /usr/share/icons/hicolor';
+$RPMBUILD               = 'rpmbuild'
+    . ' --define "%reconfigure autoreconf -f -i -s; %configure"'
+    . ' --define "%autogen ./autogen.sh; %configure"'
+    . ' --target i386';
 
 
 =item new( OPTS )
@@ -167,14 +171,12 @@ sub fetch {
     $version   ||= 1;
     print "Version = $version, buildDir = $buildDir\n";
     $buildDir    = $self->{package} unless $buildDir =~ /^[a-z0-9\-\+]+$/;
+    $self->{data}->version($version);
 
-    my $versionForBuild = $version;
-    $versionForBuild =~ s/-[^-]+$//g;
-    $buildDir   .= "-$versionForBuild";
+    $buildDir .= "-".$self->{data}->shortVersion;
     print "Build dir = $buildDir\n";
     rename $origBDir, $buildDir if $origBDir ne $buildDir;
 
-    $self->{data}->version($version);
     $self->{data}->{build} = File::Spec->rel2abs($buildDir, $self->{workdir});
     print "Set build dir to [".$self->{data}->{build}."]\n";
     system('ln', '-snf', $self->{data}->{build}, $self->{workdir}.'/.build');
@@ -187,7 +189,6 @@ sub fetch {
         $self->genDebControl();
     }
 }
-
 
 =item patch
 
@@ -298,6 +299,59 @@ Build the unpacked, and potentially patched, binaries.
 sub compile {
     my $self = shift;
 
+    if ($::OPTS{rpm}) {
+	$self->compile_rpm();
+    } else {
+	$self->compile_deb();
+    }
+}
+
+sub compile_rpm {
+    my $self = shift;
+
+    chdir $self->{data}->{build} || croak "Build dir not set.\n";
+
+    my $name = $self->{package};
+    my $version = $self->{data}->shortVersion;
+    my $release = $self->{data}->releaseVersion;
+    $release =~ s/^-//;
+    $release ||= 0;
+
+    rmtree '../BUILD' if (-d '../BUILD'); mkdir '../BUILD' or die "Could not make RPM BUILD directory";
+    rmtree '../RPMS' if (-d '../RPMS'); mkdir '../RPMS' or die "Could not make RPM RPMS directory";
+    rmtree '../SOURCES' if (-d '../SOURCES'); mkdir '../SOURCES' or die "Could not make RPM SOURCES directory";
+    rmtree '../SPECS' if (-d '../SPECS'); mkdir '../SPECS' or die "Could not make RPM SPECS directory";
+    rmtree '../SRPMS' if (-d '../SRPMS'); mkdir '../SRPMS' or die "Could not make RPM SRPMS directory";
+
+    # Let's see if we can find a specfile
+    if (-f "$name.spec") {
+	print "Using specfile: $name.spec\n";
+	system("sed -e 's/\$name/$name/g\' -e 's/\$version/$version/g' -e 's/\$release/$release/g' <$name.spec >../SPECS/$name.spec");
+    }
+    if (-f "$name.yaml") {
+	print "Using spectacle file: $name.yaml\n";
+	system("sed -e 's/\$name/$name/g\' -e 's/\$version/$version/g' -e 's/\$release/$release/g' <$name.yaml >../SPECS/$name.yaml"
+	       . "&& specify ../SPECS/$name.yaml"
+	       . "&& cp ../SPECS/$name.yaml ../SOURCES/");
+    }
+    $self->genSpecfile() unless (-f "../SPECS/$name.spec");
+    system('cp',"../SPECS/$name.spec",'../SOURCES/');
+
+    # Source tarball
+    system('tar','c','-C','..','-zf',"../SOURCES/$name-$version.tgz","$name-$version"); 
+
+    my $topdir = File::Spec->rel2abs("..",$self->{data}->{build});
+    my $rpmbuild = $RPMBUILD
+	." --define '_topdir $topdir'"
+	." -bb ../SPECS/$name.spec"
+	."| tee ../log";
+    print "$rpmbuild\n";
+    system($rpmbuild);
+}
+
+sub compile_deb {
+    my $self = shift;
+
     chdir $self->{data}->{build} || croak "Build dir not set.\n";
 
     # -- Tweak for Maemo compatibility...
@@ -347,6 +401,33 @@ of C<Build-Depends> is done correctly.
 sub source {
     my $self = shift;
 
+    if ($::OPTS{rpm}) {
+	$self->source_rpm();
+    } else {
+	$self->source_deb();
+    }
+}
+
+sub source_rpm {
+    my $self = shift;
+
+    chdir $self->{data}->{build} || croak "Build dir not set.\n";
+
+    my $name = $self->{package};
+
+    # Now build source package for upload
+    my $topdir = File::Spec->rel2abs("..",$self->{data}->{build});
+    my $rpmbuild = $RPMBUILD
+	." --define '_topdir $topdir'"
+	." -bs ../SPECS/$name.spec"
+	."| tee ../log";
+    print "$rpmbuild\n";
+    system($rpmbuild);
+}
+
+sub source_deb {
+    my $self = shift;
+
     chdir $self->{data}->{build} || croak "Build dir not set.\n";
 
     # Now build source package for upload
@@ -381,7 +462,11 @@ sub copy {
 
     my $output = $self->{config}->directory('UPLOAD_DIR', 1);
     print "+++ Calculating dependencies to copy to [$output]\n";
-    $self->addDebs(\%debs, $self->{workdir}, '*');
+    if ($::OPTS{rpm}) {
+	$self->addRpms(\%debs, $self->{workdir}, '*');
+    } else {
+	$self->addDebs(\%debs, $self->{workdir}, '*');
+    }
     foreach my $deb (keys(%debs)) {
         system('cp', '-v', $deb, "$output/");
     }
@@ -402,6 +487,20 @@ sub addDebs {
             $self->addDebs($ref, $self->{config}->directory('BUILD_DIR'),
                                  "${p}_*") unless $ref->{$p};
         }
+    }
+}
+
+sub addRpms {
+    my $self = shift;
+    my ($ref, $dir, $pattern) = @_;
+
+    print "Finding rpms for [$pattern] in [$dir]\n";
+    my @results = `find '$dir' -type f -name '$pattern.rpm' -o -name '${pattern}.src.rpm'`;
+    my @add     = ();
+    foreach my $d (@results) {
+        chomp($d);
+        $ref->{$d}++;
+	# Do not attempt to follow dependencies chain as that is hard for RPMs
     }
 }
 
