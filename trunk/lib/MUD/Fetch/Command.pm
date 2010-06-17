@@ -21,9 +21,9 @@ sub fetch {
     croak "No command specfied" unless my $cmd = $self->{package}->{data}->{fetch}->{command};
   
     print "+++ Executing [$cmd]...\n";
-    open(OUT, '>fetch.sh') or croak "Unable to write command.sh: $!\n";
+    open(OUT, '>fetch.sh') or croak "Unable to write fetch.sh: $!\n";
     print OUT $cmd;
-    close(OUT) or croak "Unable to close command.sh: $!\n";
+    close(OUT) or croak "Unable to close fetch.sh: $!\n";
     my @start = <*>;
     system('sh', 'fetch.sh');
     croak "Unable to execute command: $@\n" if $@;

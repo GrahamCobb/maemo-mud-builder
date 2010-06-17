@@ -32,7 +32,9 @@ GetOptions(\%OPTS, 'help',
                    'config=s',
                    'all',
                    'depend-nobuild',
+                   'rpm',
                    'sdk=s',
+                   'target=s',
                    'xsl=s');
 
 if ($OPTS{help} or !@ARGV or !$ACTIONS{$ARGV[0]}) {
@@ -49,8 +51,11 @@ Options:
     -c, --config=FILE         Use FILE for configuration rather than 'config'.
     -d, --depend-nobuild      Do not build any dependencies, assume they are
                               up to date.
+    -r, --rpm                 Build an RPM instead of a DEB
     -s, --sdk=CODENAME        Use CODENAME as the SDK name when processing
                               packages.
+    -t, --target=PLATFORM     Use PLATFORM as the TARGET name when processing
+                              packages (defaults to 'maemo')
     -x, --xsl=FILE            Use FILE as XSL Transformation for package files.
 
 Actions:
@@ -68,22 +73,38 @@ EOM
     exit;
 }
 
+$OPTS{target}  ||= (-f "/etc/meego-release") ? 'meego' : 'maemo';
+$OPTS{rpm} ||= $OPTS{target} =~ /^meego.*/;
+
 if (!$OPTS{sdk}) {
-  MUD::Build::quietlyInstall("maemo-version");
-  if (open(IN, "</etc/maemo_version")) {
-    chomp(my $line = <IN>);
-    my ($sdk) = $line =~ /^([\d\.]+)/;
-    
-    $OPTS{sdk} = $sdk =~ /^5(\..*)?$/ ? 'fremantle'
-               : $sdk =~ /^4\.1(\..*)?$/ ? 'diablo'
-               : $sdk =~ /^4\.0(\..*)?$/ ? 'chinook'
-               : $sdk =~ /^3(\..*)?$/ ? 'bora'
-               : $sdk =~ /^2(\..*)?$/ ? 'gregale'
-               : $sdk =~ /^1(\..*)?$/ ? 'mistral'
-               : '';
-    close(IN);
-    print "+++ Guessed SDK = [$OPTS{sdk}]\n";
-  }
+    if ($OPTS{target} =~ /^maemo.*/) {
+	MUD::Build::quietlyInstall("maemo-version");
+	  if (open(IN, "</etc/maemo_version")) {
+	      chomp(my $line = <IN>);
+	      my ($sdk) = $line =~ /^([\d\.]+)/;
+	      
+	      $OPTS{sdk} = $sdk =~ /^5(\..*)?$/ ? 'fremantle'
+		  : $sdk =~ /^4\.1(\..*)?$/ ? 'diablo'
+		  : $sdk =~ /^4\.0(\..*)?$/ ? 'chinook'
+		  : $sdk =~ /^3(\..*)?$/ ? 'bora'
+		  : $sdk =~ /^2(\..*)?$/ ? 'gregale'
+		  : $sdk =~ /^1(\..*)?$/ ? 'mistral'
+		  : '';
+	      close(IN);
+	      print "+++ Guessed SDK = [$OPTS{sdk}]\n";
+	  }
+      } else {
+	  if (open(IN, "</etc/meego-release")) {
+	      my $holdTerminator = $/;
+	      undef $/;
+	      my $buf = <IN>;
+	      $/ = $holdTerminator;
+	      $buf =~ /BUILD: meego-([\d\.]+-[a-z]+)/;
+	      $OPTS{sdk} = $buf =~ /BUILD: meego-([\d\.]+-[a-z]+)/ ? $1
+		  : '';
+	      print "+++ Guessed SDK = [$OPTS{sdk}]\n";
+	  }
+      }
 }
 
 $config = { base => $Bin };
