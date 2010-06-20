@@ -1,0 +1,199 @@
+From fa2a444a19c5993c55a7b8502e12f7c92518e46a Mon Sep 17 00:00:00 2001
+From: Philipp Zabel <philipp.zabel@gmail.com>
+Date: Sun, 20 Jun 2010 17:05:53 +0200
+Subject: [PATCH] Add liblocation VAPI
+
+---
+ vapi/Makefile.am      |    1 +
+ vapi/Makefile.in      |    1 +
+ vapi/liblocation.vapi |  154 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 156 insertions(+), 0 deletions(-)
+ create mode 100644 vapi/liblocation.vapi
+
+diff --git a/vapi/Makefile.am b/vapi/Makefile.am
+index 8822a04..84854c9 100644
+--- vapi/Makefile.am
++++ vapi/Makefile.am
+@@ -141,6 +141,7 @@ dist_vapi_DATA = \
+ 	libhildondesktop-1.vapi \
+ 	libhildonmime.deps \
+ 	libhildonmime.vapi \
++	liblocation.vapi \
+ 	libmagic.vapi \
+ 	libnl-1.vapi \
+ 	libnl-2.0.deps \
+diff --git a/vapi/Makefile.in b/vapi/Makefile.in
+index ee0cf49..e401c64 100644
+--- vapi/Makefile.in
++++ vapi/Makefile.in
+@@ -351,6 +351,7 @@ dist_vapi_DATA = \
+ 	libhildondesktop-1.vapi \
+ 	libhildonmime.deps \
+ 	libhildonmime.vapi \
++	liblocation.vapi \
+ 	libmagic.vapi \
+ 	libnl-1.vapi \
+ 	libnl-2.0.deps \
+diff --git a/vapi/liblocation.vapi b/vapi/liblocation.vapi
+new file mode 100644
+index 0000000..0bf6456
+--- /dev/null
++++ vapi/liblocation.vapi
+@@ -0,0 +1,154 @@
++[CCode (cprefix = "Location", lower_case_cprefix = "location_")]
++namespace Location {
++	[Compact]
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public class CellInfo {
++		public int flags;
++		public weak Location._gsm_cell_info gsm_cell_info;
++		public weak Location._wcdma_cell_info wcdma_cell_info;
++	}
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public class GPSDControl : GLib.Object {
++		public int get_allowed_methods ();
++		public static unowned Location.GPSDControl get_default ();
++		public void request_status ();
++		public void start ();
++		public void stop ();
++		[NoAccessorMethod]
++		public void* maincontext_pointer { set; }
++		[NoAccessorMethod]
++		public int preferred_interval { get; set; }
++		[NoAccessorMethod]
++		public int preferred_method { get; set; }
++		public virtual signal void error ();
++		public virtual signal void error_verbose (int error);
++		public virtual signal void gpsd_running ();
++		public virtual signal void gpsd_stopped ();
++	}
++	[Compact]
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public class GPSDControlMethod {
++	}
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public class GPSDevice : GLib.Object {
++		public weak Location.CellInfo cell_info;
++		public weak Location.GPSDeviceFix fix;
++		public bool online;
++		public weak GLib.PtrArray satellites;
++		public int satellites_in_use;
++		public int satellites_in_view;
++		public Location.GPSDeviceStatus status;
++		public void reset_last_known ();
++		public void start ();
++		public void stop ();
++		public virtual signal void changed ();
++		public virtual signal void connected ();
++		public virtual signal void disconnected ();
++	}
++	[Compact]
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public class GPSDeviceFix {
++		public double altitude;
++		public double climb;
++		public double dip;
++		public double epc;
++		public double epd;
++		public double eph;
++		public double eps;
++		public double ept;
++		public double epv;
++		public uint32 fields;
++		public double latitude;
++		public double longitude;
++		public Location.GPSDeviceMode mode;
++		public double pitch;
++		public double roll;
++		public double speed;
++		public double time;
++		public double track;
++	}
++	[Compact]
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public class GPSDeviceSatellite {
++		public int azimuth;
++		public int elevation;
++		public bool in_use;
++		public int prn;
++		public int signal_strength;
++	}
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public struct _gsm_cell_info {
++	}
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public struct _wcdma_cell_info {
++	}
++	[CCode (cprefix = "LOCATION_ERROR_", has_type_id = false, cheader_filename = "location/location-gpsd-control.h")]
++	public enum GPSDControlError {
++		USER_REJECTED_DIALOG,
++		USER_REJECTED_SETTINGS,
++		BT_GPS_NOT_AVAILABLE,
++		METHOD_NOT_ALLOWED_IN_OFFLINE_MODE,
++		SYSTEM
++	}
++	[CCode (cprefix = "LOCATION_INTERVAL_", has_type_id = false, cheader_filename = "location/location-gpsd-control.h")]
++	public enum GPSDControlInterval {
++		DEFAULT,
++		@1S,
++		@2S,
++		@5S,
++		@10S,
++		@20S,
++		@30S,
++		@60S,
++		@120S
++	}
++	[CCode (cprefix = "LOCATION_GPS_DEVICE_MODE_", has_type_id = false, cheader_filename = "location/location-gps-device.h")]
++	public enum GPSDeviceMode {
++		NOT_SEEN,
++		NO_FIX,
++		@2D,
++		@3D
++	}
++	[CCode (cprefix = "LOCATION_GPS_DEVICE_STATUS_", has_type_id = false, cheader_filename = "location/location-gps-device.h")]
++	public enum GPSDeviceStatus {
++		NO_FIX,
++		FIX,
++		DGPS_FIX
++	}
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public const int CELL_INFO_GSM_CELL_INFO_SET;
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public const int CELL_INFO_WCDMA_CELL_INFO_SET;
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public const int GPS_DEVICE_ALTITUDE_SET;
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public const int GPS_DEVICE_CLIMB_SET;
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public const int GPS_DEVICE_LATLONG_SET;
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public const int GPS_DEVICE_NONE_SET;
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public const int GPS_DEVICE_SPEED_SET;
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public const int GPS_DEVICE_TIME_SET;
++	[CCode (cheader_filename = "location/location-gps-device.h")]
++	public const int GPS_DEVICE_TRACK_SET;
++	[CCode (cheader_filename = "location/location-version.h")]
++	public const int MAJOR_VERSION;
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public const int METHOD_ACWP;
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public const int METHOD_AGNSS;
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public const int METHOD_CWP;
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public const int METHOD_GNSS;
++	[CCode (cheader_filename = "location/location-gpsd-control.h")]
++	public const int METHOD_USER_SELECTED;
++	[CCode (cheader_filename = "location/location-version.h")]
++	public const int MINOR_VERSION;
++	[CCode (cheader_filename = "location/location-distance-utils.h")]
++	public static double distance_between (double latitude_s, double longitude_s, double latitude_f, double longitude_f);
++	[CCode (cheader_filename = "location/location-misc.h")]
++	public static void make_resident ();
++}
+-- 
+1.5.6.1
+

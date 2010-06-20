@@ -1,0 +1,52 @@
+From d179544938957d42d940f1f35705081c10b03898 Mon Sep 17 00:00:00 2001
+From: Philipp Zabel <philipp.zabel@gmail.com>
+Date: Sun, 20 Jun 2010 17:10:20 +0200
+Subject: [PATCH] hildon-1.vapi: update for new vala version
+
+---
+ vapi/hildon-1.vapi |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/vapi/hildon-1.vapi b/vapi/hildon-1.vapi
+index ac567d8..26a4ac8 100644
+--- vapi/hildon-1.vapi
++++ vapi/hildon-1.vapi
+@@ -994,7 +994,7 @@ namespace Hildon {
+ 		INVALID_DATE,
+ 		INVALID_TIME
+ 	}
+-	[CCode (cprefix = "HILDON_GTK_INPUT_MODE_", has_type_id = false, cheader_filename = "gtk/gtk.h")]
++	[CCode (cprefix = "HILDON_GTK_INPUT_MODE_", has_type_id = "0", cheader_filename = "gtk/gtk.h")]
+ 	public enum GtkInputMode {
+ 		ALPHA,
+ 		NUMERIC,
+@@ -1007,7 +1007,7 @@ namespace Hildon {
+ 		AUTOCAP,
+ 		DICTIONARY
+ 	}
+-	[CCode (cprefix = "HILDON_", has_type_id = false, cheader_filename = "gtk/gtk.h")]
++	[CCode (cprefix = "HILDON_", has_type_id = "0", cheader_filename = "gtk/gtk.h")]
+ 	public enum Mode {
+ 		DIABLO,
+ 		FREMANTLE
+@@ -1057,7 +1057,7 @@ namespace Hildon {
+ 		MINIMUM,
+ 		CHILDREN
+ 	}
+-	[CCode (cprefix = "HILDON_SIZE_", has_type_id = false, cheader_filename = "gtk/gtk.h")]
++	[CCode (cprefix = "HILDON_SIZE_", has_type_id = "0", cheader_filename = "gtk/gtk.h")]
+ 	public enum SizeType {
+ 		AUTO_WIDTH,
+ 		HALFSCREEN_WIDTH,
+@@ -1078,7 +1078,7 @@ namespace Hildon {
+ 		SINGLE,
+ 		MULTIPLE
+ 	}
+-	[CCode (cprefix = "HILDON_UI_MODE_", has_type_id = false, cheader_filename = "gtk/gtk.h")]
++	[CCode (cprefix = "HILDON_UI_MODE_", has_type_id = "0", cheader_filename = "gtk/gtk.h")]
+ 	public enum UIMode {
+ 		NORMAL,
+ 		EDIT
+-- 
+1.5.6.1
+
