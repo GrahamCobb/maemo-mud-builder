@@ -33,8 +33,8 @@
     <build-depends sdk="diablo">debhelper (&gt;= 5), libtododb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
     <build-depends sdk="fremantle">debhelper (&gt;= 5), libtododb-dev, libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
     <display-name>GPE Timesheet</display-name>
-    <!-- <upgrade-description>Daily testing build for GPE suite time tracker</upgrade-description> -->
-    <upgrade-description>New release of GPE PIM suite time tracker\nChanges include:\n- Translation updates\n- Change name to GPE Timesheet and update menu items and icons\n - Improved Fremantle UI support</upgrade-description>
+    <upgrade-description>Daily testing build for GPE suite time tracker</upgrade-description>
+    <!-- <upgrade-description>New release of GPE PIM suite time tracker\nChanges include:\n- Translation updates\n- Change name to GPE Timesheet and update menu items and icons\n - Improved Fremantle UI support</upgrade-description> -->
     <icon sdk="gregale">hildon/gpe-timesheet-26x26.png</icon>
     <icon sdk="bora">hildon/gpe-timesheet-26x26.png</icon>
     <icon sdk="chinook">hildon/gpe-timesheet-26x26.png</icon>

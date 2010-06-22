@@ -33,8 +33,8 @@
     <build-depends sdk="diablo">debhelper (&gt;= 5), libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
     <build-depends sdk="fremantle">debhelper (&gt;= 5), libgpewidget-dev, intltool, libhildon1-dev, libhildonfm2-dev, libosso-dev</build-depends>
     <display-name>GPE File manager</display-name>
-    <!-- <upgrade-description>Daily testing build of GPE suite file manager</upgrade-description> -->
-    <upgrade-description>New release of GPE suite file manager\nChanges include:\n- Translation updates\n- Change name to GPE File manager and update menu items and icons\n - Fix crash in rename handling</upgrade-description>
+    <upgrade-description>Daily testing build of GPE suite file manager</upgrade-description>
+    <!-- <upgrade-description>New release of GPE suite file manager\nChanges include:\n- Translation updates\n- Change name to GPE File manager and update menu items and icons\n - Fix crash in rename handling</upgrade-description> -->
     <icon sdk="gregale">pixmaps/gpe-filemanager-26x26.png</icon>
     <icon sdk="bora">pixmaps/gpe-filemanager-26x26.png</icon>
     <icon sdk="chinook">pixmaps/gpe-filemanager-26x26.png</icon>
