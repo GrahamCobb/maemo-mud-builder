@@ -3,7 +3,7 @@
   <fetch type="command">
     <command>
     pkg="notmynokia"
-    date="20100624"
+    date="20100625"
     release="1.0-1"
     # The release should be of the form major.minor-debianversion or major.minor+debianversion.
     # The latter form means that the "svn$date" form of package version should be used
@@ -27,7 +27,7 @@
   </fetch>
   <build>
   </build>
-  <deb prefix-section="0" optify=1>
+  <deb prefix-section="0" optify="1">
     <display-name>Not MyNokia</display-name>
     <maintainer>Graham Cobb &lt;g+770@cobb.uk.net&gt;</maintainer>
   </deb>
